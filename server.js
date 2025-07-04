@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Configura o CORS
 app.use(cors({
-    origin: '*' // Lembre-se de mudar para o domínio do seu portfólio em produção!
+    origin: 'https://yuriletras.github.io/yuribarbosa' // Lembre-se de mudar para o domínio do seu portfólio em produção!
 }));
 
 // --- CONFIGURAÇÃO CORRETA DO NODEMAILER PARA YAHOO MAIL ---
