@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Portfólio - Yuri Barbosa</title>
+    <link rel="stylesheet" href="style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+    <header class="header">
+        <a href="#" class="logo">Yuri Barbosa</a>
+
+        <div id="menu-icon" class="bx bx-menu"></div> 
+        
+        <nav class="navbar">
+            <a href="#home" class="active">Início</a>
+            <a href="#about">Sobre Mim</a>
+            <a href="#skills">Habilidades</a>
+            <a href="#portfolio">Portfólio</a>
+            <a href="#contact">Contato</a>
+        </nav>
+    </header>
+
+    <section class="home" id="home">
+        <div class="home-content">
+            <h3>Olá, eu sou</h3>
+            <h1>Yuri Barbosa</h1>
+            <h3>E eu sou um <span class="text-animation">Desenvolvedor</span></h3>
+            <p>Uma breve descrição sobre você, suas paixões e o que você faz. Ex: "Sou um desenvolvedor front-end apaixonado por criar experiências web intuitivas e performáticas."</p>
+
+            <div class="social-media">
+                <a href="#"><i class='bx bxl-linkedin'></i></a>
+                <a href="#"><i class='bx bxl-github'></i></a>
+                <a href="#"><i class='bx bxl-twitter'></i></a>
+                <a href="#"><i class='bx bxl-instagram'></i></a>
+            </div>
+
+            <a href="#" class="btn">Download CV</a>
+        </div>
+
+        <div class="home-img">
+            <img src="your_image.png" alt="Sua Imagem de Perfil">
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <h2 class="heading">Sobre <span>Mim</span></h2>
+        <div class="about-content">
+            <h3>Quem sou eu?</h3>
+            <p>Detalhe mais sobre sua jornada, sua formação, o que te motiva, e como você chegou até aqui. Pode ser um ou dois parágrafos.</p>
+            <p>Aborde suas qualidades, como proatividade, trabalho em equipe, e sua paixão por aprender novas tecnologias.</p>
+            <a href="#" class="btn">Ler Mais</a>
+        </div>
+    </section>
+
+    <section class="skills" id="skills">
+        <h2 class="heading">Minhas <span>Habilidades</span></h2>
+        <div class="skills-grid">
+            <div class="skill-item">
+                <i class='bx bxl-html5'></i>
+                <h3>HTML5</h3>
+            </div>
+            <div class="skill-item">
+                <i class='bx bxl-css3'></i>
+                <h3>CSS3</h3>
+            </div>
+            <div class="skill-item">
+                <i class='bx bxl-javascript'></i>
+                <h3>JavaScript</h3>
+            </div>
+            <div class="skill-item">
+                <i class='bx bxl-react'></i>
+                <h3>React</h3>
+            </div>
+            <div class="skill-item">
+                <i class='bx bxl-nodejs'></i>
+                <h3>Node.js</h3>
+            </div>
+            <div class="skill-item">
+                <i class='bx bxl-git'></i>
+                <h3>Git</h3>
+            </div>
+            </div>
+    </section>
+
+    <section class="portfolio" id="portfolio">
+        <h2 class="heading">Meus <span>Projetos</span></h2>
+        <div class="portfolio-container">
+            <div class="portfolio-box">
+                <img src="project1.png" alt="Projeto 1">
+                <div class="portfolio-layer">
+                    <h4>Nome do Projeto 1</h4>
+                    <p>Breve descrição do projeto e as tecnologias utilizadas.</p>
+                    <a href="#"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div>
+            <div class="portfolio-box">
+                <img src="project2.png" alt="Projeto 2">
+                <div class="portfolio-layer">
+                    <h4>Desenvolvimento Mobile</h4>
+                    <p>Breve descrição do projeto e as tecnologias utilizadas.</p>
+                    <a href="#"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div>
+            <div class="portfolio-box">
+                <img src="project3.png" alt="Projeto 3">
+                <div class="portfolio-layer">
+                    <h4>UI/UX Design</h4>
+                    <p>Breve descrição do projeto e as tecnologias utilizadas.</p>
+                    <a href="#"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div>
+            </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <h2 class="heading">Entre em <span>Contato</span></h2>
+
+        <form id="contactForm" action="http://localhost:3001/send-email" method="POST">
+            <div class="input-box">
+                <input type="text" name="nome" placeholder="Nome Completo" required>
+                <input type="email" name="email" placeholder="Endereço de Email" required>
+            </div>
+            <div class="input-box">
+                <input type="text" name="telefone" placeholder="Número de Celular">
+                <input type="text" name="assunto" placeholder="Assunto do Email">
+            </div>
+            <textarea name="mensagem" id="mensagem" cols="30" rows="10" placeholder="Sua Mensagem" required></textarea>
+            <input type="submit" value="Enviar Mensagem" class="btn">
+        </form>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-text">
+            <p>Copyright &copy; 2025 by Yuri Barbosa | Todos os direitos reservados.</p>
+        </div>
+        <div class="footer-iconTop">
+            <a href="#home"><i class='bx bx-up-arrow-alt'></i></a>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
