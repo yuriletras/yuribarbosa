@@ -75,7 +75,8 @@ body {
 /* --- Seções Gerais --- */
 section {
     min-height: 100vh; /* Cada seção ocupa no mínimo a altura da viewport */
-    padding: 10rem 9% 2rem; /* Espaçamento interno */
+    /* ALTERAÇÃO AQUI: Diminuí o padding de 10rem para 8rem */
+    padding: 8rem 9% 8rem 9%; /* topo | direita | inferior | esquerda */
 }
 
 .heading {
@@ -107,18 +108,69 @@ section {
 /* --- Seção Home --- */
 .home {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-    gap: 2rem; /* Espaçamento entre o conteúdo e a imagem */
+    
+    background-image: url('./img/generated-image-f619ab26-6030-4f72-950c-e41d96a390b8.png'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    /* O padding já é definido pela regra 'section' geral acima */ 
+    width: 100%;
+    box-sizing: border-box;
+
+    /* Adiciona uma sobreposição escura à imagem de fundo para melhorar o contraste */
+    position: relative; /* Necessário para a sobreposição */
+    z-index: 1; /* Para garantir que o ::before fique abaixo do conteúdo */
 }
 
+/* Pseudo-elemento para escurecer a imagem de fundo da seção home */
+.home::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Cor preta com 50% de opacidade */
+    z-index: -1; /* Coloca o overlay atrás do conteúdo */
+}
+
+
+/* --- Conteúdo da Home (Onde está todo o texto - o home-content) --- */
+.home-content {
+    max-width: 50rem; 
+    width: 100%;
+    text-align: right; /* Mantém o alinhamento geral do bloco à direita */
+
+    /* Adiciona um fundo semi-transparente para o bloco de texto */
+    background-color: rgba(0, 0, 0, 0.4); /* Fundo preto com 40% de opacidade */
+    padding: 2.5rem; /* Espaçamento interno para o fundo */
+    border-radius: 1rem; /* Bordas levemente arredondadas */
+    box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.5); /* Sombra suave para destacar o bloco */
+}
+
+/* Sombra base para todo o conteúdo de texto da Home */
+.home-content h1,
+.home-content h3,
+.home-content p {
+    text-shadow: 0px 0px 8px rgba(0, 0, 0, 1); /* Aumentei o blur e a opacidade para 100% */
+}
+
+/* Cores do Texto da Home */
 .home-content h3 {
     font-size: 3.2rem;
     font-weight: 700;
+    color: #FFFFFF;
+    text-align: right; 
 }
 
 .home-content h3:nth-of-type(2) {
     margin-bottom: 2rem;
+    color: #FFFFFF;
+    text-align: right; 
 }
 
 .home-content h3 span {
@@ -129,10 +181,23 @@ section {
     font-size: 5.6rem;
     font-weight: 700;
     line-height: 1.3;
+    color: #FFFFFF;
+    text-align: right; 
 }
 
 .home-content p {
     font-size: 1.6rem;
+    color: #FFFFFF;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+/* --- Social Media Icons (dentro de home-content) --- */
+.social-media {
+    display: flex;
+    justify-content: flex-end; /* Alinha os ícones para a direita */
+    margin-top: 3rem;
+    margin-bottom: 3rem;
 }
 
 .social-media a {
@@ -141,12 +206,12 @@ section {
     align-items: center;
     width: 4rem;
     height: 4rem;
-    background: transparent;
+    background: #fff;
     border: .2rem solid var(--main-color);
     border-radius: 50%;
     font-size: 2rem;
-    color: var(--main-color);
-    margin: 3rem 1.5rem 3rem 0;
+    color: var(--second-bg-color);
+    margin-left: 1.5rem; /* Margem para espaçar os ícones */
     transition: .5s ease;
 }
 
@@ -156,25 +221,20 @@ section {
     box-shadow: 0 0 1rem var(--main-color);
 }
 
-.home-img img {
-    width: 35vw; /* Ajuste o tamanho da imagem */
-    border-radius: 50%; /* Se quiser um formato redondo */
-    box-shadow: 0 0 2rem var(--main-color);
-}
-
 /* --- Seção Sobre Mim --- */
 .about {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column; /* Conteúdo em coluna em telas maiores */
+    flex-direction: column; 
     gap: 2rem;
     background: var(--second-bg-color);
 }
 
 .about-content {
-    text-align: center; /* Centraliza o texto sobre mim */
-    max-width: 800px; /* Limita a largura para melhor leitura */
+    text-align: center; 
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .about-content h3 {
@@ -185,20 +245,23 @@ section {
 .about-content p {
     font-size: 1.6rem;
     margin-bottom: 2rem;
-    text-align: justify; /* Justifica o texto para melhor alinhamento */
+    text-align: justify;
 }
 
 /* --- Seção Habilidades --- */
 .skills {
     background: var(--bg-color);
-    padding-bottom: 7rem;
+    padding-bottom: 7rem; 
 }
 
 .skills-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); /* Responsivo, mínimo 15rem, flexível */
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
     gap: 2.5rem;
     margin-top: 5rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .skill-item {
@@ -211,7 +274,7 @@ section {
 }
 
 .skill-item:hover {
-    transform: scale(1.05); /* Aumenta um pouco no hover */
+    transform: scale(1.05);
     box-shadow: 0 0 2rem var(--main-color);
 }
 
@@ -234,16 +297,19 @@ section {
 
 .portfolio-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr)); /* Responsivo, mínimo 30rem */
+    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
     gap: 2.5rem;
     margin-top: 5rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .portfolio-box {
     position: relative;
     border-radius: 2rem;
     box-shadow: 0 0 1rem var(--main-color);
-    overflow: hidden; /* Garante que a imagem não vaze */
+    overflow: hidden;
     display: flex;
 }
 
@@ -251,11 +317,11 @@ section {
     width: 100%;
     transition: .5s ease;
     height: 100%;
-    object-fit: cover; /* Garante que a imagem preencha o container */
+    object-fit: cover;
 }
 
 .portfolio-box:hover img {
-    transform: scale(1.1); /* Zoom na imagem no hover */
+    transform: scale(1.1);
 }
 
 .portfolio-box .portfolio-layer {
@@ -264,19 +330,19 @@ section {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(rgba(0,0,0,0.6), var(--main-color)); /* Gradiente sobre a imagem */
+    background: linear-gradient(rgba(0,0,0,0.6), var(--main-color));
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     text-align: center;
     padding: 0 4rem;
-    transform: translateY(100%); /* Escondido para baixo por padrão */
+    transform: translateY(100%);
     transition: .5s ease;
 }
 
 .portfolio-box:hover .portfolio-layer {
-    transform: translateY(0); /* Desliza para cima no hover */
+    transform: translateY(0);
 }
 
 .portfolio-layer h4 {
@@ -318,7 +384,7 @@ section {
 .contact form .input-box {
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap; /* Permite que os inputs quebrem linha */
+    flex-wrap: wrap;
 }
 
 .contact form .input-box input,
@@ -333,11 +399,11 @@ section {
 }
 
 .contact form .input-box input {
-    width: 49%; /* Faz com que dois inputs fiquem lado a lado */
+    width: 49%;
 }
 
 .contact form textarea {
-    resize: none; /* Impede que o usuário redimensione a caixa de texto */
+    resize: none;
 }
 
 .contact form .btn {
@@ -382,61 +448,64 @@ section {
 
 @media (max-width: 1200px) {
     html {
-        font-size: 55%; /* Reduz o tamanho da fonte base para telas maiores de tablet/pequeno desktop */
+        font-size: 55%;
     }
 }
 
 @media (max-width: 991px) {
     .header {
-        padding: 2rem 4%; /* Ajuste o padding do header em telas menores */
+        padding: 2rem 4%;
     }
+    /* ALTERAÇÃO AQUI NA MEDIA QUERY: Diminuí o padding de 10rem para 8rem */
     section {
-        padding: 10rem 4% 2rem; /* Ajuste o padding das seções */
+        padding: 8rem 4% 8rem 4%; 
     }
     .footer {
         padding: 2rem 4%;
-    }
-    .home-img img {
-        width: 50vw; /* Ajusta o tamanho da imagem em telas médias */
     }
 }
 
 @media (max-width: 768px) {
     #menu-icon {
-        display: block; /* Mostra o ícone do menu em telas menores */
+        display: block;
     }
 
     .navbar {
         position: absolute;
-        top: 100%; /* Abaixo do header */
-        left: -100%; /* Escondido à esquerda */
+        top: 100%;
+        left: -100%;
         width: 100%;
         padding: 1rem 4%;
         background: var(--bg-color);
         border-top: .1rem solid rgba(0, 0, 0, .2);
         box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .2);
-        display: block; /* Volta a ser display block para empilhar links */
-        transition: .25s ease; /* Transição para deslizar para fora */
+        display: block;
+        transition: .25s ease;
     }
 
     .navbar.active {
-        left: 0; /* Desliza para a esquerda quando ativo */
+        left: 0;
     }
 
-    .navbar a {
-        display: block; /* Cada link ocupa uma linha */
-        font-size: 2rem;
-        margin: 1.5rem 0; /* Espaçamento entre os links */
-        text-align: left; /* Alinha o texto à esquerda */
-    }
-
-    /* Animação do ícone hamburguer (opcional: transforma em 'X' quando ativo) */
     #menu-icon.bx-x {
         transform: rotate(180deg);
     }
 
+    .navbar a {
+        display: block;
+        font-size: 2rem;
+        margin: 1.5rem 0;
+        text-align: left;
+    }
+
     .home {
-        flex-direction: column; /* Coloca conteúdo e imagem da Home em coluna */
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .home-content {
+        max-width: 100%;
+        text-align: center; /* Mantido: Centraliza o texto em mobile */
     }
 
     .home-content h3 {
@@ -447,32 +516,39 @@ section {
         font-size: 5rem;
     }
 
-    .home-img {
-        margin-top: 4rem; /* Espaçamento da imagem */
+    .social-media {
+        justify-content: center;
     }
-
-    .home-img img {
-        width: 70vw; /* Aumenta um pouco a imagem para mobile */
+    .social-media a {
+        margin: 1rem;
     }
 
     .about {
-        flex-direction: column-reverse; /* Inverte a ordem do conteúdo no "Sobre Mim" */
+        flex-direction: column-reverse;
+    }
+    
+    .about-content,
+    .skills-grid,
+    .portfolio-container,
+    .contact form {
+        max-width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
     }
 
-    /* Se você tiver uma imagem no About, adicione estilos aqui */
-    /* .about-img img {
-        width: 70vw;
-        margin-bottom: 4rem;
-    } */
+    .contact form .input-box input {
+        width: 100%;
+    }
 
     .portfolio-container {
-        grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr)); /* Ajusta grid do portfólio */
+        grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
     }
 }
 
 @media (max-width: 500px) {
     html {
-        font-size: 50%; /* Reduz ainda mais a fonte base */
+        font-size: 50%;
     }
     .home-content h1 {
         font-size: 4.5rem;
@@ -482,11 +558,5 @@ section {
     }
     .home-content p {
         font-size: 1.5rem;
-    }
-    .contact form .input-box input {
-        width: 100%; /* Faz os inputs de contato ficarem em linha única */
-    }
-    .home-img img {
-        display: none; /* Opcional: esconde a imagem da Home em telas muito pequenas */
     }
 }

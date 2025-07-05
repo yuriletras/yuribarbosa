@@ -1,6 +1,6 @@
 // Animação de texto na seção Home
 const textElement = document.querySelector('.text-animation');
-const professions = ["Desenvolvedor", "Designer", "Engenheiro"]; // Suas profissões para a animação
+const professions = ["Desenvolvedor", "Designer", "Programador"]; // Suas profissões para a animação
 let professionIndex = 0;
 let charIndex = 0;
 let isDeleting = false;
