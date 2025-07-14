@@ -541,7 +541,8 @@ body.light-theme .skill-item p.skill-description {
 
 .skill-item .read-more-btn {
     display: inline-block;
-    margin-top: 1.5rem;
+    margin-top: 0.1rem;
+    margin-bottom: 4rem;
     padding: 0.8rem 1.8rem;
     background: var(--main-color);
     color: var(--second-bg-color);
