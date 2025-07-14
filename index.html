@@ -5,15 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meu Portfólio - Yuri Barbosa</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
 
     <header class="header">
-        <a href="#" class="logo">Yuri Barbosa</a>
+        <a href="#" class="logo">
+            <img src="img/marca dagua 2 copia logo.png" alt="Logo Yuri Barbosa" class="main-logo">
+        </a>
 
-        <div id="menu-icon" class="bx bx-menu"></div> 
-        
+        <div id="menu-icon" class="bx bx-menu"></div>
         <nav class="navbar">
             <a href="#home" class="active">Início</a>
             <a href="#about">Sobre Mim</a>
@@ -21,9 +23,14 @@
             <a href="#portfolio">Portfólio</a>
             <a href="#contact">Contato</a>
         </nav>
+        <div id="theme-toggle" class="bx bx-moon"></div>
     </header>
 
     <section class="home" id="home">
+        <div class="home-image">
+            <img src="img/yuri_perfil.png" alt="Foto de Perfil de Yuri Barbosa">
+        </div>
+
         <div class="home-content">
             <h3>Olá, eu sou</h3>
             <h1>Yuri Barbosa</h1>
@@ -38,80 +45,207 @@
 
             <a href="#about" class="btn">Ler Mais</a>
         </div>
-
-       
     </section>
 
     <section class="about" id="about">
         <h2 class="heading">Sobre <span>Mim</span></h2>
-        <div class="about-content">
-            <h3>Quem sou eu?</h3>
-            <p>Sou um Desenvolvedor Full Stack com formação em Análise e Desenvolvimento de Sistemas, apaixonado por construir soluções digitais completas. Minha atuação foca na comunicação clara e eficaz, buscando sempre a melhor solução para o cliente, do conceito à implementação.</p>
-            <p>Possuo sólidas habilidades em desenvolvimento front-end com HTML, CSS e JavaScript, criando interfaces de usuário intuitivas e responsivas. No back-end, trabalho com Node.js para desenvolver APIs robustas e gerenciar a lógica de servidor. Essa combinação me permite integrar conhecimentos de diversas áreas e entregar um atendimento completo e personalizado.</p>
-            <p>Minha experiência anterior em liderança e suporte em empresas de telecomunicações e tecnologia me proporcionou um amplo conhecimento em gestão de equipes, resolução de problemas e desenvolvimento de projetos, competências que aplico para otimizar o ciclo de vida do desenvolvimento de software.</p> 
-            <p>Estou sempre buscando aprimorar minhas habilidades e conhecimentos, acompanhando as últimas tendências do mercado para oferecer um serviço de alta qualidade e contribuir significativamente para o sucesso dos projetos.</p>
-            <a href="#" class="btn">Download CV</a>
+
+        <div class="about-container">
+            <div class="about-image">
+                <img src="img/yuri_about.png" alt="Foto de Perfil de Yuri Barbosa na Seção Sobre Mim">
+            </div>
+            <div class="about-content">
+                <h3>Quem sou eu?</h3>
+                <p>Sou um Desenvolvedor Full Stack com formação em Análise e Desenvolvimento de Sistemas, apaixonado por construir soluções digitais completas. Minha atuação foca na comunicação clara e eficaz, buscando sempre a melhor solução para o cliente, do conceito à implementação.</p>
+                <p>Possuo sólidas habilidades em desenvolvimento front-end com HTML, CSS e JavaScript, criando interfaces de usuário intuitivas e responsivas. No back-end, trabalho com Node.js para desenvolver APIs robustas e gerenciar a lógica de servidor. Essa combinação me permite integrar conhecimentos de diversas áreas e entregar um atendimento completo e personalizado.</p>
+                <p>Minha experiência anterior em liderança e suporte em empresas de telecomunicações e tecnologia me proporcionou um amplo conhecimento em gestão de equipes, resolução de problemas e desenvolvimento de projetos, competências que aplico para otimizar o ciclo de vida do desenvolvimento de software.</p>
+                <p>Estou sempre buscando aprimorar minhas habilidades e conhecimentos, acompanhando as últimas tendências do mercado para oferecer um serviço de alta qualidade e contribuir significativamente para o sucesso dos projetos.</p>
+                <a href="#" class="btn">Download CV</a>
+            </div>
         </div>
     </section>
 
     <section class="skills" id="skills">
         <h2 class="heading">Minhas <span>Habilidades</span></h2>
         <div class="skills-grid">
-            <div class="skill-item">
+            <div class="skill-item" data-skill-id="html">
                 <i class='bx bxl-html5'></i>
-                <h3>HTML5</h3>
+                <h3>HTML</h3>
+                <p class="skill-description">Domínio em HTML5 para estruturação semântica e acessível de conteúdo web.</p>
+                <span class="read-more-btn">Ver Detalhes</span>
             </div>
-            <div class="skill-item">
+
+            <div class="skill-item" data-skill-id="css">
                 <i class='bx bxl-css3'></i>
-                <h3>CSS3</h3>
+                <h3>CSS</h3>
+                <p class="skill-description">Criação de estilos responsivos e visualmente atraentes, utilizando CSS3 e pré-processadores.</p>
+                <span class="read-more-btn">Ver Detalhes</span>
             </div>
-            <div class="skill-item">
+
+            <div class="skill-item" data-skill-id="javascript">
                 <i class='bx bxl-javascript'></i>
                 <h3>JavaScript</h3>
+                <p class="skill-description">Experiência em lógica de programação e desenvolvimento de funcionalidades interativas para a web.</p>
+                <span class="read-more-btn">Ver Detalhes</span>
             </div>
-            <div class="skill-item">
+
+            <div class="skill-item" data-skill-id="react">
                 <i class='bx bxl-react'></i>
                 <h3>React</h3>
+                <p class="skill-description">Construção de interfaces de usuário modernas e eficientes com a biblioteca React.js.</p>
+                <span class="read-more-btn">Ver Detalhes</span>
             </div>
-            <div class="skill-item">
-                <i class='bx bxl-nodejs'></i>
-                <h3>Node.js</h3>
+
+            <div class="skill-item" data-skill-id="bootstrap">
+                <i class='bx bxl-bootstrap'></i>
+                <h3>Bootstrap</h3>
+                <p class="skill-description">Utilização do framework Bootstrap para desenvolvimento front-end rápido e responsivo.</p>
+                <span class="read-more-btn">Ver Detalhes</span>
             </div>
-            <div class="skill-item">
+
+            <div class="skill-item" data-skill-id="git">
                 <i class='bx bxl-git'></i>
                 <h3>Git</h3>
+                <p class="skill-description">Controle de versão de projetos com Git, gerenciando histórico e colaboração de código.</p>
+                <span class="read-more-btn">Ver Detalhes</span>
             </div>
+
+            <div class="skill-item" data-skill-id="github">
+                <i class='bx bxl-github'></i>
+                <h3>GitHub</h3>
+                <p class="skill-description">Plataforma de colaboração para versionamento de código e gerenciamento de projetos em equipe.</p>
+                <span class="read-more-btn">Ver Detalhes</span>
             </div>
+
+            <div class="skill-item" data-skill-id="figma">
+                <i class='bx bxl-figma'></i>
+                <h3>Figma</h3>
+                <p class="skill-description">Criação de designs de interface de usuário (UI) e protótipos interativos.</p>
+                <span class="read-more-btn">Ver Detalhes</span>
+            </div>
+
+            <div class="skill-item" data-skill-id="nodejs">
+                <i class='bx bxl-nodejs'></i>
+                <h3>Node.js</h3>
+                <p class="skill-description">Desenvolvimento de aplicações back-end escaláveis e APIs com Node.js.</p>
+                <span class="read-more-btn">Ver Detalhes</span>
+            </div>
+
+            <div class="skill-item" data-skill-id="java">
+                <i class='bx bxl-java'></i>
+                <h3>Java</h3>
+                <p class="skill-description">Programação orientada a objetos para aplicações robustas e sistemas empresariais.</p>
+                <span class="read-more-btn">Ver Detalhes</span>
+            </div>
+        </div>
     </section>
 
     <section class="portfolio" id="portfolio">
         <h2 class="heading">Meus <span>Projetos</span></h2>
-        <div class="portfolio-container">
+
+        <div class="portfolio-container" id="portfolioContainer">
             <div class="portfolio-box">
-                <img src="project1.png" alt="Projeto 1">
+                <img src="./img/portfolio1.PNG" alt="Miniatura do Projeto de Portfólio">
                 <div class="portfolio-layer">
-                    <h4>Nome do Projeto 1</h4>
+                    <h4>Meu Portfólio Pessoal</h4>
+                    <p>Este é o meu portfólio pessoal, desenvolvido com HTML, CSS e JavaScript para apresentar minhas habilidades e projetos.</p>
+                    <a href="https://yuriletras.github.io/yuribarbosa/" target="_blank"><i class="bx bx-link-external"></i></a>
+                </div>
+            </div>
+            <div class="portfolio-box">
+                <img src="img/project2.png" alt="Projeto 2">
+                <div class="portfolio-layer">
+                    <h4>Nome do projeto 2</h4>
                     <p>Breve descrição do projeto e as tecnologias utilizadas.</p>
                     <a href="#"><i class='bx bx-link-external'></i></a>
                 </div>
             </div>
             <div class="portfolio-box">
-                <img src="project2.png" alt="Projeto 2">
-                <div class="portfolio-layer">
-                    <h4>Desenvolvimento Mobile</h4>
-                    <p>Breve descrição do projeto e as tecnologias utilizadas.</p>
-                    <a href="#"><i class='bx bx-link-external'></i></a>
-                </div>
-            </div>
-            <div class="portfolio-box">
-                <img src="project3.png" alt="Projeto 3">
+                <img src="img/project3.png" alt="Projeto 3">
                 <div class="portfolio-layer">
                     <h4>UI/UX Design</h4>
                     <p>Breve descrição do projeto e as tecnologias utilizadas.</p>
                     <a href="#"><i class='bx bx-link-external'></i></a>
                 </div>
             </div>
+            <div class="portfolio-box">
+                <img src="img/project4.png" alt="Projeto 4">
+                <div class="portfolio-layer">
+                    <h4>UI/UX Design</h4>
+                    <p>Breve descrição do projeto e as tecnologias utilizadas.</p>
+                    <a href="#"><i class='bx bx-link-external'></i></a>
+                </div>
             </div>
+            <div class="portfolio-box">
+                <img src="img/project5.png" alt="Projeto 5">
+                <div class="portfolio-layer">
+                    <h4>UI/UX Design</h4>
+                    <p>Breve descrição do projeto e as tecnologias utilizadas.</p>
+                    <a href="#"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div>
+            <div class="portfolio-box">
+                <img src="img/project6.png" alt="Projeto 6">
+                <div class="portfolio-layer">
+                    <h4>UI/UX Design</h4>
+                    <p>Breve descrição do projeto e as tecnologias utilizadas.</p>
+                    <a href="#"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div>
+            <div class="portfolio-box">
+                <img src="img/project7.png" alt="Projeto 7">
+                <div class="portfolio-layer">
+                    <h4>UI/UX Design</h4>
+                    <p>Breve descrição do projeto e as tecnologias utilizadas.</p>
+                    <a href="#"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div><div class="portfolio-box">
+                <img src="img/project8.png" alt="Projeto 8">
+                <div class="portfolio-layer">
+                    <h4>UI/UX Design</h4>
+                    <p>Breve descrição do projeto e as tecnologias utilizadas.</p>
+                    <a href="#"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div><div class="portfolio-box">
+                <img src="img/project9.png" alt="Projeto 9">
+                <div class="portfolio-layer">
+                    <h4>UI/UX Design</h4>
+                    <p>Breve descrição do projeto e as tecnologias utilizadas.</p>
+                    <a href="#"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div><div class="portfolio-box">
+                <img src="img/project10.png" alt="Projeto 10">
+                <div class="portfolio-layer">
+                    <h4>UI/UX Design</h4>
+                    <p>Breve descrição do projeto e as tecnologias utilizadas.</p>
+                    <a href="#"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div><div class="portfolio-box">
+                <img src="img/project11.png" alt="Projeto 11">
+                <div class="portfolio-layer">
+                    <h4>UI/UX Design</h4>
+                    <p>Breve descrição do projeto e as tecnologias utilizadas.</p>
+                    <a href="#"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div><div class="portfolio-box">
+                <img src="img/project12.png" alt="Projeto 12">
+                <div class="portfolio-layer">
+                    <h4>UI/UX Design</h4>
+                    <p>Breve descrição do projeto e as tecnologias utilizadas.</p>
+                    <a href="#"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div><div class="portfolio-box">
+                <img src="img/project13.png" alt="Projeto 13">
+                <div class="portfolio-layer">
+                    <h4>UI/UX Design</h4>
+                    <p>Breve descrição do projeto e as tecnologias utilizadas.</p>
+                    <a href="#"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="portfolio-button-container">
+            <a href="#" class="btn" id="viewAllProjectsBtn">Ver Todos</a>
+        </div>
     </section>
 
     <section class="contact" id="contact">
@@ -132,13 +266,72 @@
     </section>
 
     <footer class="footer">
-        <div class="footer-text">
-            <p>Copyright &copy; 2025 by Yuri Barbosa | Todos os direitos reservados.</p>
+        <div class="footer-icons">
+            <a href="http://www.linkedin.com/in/yuri-basi"><i class='bx bxl-linkedin'></i></a>
+            <a href="https://github.com/yuriletras/yuriletras"><i class='bx bxl-github'></i></a>
+            <a href="#"><i class='bx bxl-instagram'></i></a>
         </div>
+
+        <div class="footer-text">
+            <img src="img/marca dagua 2.png" alt="Descrição da Foto" class="footer-logo">
+            <p>Copyright © 2025 by Yuri Barbosa | Todos os direitos reservados.</p>
+        </div>
+
         <div class="footer-iconTop">
             <a href="#home"><i class='bx bx-up-arrow-alt'></i></a>
         </div>
     </footer>
+
+    <div id="skill-modal" class="skill-modal">
+        <div class="skill-modal-content">
+            <span class="skill-modal-close-btn">&times;</span>
+            <h3 id="modal-skill-title"></h3>
+            <p id="modal-skill-description"></p>
+        </div>
+    </div>
+
+    <div id="full-skill-descriptions" style="display: none;">
+        <div id="desc-html">
+            <h4>HTML</h4>
+            <p>Tenho proficiência avançada em HTML5, focando na criação de estruturas de conteúdo web semânticas e otimizadas para acessibilidade. Utilizo as tags HTML de forma apropriada para garantir que o conteúdo seja bem organizado e facilmente interpretado por navegadores e tecnologias assistivas. Minha expertise inclui o uso de formulários complexos, elementos multimídia, e a integração com APIs modernas para enriquecer a experiência do usuário.</p>
+        </div>
+        <div id="desc-css">
+            <h4>CSS</h4>
+            <p>Sou especialista em CSS3 para estilização e design de interfaces responsivas e visualmente impactantes. Domino Flexbox e CSS Grid para layouts complexos, além de transições e animações CSS para criar interações fluidas e atraentes. Utilizo pré-processadores como SASS/LESS para organizar e otimizar folhas de estilo, e aplico metodologias como BEM para manter a manutenibilidade do código em projetos de grande escala. Garanto que o design seja consistente e adaptável a diferentes dispositivos e tamanhos de tela.</p>
+        </div>
+        <div id="desc-javascript">
+            <h4>JavaScript</h4>
+            <p>Possuo forte conhecimento em JavaScript moderno (ES6+), aplicando princípios de programação assíncrona, manipulação do DOM e criação de funcionalidades interativas. Tenho experiência em desenvolvimento de componentes reutilizáveis, gerenciamento de estado e integração com APIs RESTful. Sou capaz de depurar e otimizar o código JavaScript para garantir alta performance e uma experiência de usuário fluida.</p>
+        </div>
+        <div id="desc-react">
+            <h4>React</h4>
+            <p>Sou um desenvolvedor React.js experiente, capaz de construir Single Page Applications (SPAs) e interfaces de usuário complexas com componentes reutilizáveis e eficientes. Domino o uso de Hooks, Context API e Redux para gerenciamento de estado global. Tenho prática em roteamento (React Router), consumo de APIs e otimização de performance para garantir aplicações rápidas e escaláveis.</p>
+        </div>
+        <div id="desc-bootstrap">
+            <h4>Bootstrap</h4>
+            <p>Utilizo o framework Bootstrap para acelerar o desenvolvimento front-end, criando layouts responsivos e interfaces de usuário com componentes pré-estilizados. Sou proficiente na customização de temas Bootstrap e na adaptação de seus elementos para atender aos requisitos de design específicos de cada projeto, garantindo compatibilidade entre navegadores e dispositivos.</p>
+        </div>
+        <div id="desc-git">
+            <h4>Git</h4>
+            <p>Tenho domínio avançado em Git para controle de versão, gerenciamento de repositórios e colaboração em equipes. Sou proficiente em operações como branch, merge, rebase, cherry-pick e resolução de conflitos, garantindo um fluxo de trabalho de desenvolvimento eficiente e seguro. Utilizo Git para manter um histórico claro das mudanças e facilitar a integração contínua de código.</p>
+        </div>
+        <div id="desc-github">
+            <h4>GitHub</h4>
+            <p>Sou usuário ativo do GitHub, utilizando-o para hospedagem de repositórios, colaboração em projetos open source e gerenciamento de issues. Tenho experiência em pull requests, code reviews, e na configuração de GitHub Actions para automação de CI/CD. Minha prática com GitHub contribui para um desenvolvimento colaborativo transparente e eficaz.</p>
+        </div>
+        <div id="desc-figma">
+            <h4>Figma</h4>
+            <p>Utilizo o Figma para criar designs de interface de usuário (UI) e experiências de usuário (UX), desde wireframes de baixa fidelidade até protótipos interativos de alta fidelidade. Tenho expertise em design systems, componentes reutilizáveis e colaboração em tempo real com equipes. Sou capaz de traduzir requisitos de negócio em designs funcionais e esteticamente agradáveis.</p>
+        </div>
+        <div id="desc-nodejs">
+            <h4>Node.js</h4>
+            <p>Desenvolvo aplicações back-end robustas, escaláveis e APIs RESTful usando Node.js e frameworks como Express.js e NestJS. Tenho experiência com manipulação de dados, autenticação (JWT, OAuth), e integração com diversos tipos de bancos de dados (MongoDB, PostgreSQL, MySQL). Construo microsserviços eficientes e sistemas em tempo real com WebSockets, garantindo alta performance e segurança.</p>
+        </div>
+        <div id="desc-java">
+            <h4>Java</h4>
+            <p>Sou proficiente em programação Java, desenvolvendo aplicações empresariais e sistemas robustos com foco em orientação a objetos (POO). Tenho experiência com Spring Boot para construção de APIs, gerenciamento de dependências, e integração com bancos de dados relacionais via JPA/Hibernate. Aplico boas práticas de código, testes unitários e design patterns para garantir a qualidade e manutenibilidade das soluções.</p>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

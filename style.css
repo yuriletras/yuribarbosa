@@ -1,15 +1,22 @@
-/* Importar fonte do Google Fonts (opcional) */
+/* Importação de fontes e variáveis globais */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
-/* Variáveis CSS (Cores, Fontes, etc.) */
 :root {
     --bg-color: #1f242d;
     --second-bg-color: #323946;
     --text-color: #fff;
-    --main-color: #0ef; /* Cor principal de destaque */
+    --main-color: #0ef;
+    --hover-color: #00eeff; /* Cor para hover de botões/links no tema escuro */
+
+    /* Variáveis para o tema claro */
+    --light-bg-color: #f0f2f5;
+    --light-second-bg-color: #ffffff;
+    --light-text-color: #333;
+    --light-main-color: #007bff; /* Seu azul mais claro para o tema claro */
+    --light-hover-color: #0056b3; /* Um tom mais escuro para hover no tema claro */
 }
 
-/* Reset básico e configurações globais */
+/* Reset CSS e estilos básicos */
 * {
     margin: 0;
     padding: 0;
@@ -18,31 +25,58 @@
     text-decoration: none;
     outline: none;
     border: none;
-    scroll-behavior: smooth; /* Rolagem suave entre as seções */
 }
 
 html {
-    font-size: 62.5%; /* Define 1rem = 10px, facilita o dimensionamento */
-    overflow-x: hidden; /* Evita barra de rolagem horizontal indesejada */
+    font-size: 62.5%; /* 1rem = 10px */
+    overflow-x: hidden;
+    scroll-behavior: smooth;
 }
 
 body {
+    font-family: 'Montserrat', sans-serif; /* Aplica a fonte Montserrat a todo o site */
     background: var(--bg-color);
     color: var(--text-color);
+    transition: background 0.3s ease, color 0.3s ease; /* Transição suave para mudança de tema */
 }
 
-/* --- Cabeçalho --- */
+/* Estilos do Tema Claro */
+body.light-theme {
+    --bg-color: var(--light-bg-color);
+    --second-bg-color: var(--light-second-bg-color);
+    --text-color: var(--light-text-color);
+    --main-color: var(--light-main-color);
+    --hover-color: var(--light-hover-color);
+}
+
+/* Cabeçalho */
 .header {
-    position: fixed; /* Fixa o cabeçalho no topo da página */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    padding: 2rem 9%; /* Espaçamento interno */
+    padding: 2rem 9%;
     background: var(--bg-color);
     display: flex;
-    justify-content: space-between; /* Espaça logo e navegação */
+    justify-content: space-between;
     align-items: center;
-    z-index: 100; /* Garante que o cabeçalho fique acima de outros elementos */
+    z-index: 100;
+    transition: background 0.3s ease;
+}
+
+.header.sticky {
+    border-bottom: .1rem solid rgba(0, 0, 0, .2);
+    background: var(--second-bg-color); /* Fundo do cabeçalho quando sticky */
+}
+
+body.light-theme .header.sticky {
+    border-bottom: .1rem solid rgba(0, 0, 0, .1);
+    background: #323946; /* Fundo escuro do cabeçalho sticky no tema claro */
+}
+
+/* Fundo do header não sticky no tema claro */
+body.light-theme .header {
+    background: #323946;
 }
 
 .logo {
@@ -50,154 +84,186 @@ body {
     color: var(--text-color);
     font-weight: 600;
     cursor: default;
+    display: flex;
+    align-items: center;
 }
 
-/* Ícone do menu hamburguer (para telas menores) */
+/* Cor da logo e ícone do tema no tema claro para serem brancos */
+body.light-theme .logo,
+body.light-theme #theme-toggle {
+    color: #fff; /* Branco para a logo e ícone do tema no header escuro */
+}
+
+/* Cor do ícone do menu para mobile no tema claro para ser branco */
+body.light-theme #menu-icon {
+    color: #fff;
+}
+
+.main-logo {
+    height: 6rem; /* Ajuste o tamanho da sua logo */
+    width: auto;
+    margin-right: 1rem;
+}
+
 #menu-icon {
     font-size: 3.6rem;
     color: var(--text-color);
+    display: none; /* Escondido por padrão, aparece em telas menores */
+}
+
+#theme-toggle {
+    font-size: 2.8rem;
+    color: var(--text-color);
     cursor: pointer;
-    display: none; /* Escondido por padrão em telas grandes */
+    margin-left: 2rem; /* Espaçamento entre o nav e o ícone de tema */
 }
 
 .navbar a {
     font-size: 1.7rem;
-    color: var(--text-color);
-    margin-left: 4rem; /* Espaçamento entre os links */
-    transition: .3s; /* Transição suave para hover */
+    color: var(--text-color); /* A cor padrão do link */
+    margin-left: 4rem;
+    transition: .3s; /* Garante uma transição suave para o hover */
 }
 
 .navbar a:hover,
 .navbar a.active {
-    color: var(--main-color); /* Muda a cor no hover e para o link ativo */
+    color: var(--main-color); /* Esta é a cor que o link adquire no hover e quando ativo */
 }
 
-/* --- Seções Gerais --- */
+/* Cor dos links do navbar no tema claro para serem brancos */
+body.light-theme .navbar a {
+    color: #fff;
+}
+
+/* Hover no menu superior para o azul mais claro no tema claro */
+body.light-theme .navbar a:hover,
+body.light-theme .navbar a.active {
+    color: var(--light-main-color); /* Usa o azul mais claro do tema claro */
+}
+
+/* Seções Gerais */
 section {
-    min-height: 100vh; /* Cada seção ocupa no mínimo a altura da viewport */
-    /* ALTERAÇÃO AQUI: Diminuí o padding de 10rem para 8rem */
-    padding: 8rem 9% 8rem 9%; /* topo | direita | inferior | esquerda */
+    min-height: 100vh;
+    padding: 10rem 9% 2rem;
 }
 
 .heading {
     text-align: center;
     font-size: 4.5rem;
+    margin-bottom: 5rem;
 }
 
 .heading span {
     color: var(--main-color);
 }
 
+/* Estilos de Botões */
 .btn {
     display: inline-block;
     padding: 1rem 2.8rem;
     background: var(--main-color);
     border-radius: 4rem;
-    box-shadow: 0 0 1rem var(--main-color); /* Sombra com a cor principal */
+    box-shadow: 0 0 1rem var(--main-color);
     font-size: 1.6rem;
     color: var(--second-bg-color); /* Cor do texto no botão */
     letter-spacing: .1rem;
     font-weight: 600;
-    transition: .5s ease; /* Transição suave no hover */
+    transition: .5s ease;
+    margin-top: 3rem;
+
 }
 
 .btn:hover {
-    box-shadow: none; /* Remove a sombra no hover */
+    box-shadow: none;
+    color: var(--text-color); /* Para a cor do texto mudar no hover */
+    background: var(--hover-color);
 }
 
 /* --- Seção Home --- */
 .home {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
-    
-    background-image: url('./img/generated-image-f619ab26-6030-4f72-950c-e41d96a390b8.png'); 
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-
-    /* O padding já é definido pela regra 'section' geral acima */ 
-    width: 100%;
-    box-sizing: border-box;
-
-    /* Adiciona uma sobreposição escura à imagem de fundo para melhorar o contraste */
-    position: relative; /* Necessário para a sobreposição */
-    z-index: 1; /* Para garantir que o ::before fique abaixo do conteúdo */
+    gap: 7rem;
+    background: var(--bg-color);
 }
 
-/* Pseudo-elemento para escurecer a imagem de fundo da seção home */
-.home::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Cor preta com 50% de opacidade */
-    z-index: -1; /* Coloca o overlay atrás do conteúdo */
+/* Contêiner da imagem da Home para o fundo do círculo e sombra revertida */
+.home-image {
+    width: 35vw; /* Mantém a largura original do elemento */
+    height: 35vw; /* Para garantir que o contêiner seja um quadrado para o círculo */
+    max-width: 40rem; /* Exemplo, ajuste conforme o ideal para sua imagem */
+    max-height: 40rem;
+    min-width: 25rem;
+    min-height: 25rem;
+    display: flex; /* Para centralizar a imagem dentro do contêiner */
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%; /* Faz o contêiner ser um círculo */
+    overflow: hidden; /* Garante que a imagem não vaze do círculo */
+    box-shadow: 0 0 2rem var(--main-color); /* Sombra principal da imagem no tema escuro */
+    animation: floatImage 4s ease-in-out infinite; /* Animação flutuante */
+}
+
+body.light-theme .home-image {
+    background-color: #323946; /* Fundo escuro do círculo no tema claro */
+    box-shadow: 0 0 2rem var(--light-main-color); /* Sombra azul clara no tema claro */
+}
+
+.home-image img {
+    width: 100%; /* Preenche o contêiner */
+    height: 100%; /* Preenche o contêiner */
+    object-fit: cover; /* Garante que a imagem cubra o círculo sem distorção */
+    border-radius: 50%; /* A imagem em si também é circular */
+    /* Remove a animação e box-shadow direto da img, pois estão no contêiner */
+    animation: none;
+    box-shadow: none;
 }
 
 
-/* --- Conteúdo da Home (Onde está todo o texto - o home-content) --- */
+@keyframes floatImage {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-2.4rem);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
 .home-content {
-    max-width: 50rem; 
-    width: 100%;
-    text-align: right; /* Mantém o alinhamento geral do bloco à direita */
-
-    /* Adiciona um fundo semi-transparente para o bloco de texto */
-    background-color: rgba(0, 0, 0, 0.4); /* Fundo preto com 40% de opacidade */
-    padding: 2.5rem; /* Espaçamento interno para o fundo */
-    border-radius: 1rem; /* Bordas levemente arredondadas */
-    box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.5); /* Sombra suave para destacar o bloco */
+    text-align: center;
 }
 
-/* Sombra base para todo o conteúdo de texto da Home */
-.home-content h1,
-.home-content h3,
-.home-content p {
-    text-shadow: 0px 0px 8px rgba(0, 0, 0, 1); /* Aumentei o blur e a opacidade para 100% */
-}
-
-/* Cores do Texto da Home */
 .home-content h3 {
     font-size: 3.2rem;
     font-weight: 700;
-    color: #FFFFFF;
-    text-align: right; 
 }
 
 .home-content h3:nth-of-type(2) {
     margin-bottom: 2rem;
-    color: #FFFFFF;
-    text-align: right; 
-}
-
-.home-content h3 span {
-    color: var(--main-color);
 }
 
 .home-content h1 {
     font-size: 5.6rem;
     font-weight: 700;
     line-height: 1.3;
-    color: #FFFFFF;
-    text-align: right; 
+}
+
+.home-content .text-animation {
+    color: var(--main-color); /* Aplica a cor principal */
+    font-weight: 700; /* Garante que o negrito seja mantido, se for o caso */
 }
 
 .home-content p {
     font-size: 1.6rem;
-    color: #FFFFFF;
-    line-height: 1.6;
-    text-align: justify;
-}
-
-/* --- Social Media Icons (dentro de home-content) --- */
-.social-media {
-    display: flex;
-    justify-content: flex-end; /* Alinha os ícones para a direita */
-    margin-top: 3rem;
     margin-bottom: 3rem;
+    text-align: justify; /* Faz o texto do parágrafo ser justificado */
+    max-width: 60rem; /* Limita a largura do parágrafo para melhor legibilidade justificada */
+    margin-left: auto; /* Centraliza o parágrafo dentro do seu contêiner */
+    margin-right: auto; /* Centraliza o parágrafo dentro do seu contêiner */
 }
 
 .social-media a {
@@ -206,118 +272,480 @@ section {
     align-items: center;
     width: 4rem;
     height: 4rem;
-    background: #fff;
+    background: transparent;
     border: .2rem solid var(--main-color);
     border-radius: 50%;
     font-size: 2rem;
-    color: var(--second-bg-color);
-    margin-left: 1.5rem; /* Margem para espaçar os ícones */
+    color: var(--main-color);
+    margin: 3rem 1.5rem 3rem 0;
     transition: .5s ease;
 }
 
 .social-media a:hover {
     background: var(--main-color);
-    color: var(--second-bg-color);
+    color: var(--second-bg-color); /* Cor do ícone no hover */
     box-shadow: 0 0 1rem var(--main-color);
+}
+
+/* --- No seu media query para telas menores (ex: max-width: 991px) --- */
+@media (max-width: 991px) {
+    /* ... seus outros estilos de media query ... */
+    .home-content p {
+        text-align: justify; /* Manter justificado também em telas menores */
+        max-width: 90%; /* Ajuste a largura para telas menores, se necessário */
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
 /* --- Seção Sobre Mim --- */
 .about {
+    align-items: center;
+    gap: 4rem;
+    background: var(--second-bg-color);
+    padding-top: 10rem;
+    padding-bottom: 5rem;
+    text-align: center;
+}
+
+body.light-theme .about {
+    background: var(--light-second-bg-color);
+}
+
+.about-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column; 
-    gap: 2rem;
-    background: var(--second-bg-color);
+    gap: 7rem;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 1200px;
+    margin: 5rem auto 0 auto;
+}
+
+.about-image {
+    order: 2;
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20vw;
+    height: 20vw;
+    max-width: 25rem;
+    max-height: 25rem;
+    min-width: 18rem;
+    min-height: 18rem;
+    border-radius: 50%;
+    box-shadow: 0 0 2rem var(--main-color); /* Sombra principal da imagem */
+}
+
+/* Corrigido: Fundo e sombra da imagem About no tema claro */
+body.light-theme .about-image {
+    background-color: #323946; /* Fundo escuro do círculo no tema claro */
+    box-shadow: 0 0 2rem var(--light-main-color); /* Sombra azul clara no tema claro */
+}
+
+.about-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    animation: none;
+    box-shadow: none; /* Remove a sombra direta da imagem */
 }
 
 .about-content {
-    text-align: center; 
-    max-width: 800px;
-    margin: 0 auto;
+    flex: 1;
+    max-width: 70rem;
+    text-align: center;
 }
 
 .about-content h3 {
     font-size: 2.6rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 .about-content p {
     font-size: 1.6rem;
-    margin-bottom: 2rem;
+    margin: 1.5rem auto 2rem auto;
     text-align: justify;
+    max-width: 100%;
+    line-height: 1.6;
 }
 
-/* --- Seção Habilidades --- */
+.about-content .btn {
+    display: inline-block;
+}
+
+/* --- Media Queries para Responsividade --- */
+@media (max-width: 991px) {
+    .about {
+        text-align: center;
+    }
+
+    .about-container {
+        flex-direction: column;
+        gap: 5rem;
+        margin-top: 3rem;
+        align-items: center;
+    }
+
+    .about-image {
+        order: 1;
+        width: 40vw;
+        height: 40vw;
+        max-width: 20rem;
+        max-height: 20rem;
+    }
+
+    .about-image img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .about-content {
+        order: 2;
+        max-width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+
+    .about-content h3 {
+        /* text-align: center; */
+    }
+
+    .about-content p {
+        text-align: justify;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0 1rem;
+    }
+
+    .about-content .btn {
+        display: inline-block;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-image {
+        width: 50vw;
+        height: 50vw;
+    }
+}
+
+@media (max-width: 450px) {
+    .about-image {
+        width: 70vw;
+        height: 70vw;
+    }
+    .about-content p {
+        padding: 0;
+    }
+}
+
+/* --- Seção Minhas Habilidades --- */
 .skills {
     background: var(--bg-color);
-    padding-bottom: 7rem; 
 }
 
 .skills-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-    gap: 2.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+    gap: 3rem;
     margin-top: 5rem;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .skill-item {
     background: var(--second-bg-color);
-    padding: 3rem 2rem;
+    padding: 3rem 2rem 4rem;
     border-radius: 2rem;
     text-align: center;
+    border: .2rem solid var(--main-color);
     transition: .5s ease;
-    box-shadow: 0 0 1rem var(--main-color);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    height: 18rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+body.light-theme .skill-item {
+    background: #323946; /* Fundo escuro das caixas de habilidades no tema claro */
+    border: .2rem solid var(--light-main-color); /* Borda com a cor principal clara */
 }
 
 .skill-item:hover {
-    transform: scale(1.05);
+    background: var(--main-color);
+    color: var(--second-bg-color);
+    transform: translateY(-.8rem);
     box-shadow: 0 0 2rem var(--main-color);
 }
 
+body.light-theme .skill-item:hover {
+    background: var(--light-main-color); /* Hover para a cor principal clara */
+    color: var(--light-second-bg-color); /* Texto branco no hover */
+    box-shadow: 0 0 2rem var(--light-main-color);
+}
+
 .skill-item i {
-    font-size: 7rem;
+    font-size: 3rem;
     color: var(--main-color);
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Cor do ícone da habilidade para ser branco no tema claro */
+body.light-theme .skill-item i {
+    color: #fff;
+}
+
+.skill-item:hover i {
+    color: var(--second-bg-color);
 }
 
 .skill-item h3 {
-    font-size: 2rem;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+}
+
+/* Cor do texto (título e descrição) dentro das caixas de habilidades para ser branco */
+body.light-theme .skill-item h3,
+body.light-theme .skill-item p.skill-description {
+    color: #fff; /* Branco para o texto e descrição */
+}
+
+.skill-item p.skill-description {
+    font-size: 1.5rem;
+    line-height: 1.5;
     color: var(--text-color);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all 0.3s ease;
+    margin-bottom: 1rem;
+}
+
+.skill-item.active p.skill-description {
+    -webkit-line-clamp: unset;
+    overflow: visible;
+    text-overflow: unset;
+    height: auto;
+}
+
+.skill-item .read-more-btn {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.8rem 1.8rem;
+    background: var(--main-color);
+    color: var(--second-bg-color);
+    border-radius: 0.8rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+    border: 1px solid var(--main-color);
+}
+
+/*.skill-item .read-more-btn:hover {
+    background: transparent;
+    color: var(--main-color);
+    box-shadow: 0 0 1rem var(--main-color);
+}
+
+/*
+body.light-theme .skill-item .read-more-btn {
+    background: var(--light-main-color);
+    color: var(--light-second-bg-color); Texto claro no botão no tema claro
+    border-color: var(--light-main-color);
+}
+*/
+
+/*body.light-theme .skill-item .read-more-btn:hover {
+    background: transparent;
+    color: var(--light-main-color);
+    box-shadow: 0 0 1rem var(--light-main-color);
+}
+
+
+/* --- Estilos para o Modal de Habilidades --- */
+.skill-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.skill-modal.active {
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+}
+
+.skill-modal-content {
+    background-color: var(--second-bg-color);
+    margin: auto;
+    padding: 4rem;
+    border-radius: 1.5rem;
+    width: 80%;
+    max-width: 700px;
+    position: relative;
+    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.2);
+    color: var(--text-color);
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: translateY(20px) scale(0.95);
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.skill-modal.active .skill-modal-content {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+body.light-theme .skill-modal-content {
+    background-color: #323946; /* Fundo escuro do modal no tema claro */
+    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.1);
+    color: #fff; /* Texto branco no modal escuro */
+}
+
+.skill-modal-close-btn {
+    color: var(--main-color);
+    font-size: 3rem;
+    font-weight: bold;
+    position: absolute;
+    top: 1.5rem;
+    right: 2.5rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.skill-modal-close-btn:hover,
+.skill-modal-close-btn:focus {
+    color: var(--hover-color);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.skill-modal-content h3 {
+    font-size: 3.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid var(--main-color);
+    padding-bottom: 1rem;
+}
+
+.skill-modal-content p {
+    font-size: 1.8rem;
+    line-height: 1.6;
 }
 
 /* --- Seção Portfólio --- */
 .portfolio {
     background: var(--second-bg-color);
     padding-bottom: 10rem;
+    color: var(--text-color);
+}
+
+body.light-theme .portfolio {
+    background: var(--light-second-bg-color); /* Deve ser branco, ex: #ffffff */
+    color: var(--light-text-color);
 }
 
 .portfolio-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
     gap: 2.5rem;
+    padding-bottom: 2rem;
     margin-top: 5rem;
+    max-width: 100%;
+    margin-bottom: 5rem;
+    padding-left: 9%;
+    padding-right: 9%;
+    transition: all 0.5s ease-out;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+}
+
+.portfolio-container.show-all {
+    overflow-x: hidden;
+    scroll-snap-type: none;
+    flex-wrap: wrap;
+    justify-content: center;
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
+    padding-left: 0;
+    padding-right: 0;
+    height: auto;
+}
+
+.portfolio-container::-webkit-scrollbar {
+    height: 0.5rem;
+}
+
+.portfolio-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.portfolio-container::-webkit-scrollbar-thumb {
+    background: var(--main-color);
+    border-radius: 1rem;
 }
 
 .portfolio-box {
+    min-width: 30rem;
+    flex-shrink: 0;
+    scroll-snap-align: start;
     position: relative;
     border-radius: 2rem;
-    box-shadow: 0 0 1rem var(--main-color);
+    background: var(--second-bg-color); /* Fundo da caixa de portfólio no tema escuro */
+    box-shadow: 0 0 1rem rgba(0,0,0,0.1);
     overflow: hidden;
     display: flex;
+    flex-direction: column;
+}
+
+body.light-theme .portfolio-box {
+    background: #323946; /* Fundo escuro das caixas de portfólio no tema claro */
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.05); /* Mantém a borda clara */
+}
+
+/* Cor do texto (título e descrição) dentro das caixas de portfólio para ser branco */
+body.light-theme .portfolio-box h4,
+body.light-theme .portfolio-box p {
+    color: #fff;
+}
+
+/* Cor do ícone dentro do layer do portfólio no tema claro */
+body.light-theme .portfolio-box .portfolio-layer a i {
+    color: #323946; /* Ícone escuro sobre fundo branco do círculo */
 }
 
 .portfolio-box img {
     width: 100%;
-    transition: .5s ease;
-    height: 100%;
+    height: 18rem;
     object-fit: cover;
+    transition: .5s ease;
 }
 
 .portfolio-box:hover img {
@@ -330,13 +758,13 @@ section {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(rgba(0,0,0,0.6), var(--main-color));
+    background: linear-gradient(rgba(0,0,0,0.7), var(--main-color));
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     text-align: center;
-    padding: 0 4rem;
+    padding: 2rem 3rem;
     transform: translateY(100%);
     transition: .5s ease;
 }
@@ -348,11 +776,13 @@ section {
 .portfolio-layer h4 {
     font-size: 3rem;
     margin-bottom: 1rem;
+    color: #FFFFFF;
 }
 
 .portfolio-layer p {
     font-size: 1.6rem;
     margin: .7rem 0 1rem;
+    color: #FFFFFF;
 }
 
 .portfolio-layer a {
@@ -361,16 +791,22 @@ section {
     align-items: center;
     width: 5rem;
     height: 5rem;
-    background: var(--text-color);
+    background: #FFFFFF;
     border-radius: 50%;
 }
 
 .portfolio-layer a i {
     font-size: 2.5rem;
-    color: var(--second-bg-color);
+    color: var(--main-color);
 }
 
-/* --- Seção de Contato --- */
+.portfolio-button-container {
+    text-align: center;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+}
+
+/* --- Seção Contato --- */
 .contact {
     background: var(--bg-color);
 }
@@ -396,14 +832,17 @@ section {
     background: var(--second-bg-color);
     border-radius: .8rem;
     margin: .7rem 0;
+    resize: none;
+}
+
+body.light-theme .contact form .input-box input,
+body.light-theme .contact form textarea {
+    background: var(--light-second-bg-color); /* Mantido claro */
+    color: var(--light-text-color); /* Texto escuro no input claro */
 }
 
 .contact form .input-box input {
     width: 49%;
-}
-
-.contact form textarea {
-    resize: none;
 }
 
 .contact form .btn {
@@ -421,8 +860,77 @@ section {
     background: var(--second-bg-color);
 }
 
+.footer-text {
+    display: flex; /* Transforma em um flex container */
+    flex-direction: column; /* Organiza os itens em coluna */
+    align-items: center; /* Centraliza horizontalmente */
+    text-align: center; /* Garante que o texto também esteja centralizado */
+    gap: 0.5rem; /* Espaçamento entre os itens (parágrafo e imagem) */
+}
+
+.footer-text .footer-logo {
+    width: 25rem; /* Ajuste o tamanho da foto conforme preferir, ex: 5rem, 8rem */
+    height: auto; /* Mantém a proporção da foto */
+    border-radius: 50%; /* Opcional: se quiser que a foto seja circular */
+    object-fit: cover; /* Garante que a imagem preencha o espaço sem distorcer (se for circular) */
+    margin-bottom: 0.5rem; /* Espaçamento abaixo da foto, se precisar */
+}
+
+body.light-theme .footer {
+    background: #323946; /* Fundo escuro do footer no tema claro */
+    border-top: .1rem solid rgba(0, 0, 0, 0.05);
+}
+
 .footer-text p {
-    font-size: 1.6rem;
+    font-size: 1.3rem;
+    color: var(--text-color);
+    text-align: center;
+    flex-grow: 1;
+}
+
+/* Cor do texto no footer para ser branco */
+body.light-theme .footer-text p {
+    color: #fff;
+}
+
+.footer-icons {
+    display: flex;
+    
+    gap: 0.1rem; /* <-- AJUSTE ESTE VALOR. Mudei de 1.5rem para 0.8rem como sugestão para espaçamento vertical */
+    /* Opcional: para alinhar os ícones à esquerda da sua coluna de redes sociais */
+    align-items: flex-start;
+}
+
+.footer-icons a {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 3rem;
+    height: 3rem;
+    background: transparent;
+    border: .2rem solid var(--main-color);
+    border-radius: 50%;
+    font-size: 1rem;
+    color: var(--main-color);
+    margin: 0rem 1.0rem 0.5rem 0;
+    transition: .5s ease;
+}
+.footer-icons a:hover {
+    background: var(--main-color); /* Altera o fundo do círculo no hover */
+    color: var(--second-bg-color); /* Altera a cor do ícone no hover */
+    box-shadow: 0 0 1rem var(--main-color); /* Adiciona uma sombra no hover */
+}
+
+/* Cor dos ícones sociais no footer para ser branco e hover ajustado */
+body.light-theme .footer-icons a {
+    color: #fff;
+    border-color: #fff;
+}
+
+body.light-theme .footer-icons a:hover {
+    background: #fff; /* Fundo branco no hover */
+    color: #323946; /* Ícone escuro no hover */
+    box-shadow: 0 0 1rem #fff; /* Sombra branca */
 }
 
 .footer-iconTop a {
@@ -437,14 +945,20 @@ section {
 
 .footer-iconTop a:hover {
     box-shadow: 0 0 1rem var(--main-color);
+    background: var(--hover-color);
 }
 
-.footer-iconTop a i {
-    font-size: 2.4rem;
-    color: var(--second-bg-color);
+/* Cor do botão de voltar ao topo e seu ícone */
+body.light-theme .footer-iconTop a {
+    background: #fff; /* Fundo branco para o botão de voltar ao topo */
 }
 
-/* --- Responsividade (Media Queries) --- */
+body.light-theme .footer-iconTop a i {
+    color: #323946; /* Ícone escuro no botão de voltar ao topo */
+}
+
+
+/* --- Media Queries para Responsividade --- */
 
 @media (max-width: 1200px) {
     html {
@@ -454,14 +968,82 @@ section {
 
 @media (max-width: 991px) {
     .header {
-        padding: 2rem 4%;
+        padding: 2rem 3%;
     }
-    /* ALTERAÇÃO AQUI NA MEDIA QUERY: Diminuí o padding de 10rem para 8rem */
+
     section {
-        padding: 8rem 4% 8rem 4%; 
+        padding: 10rem 3% 2rem;
     }
+
+    .home {
+        flex-direction: column;
+        gap: 3rem;
+    }
+
+    .home-content {
+        order: 2;
+        text-align: center;
+    }
+
+    .home-image {
+        /* Tamanho original para 991px, com as max/min para controle */
+        width: 45vw; /* Era 45vw */
+        height: 45vw; /* Era 45vw */
+        margin-top: 4rem;
+        max-width: 28rem; /* Mantendo os limites razoáveis */
+        max-height: 28rem;
+        min-width: 18rem;
+        min-height: 18rem;
+    }
+
+    .home-image img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .about-container {
+        flex-direction: column;
+        gap: 3rem;
+    }
+
+    .about-image {
+        order: 1; /* Para aparecer acima do texto no mobile */
+        /* Tamanho original para 991px, com as max/min para controle */
+        width: 40vw; /* Era 40vw */
+        height: 40vw; /* Era 40vw */
+        max-width: 25rem; /* Mantendo os limites razoáveis */
+        max-height: 25rem;
+        min-width: 18rem;
+        min-height: 18rem;
+    }
+
+    .about-image img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .skills-grid {
+        grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+    }
+
+    .portfolio-container {
+        padding-left: 3%;
+        padding-right: 3%;
+    }
+
+    .contact form .input-box input {
+        width: 100%;
+    }
+
     .footer {
-        padding: 2rem 4%;
+        flex-direction: column-reverse;
+        gap: 2rem;
+        padding: 2rem 3%;
+        text-align: center;
+    }
+
+    .footer-icons {
+        margin-top: 1.5rem;
     }
 }
 
@@ -473,90 +1055,150 @@ section {
     .navbar {
         position: absolute;
         top: 100%;
-        left: -100%;
+        left: 0;
         width: 100%;
-        padding: 1rem 4%;
-        background: var(--bg-color);
+        padding: 1rem 3%;
+        background: var(--second-bg-color);
         border-top: .1rem solid rgba(0, 0, 0, .2);
-        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .2);
-        display: block;
+        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+        display: none;
+        flex-direction: column;
+        text-align: center;
         transition: .25s ease;
     }
 
-    .navbar.active {
-        left: 0;
+    body.light-theme .navbar {
+        background: #323946; /* Fundo escuro do menu mobile no tema claro */
+        border-top: .1rem solid rgba(0, 0, 0, .1);
     }
 
-    #menu-icon.bx-x {
-        transform: rotate(180deg);
+    .navbar.active {
+        display: flex;
     }
 
     .navbar a {
         display: block;
         font-size: 2rem;
-        margin: 1.5rem 0;
-        text-align: left;
+        margin: 1rem 0;
     }
 
-    .home {
-        flex-direction: column;
-        justify-content: center;
-    }
-    
-    .home-content {
-        max-width: 100%;
-        text-align: center; /* Mantido: Centraliza o texto em mobile */
+    /* Cores dos links do navbar no tema claro, quando o navbar tem fundo escuro (mobile) */
+    body.light-theme .navbar a {
+        color: #fff; /* Texto branco para os links */
     }
 
-    .home-content h3 {
-        font-size: 2.6rem;
+    body.light-theme .navbar a:hover,
+    body.light-theme .navbar a.active {
+        color: var(--light-main-color); /* Cor de destaque clara (azul) no hover */
     }
 
-    .home-content h1 {
-        font-size: 5rem;
+    .home-image {
+        /* Tamanho para 768px */
+        width: 60vw; /* Era 60vw */
+        height: 60vw; /* Era 60vw */
+        max-width: 35rem; /* Ajuste se o tamanho for excessivo */
+        max-height: 35rem;
+        min-width: 20rem;
+        min-height: 20rem;
     }
 
-    .social-media {
-        justify-content: center;
-    }
-    .social-media a {
-        margin: 1rem;
-    }
-
-    .about {
-        flex-direction: column-reverse;
-    }
-    
-    .about-content,
-    .skills-grid,
-    .portfolio-container,
-    .contact form {
-        max-width: 90%;
-        margin-left: auto;
-        margin-right: auto;
-        text-align: center;
+    .about-image {
+        /* Tamanho para 768px */
+        width: 50vw; /* Era 50vw */
+        height: 50vw; /* Era 50vw */
+        max-width: 30rem; /* Ajuste se o tamanho for excessivo */
+        max-height: 30rem;
+        min-width: 20rem;
+        min-height: 20rem;
     }
 
-    .contact form .input-box input {
-        width: 100%;
+    .portfolio-box {
+        min-width: 25rem;
     }
 
-    .portfolio-container {
-        grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+    .skill-modal-content {
+        width: 90%;
+        padding: 3rem 2rem;
+    }
+
+    .skill-modal-close-btn {
+        font-size: 2.5rem;
+        top: 1rem;
+        right: 1.5rem;
+    }
+
+    .skill-modal-content h3 {
+        font-size: 3rem;
+    }
+
+    .skill-modal-content p {
+        font-size: 1.6rem;
     }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 617px) {
+    .home-image {
+        width: 80vw; /* Era 80vw */
+        height: 80vw; /* Era 80vw */
+        max-width: 40rem; /* Ajuste */
+        max-height: 40rem;
+    }
+
+    .about-image {
+        width: 60vw; /* Era 60vw */
+        height: 60vw; /* Era 60vw */
+        max-width: 35rem; /* Ajuste */
+        max-height: 35rem;
+    }
+}
+
+@media (max-width: 450px) {
     html {
         font-size: 50%;
     }
+
     .home-content h1 {
         font-size: 4.5rem;
     }
+
     .home-content h3 {
         font-size: 2.5rem;
     }
-    .home-content p {
-        font-size: 1.5rem;
+
+    .heading {
+        font-size: 3.5rem;
+    }
+
+    .home-image {
+        width: 90vw; /* Adapta para telas muito pequenas */
+        height: 90vw;
+        max-width: 30rem; /* Limite máximo para não ficar gigante em telas pequenas */
+        max-height: 30rem;
+    }
+
+    .about-image {
+        width: 80vw; /* Adapta para telas muito pequenas */
+        height: 80vw;
+        max-width: 25rem; /* Limite máximo para não ficar gigante em telas pequenas */
+        max-height: 25rem;
+    }
+
+    .skill-item {
+        height: auto;
+        min-height: 20rem;
+    }
+
+    .skill-item p.skill-description {
+        -webkit-line-clamp: unset;
+        overflow: visible;
+        text-overflow: unset;
+    }
+
+    .portfolio-box {
+        min-width: 100%;
+    }
+
+    .portfolio-container.show-all .portfolio-box {
+        max-width: 100%;
     }
 }
