@@ -163,52 +163,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Lógica para o Modal de Habilidades ---
     const skillItems = document.querySelectorAll('.skill-item');
-    const skillModal = document.getElementById('skill-modal');
-    const modalSkillTitle = document.getElementById('modal-skill-title');
-    const modalSkillDescription = document.getElementById('modal-skill-description');
+    const skillModal = document.getElementById('skillModal'); // ID do modal no HTML, use 'skillModal' se for o mesmo do modal de projetos
+    const modalSkillTitle = document.getElementById('skillModalTitle'); // ID do título dentro do modal
+    const modalSkillDescription = document.getElementById('skillModalDescription'); // ID da descrição dentro do modal
     const skillModalCloseBtn = document.querySelector('.skill-modal-close-btn');
-    const fullSkillDescriptionsContainer = document.getElementById('full-skill-descriptions'); // Onde estão as descrições completas
 
-    if (skillItems.length > 0 && skillModal && modalSkillTitle && modalSkillDescription && skillModalCloseBtn && fullSkillDescriptionsContainer) {
+    // Mapeamento de detalhes das habilidades
+    // ATENÇÃO: Certifique-se que este objeto está completo com TODAS as suas habilidades
+    // e as descrições que você quer que apareçam no modal.
+    const skillDetails = {
+        html: { title: 'HTML5', description: 'Domínio em HTML5 para estruturação semântica e acessível de conteúdo web, focando em estruturação, acessibilidade e SEO para garantir uma base sólida e performática.' },
+        css: { title: 'CSS3', description: 'Criação de estilos responsivos e visualmente atraentes, utilizando CSS3 para design moderno, animações e transições fluidas, garantindo compatibilidade entre navegadores.' },
+        javascript: { title: 'JavaScript', description: 'Experiência em lógica de programação e desenvolvimento de funcionalidades interativas para a web, incluindo manipulação do DOM, requisições assíncronas e otimização de performance.' },
+        react: { title: 'React', description: 'Construção de interfaces de usuário modernas e eficientes com a biblioteca React.js, aplicando conceitos de componentes, estado, hooks e gerenciamento de dados.' },
+        bootstrap: { title: 'Bootstrap', description: 'Utilização do framework Bootstrap para desenvolvimento front-end rápido e responsivo, criando layouts adaptáveis e componentes pré-estilizados de forma eficiente.' },
+        git: { title: 'Git', description: 'Controle de versão de projetos com Git, gerenciando histórico de código, ramificações (branches), fusões (merges) e resolução de conflitos para trabalho em equipe.' },
+        github: { title: 'GitHub', description: 'Plataforma de colaboração para versionamento de código e gerenciamento de projetos em equipe, incluindo criação de repositórios, pull requests e issues tracking.' },
+        figma: { title: 'Figma', description: 'Criação de designs de interface de usuário (UI) e protótipos interativos para web e mobile, com foco em usabilidade e experiência do usuário (UX).' },
+        nodejs: { title: 'Node.js', description: 'Desenvolvimento de aplicações back-end escaláveis e APIs com Node.js, utilizando Express.js para criação de rotas, middlewares e integração com bancos de dados.' },
+        java: { title: 'Java', description: 'Programação orientada a objetos para aplicações robustas e sistemas empresariais, com experiência em Spring Boot, APIs RESTful e integração com sistemas legados.' }
+    };
+
+
+    if (skillItems.length > 0 && skillModal && modalSkillTitle && modalSkillDescription && skillModalCloseBtn) { // Simplificada a verificação
         skillItems.forEach(item => {
-            item.addEventListener('click', (event) => {
-                // Verifica se o clique foi no botão "Ver Detalhes" ou em qualquer parte do skill-item
-                const readMoreBtn = item.querySelector('.read-more-btn');
-                
-                // Se o clique foi no "Ver Detalhes" ou no skill-item em si (mas não no p.skill-description)
-                // Usamos `!event.target.classList.contains('skill-description')` para evitar abrir o modal
-                // se o clique foi especificamente no pequeno resumo (p)
-                if (readMoreBtn && (readMoreBtn.contains(event.target) || event.target === item || event.target.tagName === 'H3' || event.target.tagName === 'I')) {
-                    const skillId = item.dataset.skillId; // Pega o ID da habilidade do data-attribute
-                    if (skillId) {
-                        const fullDescriptionElement = fullSkillDescriptionsContainer.querySelector(`#desc-${skillId}`);
+            item.addEventListener('click', () => { // Evento de clique direto no item
+                const skillId = item.dataset.skillId; // Pega o ID da habilidade do data-attribute
+                const details = skillDetails[skillId];
 
-                        if (fullDescriptionElement) {
-                            const title = fullDescriptionElement.querySelector('h4') ? fullDescriptionElement.querySelector('h4').textContent : '';
-                            const description = fullDescriptionElement.querySelector('p') ? fullDescriptionElement.querySelector('p').textContent : '';
+                if (details) {
+                    modalSkillTitle.textContent = details.title;
+                    modalSkillDescription.textContent = details.description;
 
-                            modalSkillTitle.textContent = title;
-                            modalSkillDescription.textContent = description;
-                            skillModal.classList.add('active'); // Adiciona a classe 'active' para mostrar o modal
-                            document.body.style.overflow = 'hidden'; // Impede a rolagem do body quando o modal está aberto
-
-                            // Opcional: Remover a classe 'active' do skill-item quando o modal abre
-                            // item.classList.remove('active'); // Se você tinha uma classe 'active' para mostrar o resumo curto
-                        } else {
-                            console.warn(`Descrição completa para a habilidade com ID '${skillId}' não encontrada.`);
-                        }
-                    } else {
-                        console.warn("Skill item sem 'data-skill-id'. Não é possível abrir o modal.");
-                    }
-                } else if (event.target.classList.contains('skill-description')) {
-                    // Se o clique foi no breve resumo (p.skill-description), faz o toggle da classe 'active'
-                    // Isso mantém a funcionalidade original de mostrar/esconder o breve resumo se você ainda a quiser.
-                    item.classList.toggle('active');
-                    skillItems.forEach(otherItem => {
-                        if (otherItem !== item && otherItem.classList.contains('active')) {
-                            otherItem.classList.remove('active');
-                        }
-                    });
+                    skillModal.classList.add('active'); // Adiciona a classe 'active' para mostrar o modal
+                    document.body.style.overflow = 'hidden'; // Impede a rolagem do body quando o modal está aberto
+                } else {
+                    console.warn(`Detalhes da habilidade com ID '${skillId}' não encontrados no objeto skillDetails.`);
                 }
             });
         });
@@ -236,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     } else {
-        console.warn("Elementos do modal de habilidades não encontrados ou skill items ausentes. A funcionalidade de modal de habilidades não será ativada.");
+        console.warn("Elementos essenciais do modal de habilidades ou skill items ausentes. A funcionalidade de modal de habilidades não será ativada.");
     }
 
 }); // Fim de DOMContentLoaded para tudo que depende do DOM

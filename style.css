@@ -468,10 +468,10 @@ body.light-theme .about-image {
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    height: 18rem;
+    height: 12rem; /* AJUSTADO: Diminuído para acomodar apenas ícone e título */
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center; /* AJUSTADO: Centraliza verticalmente o conteúdo */
     align-items: center;
 }
 
@@ -510,15 +510,18 @@ body.light-theme .skill-item i {
 
 .skill-item h3 {
     font-size: 1.6rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0; /* AJUSTADO: Removido margin-bottom para que não haja espaço extra */
 }
 
 /* Cor do texto (título e descrição) dentro das caixas de habilidades para ser branco */
-body.light-theme .skill-item h3,
-body.light-theme .skill-item p.skill-description {
-    color: #fff; /* Branco para o texto e descrição */
+body.light-theme .skill-item h3 { /* AJUSTADO: Removido p.skill-description daqui */
+    color: #fff; /* Branco para o texto */
 }
 
+/* REMOVIDOS: Os estilos para p.skill-description e .read-more-btn não são mais necessários
+   pois esses elementos não estarão mais visíveis nas caixas de habilidade. */
+/* O trecho comentado abaixo foi removido intencionalmente */
+/*
 .skill-item p.skill-description {
     font-size: 1.5rem;
     line-height: 1.5;
@@ -554,28 +557,27 @@ body.light-theme .skill-item p.skill-description {
     border: 1px solid var(--main-color);
 }
 
-/*.skill-item .read-more-btn:hover {
+.skill-item .read-more-btn:hover {
     background: transparent;
     color: var(--main-color);
     box-shadow: 0 0 1rem var(--main-color);
 }
 
-/*
 body.light-theme .skill-item .read-more-btn {
     background: var(--light-main-color);
-    color: var(--light-second-bg-color); Texto claro no botão no tema claro
+    color: var(--light-second-bg-color);
     border-color: var(--light-main-color);
 }
-*/
 
-/*body.light-theme .skill-item .read-more-btn:hover {
+body.light-theme .skill-item .read-more-btn:hover {
     background: transparent;
     color: var(--light-main-color);
     box-shadow: 0 0 1rem var(--light-main-color);
 }
-
+*/
 
 /* --- Estilos para o Modal de Habilidades --- */
+/* Estes estilos permanecem inalterados, pois se referem ao modal em si */
 .skill-modal {
     display: none;
     position: fixed;
@@ -1383,8 +1385,8 @@ body.light-theme .footer-copyright p {
 
 /* Tema Claro para o Modal */
 body.light-theme .project-modal-content {
-    background: var(--light-second-bg-color); /* Fundo do modal no tema claro */
-    color: var(--light-text-color); /* Cor do texto no tema claro */
+    background: #323946; /* MUDADO: Fundo cinza escuro diretamente */
+    color: #ffffff; /* MUDADO: Texto branco diretamente */
     box-shadow: 0 0 2rem var(--light-main-color);
 }
 
