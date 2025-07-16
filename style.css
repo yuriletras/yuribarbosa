@@ -725,6 +725,7 @@ body.light-theme .portfolio {
     flex-direction: column;
 }
 
+
 body.light-theme .portfolio-box {
     background: #323946; /* Fundo escuro das caixas de portfólio no tema claro */
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
@@ -781,7 +782,7 @@ body.light-theme .portfolio-box .portfolio-layer a i {
 }
 
 .portfolio-layer p {
-    font-size: 1.6rem;
+    font-size: 1.3rem;
     margin: .7rem 0 1rem;
     color: #FFFFFF;
 }
@@ -851,113 +852,250 @@ body.light-theme .contact form textarea {
     cursor: pointer;
 }
 
-/* --- Rodapé --- */
+/* --- Seção Rodapé (Footer) --- */
 .footer {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    padding: 2rem 9%;
-    background: var(--second-bg-color);
+    flex-direction: column; /* Agora o footer empilha seus filhos (wrapper, hr, copyright) */
+    align-items: center; /* Centraliza horizontalmente todo o conteúdo do footer */
+    padding: 3rem 9%; /* Padding geral do footer */
+    background: var(--second-bg-color); /* Fundo padrão (tema escuro) */
+    color: var(--text-color); /* Cor do texto padrão (tema escuro) */
+    border-top: none; /* Removido para combinar com o exemplo */
+    box-shadow: none; /* Removido para combinar com o exemplo */
+    margin-top: auto; /* Mantém o "sticky footer" (empurra para o final da página) */
 }
 
-.footer-text {
-    display: flex; /* Transforma em um flex container */
-    flex-direction: column; /* Organiza os itens em coluna */
-    align-items: center; /* Centraliza horizontalmente */
-    text-align: center; /* Garante que o texto também esteja centralizado */
-    gap: 0.5rem; /* Espaçamento entre os itens (parágrafo e imagem) */
-}
-
-.footer-text .footer-logo {
-    width: 25rem; /* Ajuste o tamanho da foto conforme preferir, ex: 5rem, 8rem */
-    height: auto; /* Mantém a proporção da foto */
-    border-radius: 50%; /* Opcional: se quiser que a foto seja circular */
-    object-fit: cover; /* Garante que a imagem preencha o espaço sem distorcer (se for circular) */
-    margin-bottom: 0.5rem; /* Espaçamento abaixo da foto, se precisar */
-}
-
+/* TEMA CLARO para o Footer: Ajustar o background e cor do texto principal */
 body.light-theme .footer {
-    background: #323946; /* Fundo escuro do footer no tema claro */
-    border-top: .1rem solid rgba(0, 0, 0, 0.05);
+    /* Mantido como #323946 conforme sua preferência, sem mudar o root */
+    background: #323946; 
+    /* Cor principal do texto no tema claro (para elementos não sobrescritos individualmente) */
+    color: var(--light-text-color); 
+    border-top: none;
+    box-shadow: none;
 }
 
-.footer-text p {
-    font-size: 1.3rem;
-    color: var(--text-color);
-    text-align: center;
-    flex-grow: 1;
-}
-
-/* Cor do texto no footer para ser branco */
-body.light-theme .footer-text p {
-    color: #fff;
-}
-
-.footer-icons {
+/* --- Wrapper para o conteúdo principal do footer (esquerda e direita) --- */
+.footer-content-wrapper {
     display: flex;
-    
-    gap: 0.1rem; /* <-- AJUSTE ESTE VALOR. Mudei de 1.5rem para 0.8rem como sugestão para espaçamento vertical */
-    /* Opcional: para alinhar os ícones à esquerda da sua coluna de redes sociais */
-    align-items: flex-start;
+    justify-content: space-between; /* Empurra os lados esquerdo e direito para as extremidades */
+    align-items: flex-start; /* Alinha o conteúdo ao topo de cada coluna */
+    width: 100%; /* Ocupa a largura total do footer */
+    max-width: 1200px; /* Limita a largura em telas muito grandes */
+    padding-bottom: 2rem; /* Espaço entre este wrapper e a linha de quebra */
+    flex-wrap: wrap; /* Permite que as colunas quebrem em telas menores */
+    text-align: left; /* Garante que o texto nas colunas comece à esquerda por padrão */
 }
 
-.footer-icons a {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 3rem;
-    height: 3rem;
-    background: transparent;
-    border: .2rem solid var(--main-color);
-    border-radius: 50%;
-    font-size: 1rem;
-    color: var(--main-color);
-    margin: 0rem 1.0rem 0.5rem 0;
-    transition: .5s ease;
-}
-.footer-icons a:hover {
-    background: var(--main-color); /* Altera o fundo do círculo no hover */
-    color: var(--second-bg-color); /* Altera a cor do ícone no hover */
-    box-shadow: 0 0 1rem var(--main-color); /* Adiciona uma sombra no hover */
+/* --- ESTILOS DO LADO ESQUERDO DO FOOTER (FOTO E SLOGAN) --- */
+.footer-left-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alinha o conteúdo à esquerda dentro desta coluna */
+    gap: 1rem;
+    flex: 1; /* Permite que ocupe o espaço disponível */
+    min-width: 250px; /* Largura mínima para o bloco esquerdo */
+    padding-right: 2rem; /* Espaçamento entre os blocos esquerdo e direito */
 }
 
-/* Cor dos ícones sociais no footer para ser branco e hover ajustado */
-body.light-theme .footer-icons a {
-    color: #fff;
-    border-color: #fff;
+/* Estilos para a imagem no lugar do nome */
+.footer-logo-img {
+    width: 25rem; /* Ajuste o tamanho da largura da imagem (como a do site de referência) */
+    height: auto; /* Mantém a proporção da imagem */
+    /* Se a imagem for um logo e precisar de ajuste de cor para temas, pode usar filter aqui. Ex: */
+    /* filter: brightness(0); /* Para logos pretos ficarem brancos no tema claro */
 }
 
-body.light-theme .footer-icons a:hover {
-    background: #fff; /* Fundo branco no hover */
-    color: #323946; /* Ícone escuro no hover */
-    box-shadow: 0 0 1rem #fff; /* Sombra branca */
+/* Tema Claro para a imagem no footer (se precisar de ajustes específicos) */
+body.light-theme .footer-logo-img {
+    /* Exemplo: Se o logo for preto e precisar ficar branco no tema claro */
+    /* filter: invert(1) grayscale(1) brightness(2); */
+    /* Como o fundo é #323946 (escuro), se a imagem for clara, pode não precisar de filter.
+       Se for escura e precisar contrastar, mantenha a linha abaixo comentada e ative-a: */
+    /* filter: invert(1) grayscale(1) brightness(2); */ 
 }
 
-.footer-iconTop a {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    padding: .8rem;
-    background: var(--main-color);
-    border-radius: .8rem;
-    transition: .5s ease;
+
+.footer-slogan {
+    font-size: 1.4rem;
+    color: var(--text-color); /* Cor padrão (tema escuro) */
+    line-height: 1.6;
 }
 
-.footer-iconTop a:hover {
-    box-shadow: 0 0 1rem var(--main-color);
-    background: var(--hover-color);
+/* TEMA CLARO para o Slogan: Garante que seja branco */
+body.light-theme .footer-slogan {
+    color: #fff; /* Força o texto do slogan a ser branco no tema claro */
 }
 
-/* Cor do botão de voltar ao topo e seu ícone */
-body.light-theme .footer-iconTop a {
-    background: #fff; /* Fundo branco para o botão de voltar ao topo */
+
+/* --- ESTILOS DO LADO DIREITO DO FOOTER (TEXTO SOCIAL E ÍCONES) --- */
+.footer-right-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Alinha o conteúdo (título e ícones) à direita */
+    gap: 1.5rem;
+    flex: 1; /* Permite que ocupe o espaço disponível */
+    min-width: 200px; /* Largura mínima para o bloco direito */
 }
 
-body.light-theme .footer-iconTop a i {
-    color: #323946; /* Ícone escuro no botão de voltar ao topo */
+.footer-social-heading {
+    font-size: 1.8rem; /* Tamanho do texto "SOCIAL" */
+    font-weight: 600;
+    color: var(--text-color); /* Cor padrão (tema escuro) */
+    text-transform: uppercase;
+    letter-spacing: .1rem;
+    margin-bottom: .5rem;
 }
 
+/* TEMA CLARO para o Título SOCIAL: Garante que seja branco */
+body.light-theme .footer-social-heading {
+    color: #fff; /* Força o título "SOCIAL" a ser branco no tema claro */
+}
+
+.footer-social-links {
+    display: flex;
+    gap: 1.5rem; /* Espaço entre os ícones das redes sociais */
+}
+
+.footer-social-links a {
+    font-size: 2.5rem; /* Tamanho dos ícones */
+    color: var(--text-color); /* Cor padrão dos ícones (tema escuro) */
+    transition: .3s ease;
+}
+
+.footer-social-links a:hover {
+    color: var(--main-color); /* Cor ao passar o mouse (tema escuro) */
+    transform: translateY(-.3rem); /* Leve efeito de subida no hover */
+}
+
+/* TEMA CLARO para os Ícones Sociais: Cor Branca e Hover Azul Claro */
+body.light-theme .footer-social-links a {
+    color: #fff; /* Força a cor dos ícones a ser branco no tema claro */
+}
+
+body.light-theme .footer-social-links a:hover {
+    background: transparent; /* Garante que não tenha fundo no hover, como o exemplo */
+    color: var(--light-main-color); /* Cor azul claro no hover no tema claro */
+}
+
+/* --- LINHA DE QUEBRA --- */
+.footer-divider {
+    width: 100%;
+    max-width: 1200px; /* Mesma largura do wrapper */
+    border: none;
+    border-top: 1px solid var(--main-color); /* Cor da linha (tema escuro) */
+    margin: 2rem 0; /* Espaçamento acima e abaixo da linha */
+    opacity: 0.5; /* Transparência da linha */
+}
+
+/* Tema Claro para a Linha de Quebra: Mantém a cor azul claro */
+body.light-theme .footer-divider {
+    border-top: 1px solid var(--light-main-color); /* Cor azul claro no tema claro */
+}
+
+/* --- COPYRIGHT --- */
+.footer-copyright {
+    width: 100%;
+    max-width: 1200px;
+    text-align: center; /* Centraliza o texto de copyright */
+}
+
+.footer-copyright p {
+    font-size: 1.4rem;
+    color: var(--text-color); /* Cor padrão (tema escuro) */
+    line-height: 1.5;
+}
+
+/* Tema Claro para o copyright */
+body.light-theme .footer-copyright p {
+    color: #fff; /* Força o texto do copyright a ser branco no tema claro */
+}
+
+
+/* --- Media Queries para responsividade do footer --- */
+@media (max-width: 768px) {
+    .footer-content-wrapper {
+        flex-direction: column; /* Empilha os blocos (esquerdo e direito) */
+        align-items: center; /* Centraliza os blocos empilhados */
+        gap: 2rem; /* Espaço entre os blocos */
+        padding-bottom: 1.5rem;
+    }
+
+    /* ORDENAÇÃO DOS ELEMENTOS NO FOOTER PARA TELAS MENORES */
+    .footer-content-wrapper .footer-left-content {
+        order: 1; /* A foto/slogan vem primeiro */
+        align-items: center; /* Centraliza o conteúdo dentro do bloco esquerdo */
+        text-align: center; /* Centraliza o texto do slogan */
+    }
+
+    .footer-content-wrapper .footer-right-content {
+        order: 2; /* O social vem em segundo lugar */
+        align-items: center; /* Centraliza o conteúdo dentro do bloco direito */
+        text-align: center; /* Centraliza o texto "SOCIAL" */
+    }
+
+    .footer-divider {
+        order: 3; /* A linha divisória vem em terceiro */
+    }
+
+    .footer-copyright {
+        order: 4; /* O copyright vem por último */
+    }
+
+    /* Outros ajustes de responsividade */
+    .footer-left-content,
+    .footer-right-content {
+        max-width: 100%; /* Permite que ocupem a largura total */
+    }
+
+    .footer-logo-img { /* Ajusta o tamanho da imagem em telas menores */
+        width: 12rem;
+    }
+
+    .footer-slogan {
+        font-size: 1.3rem;
+    }
+
+    .footer-social-heading {
+        font-size: 1.7rem;
+    }
+
+    .footer-social-links a {
+        font-size: 2.2rem;
+    }
+
+    .footer-divider {
+        margin: 1.5rem 0;
+    }
+
+    .footer-copyright p {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 450px) {
+    .footer {
+        padding: 2rem 5%;
+    }
+    .footer-logo-img { /* Ajusta o tamanho da imagem em telas muito pequenas */
+        width: 10rem;
+    }
+    .footer-slogan {
+        font-size: 1.2rem;
+    }
+    .footer-social-heading {
+        font-size: 1.6rem;
+    }
+    .footer-social-links a {
+        font-size: 2rem;
+    }
+    .footer-divider {
+        margin: 1rem 0;
+    }
+    .footer-copyright p {
+        font-size: 1.2rem;
+    }
+}
 
 /* --- Media Queries para Responsividade --- */
 
@@ -1037,8 +1175,8 @@ body.light-theme .footer-iconTop a i {
     }
 
     .footer {
-        flex-direction: column-reverse;
-        gap: 2rem;
+    /*    flex-direction: column-reverse; */
+    /*    gap: 2rem; */
         padding: 2rem 3%;
         text-align: center;
     }
@@ -1201,5 +1339,203 @@ body.light-theme .footer-iconTop a i {
 
     .portfolio-container.show-all .portfolio-box {
         max-width: 100%;
+    }
+}
+
+/* --- Project Modal Styles --- */
+.project-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Fundo escuro semi-transparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Garante que fique acima de tudo */
+    opacity: 0; /* Começa invisível */
+    visibility: hidden; /* Esconde completamente até ser ativado */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.project-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.project-modal-content {
+    background: var(--second-bg-color); /* Fundo do modal (tema escuro) */
+    color: var(--text-color); /* Cor do texto (tema escuro) */
+    padding: 3rem;
+    border-radius: 1rem;
+    max-width: 900px; /* Largura máxima do modal */
+    width: 90%; /* Ajusta a largura em telas menores */
+    box-shadow: 0 0 2rem var(--main-color);
+    position: relative;
+    transform: translateY(20px); /* Efeito de entrada */
+    transition: transform 0.3s ease;
+}
+
+.project-modal-overlay.active .project-modal-content {
+    transform: translateY(0); /* Volta à posição original ao abrir */
+}
+
+/* Tema Claro para o Modal */
+body.light-theme .project-modal-content {
+    background: var(--light-second-bg-color); /* Fundo do modal no tema claro */
+    color: var(--light-text-color); /* Cor do texto no tema claro */
+    box-shadow: 0 0 2rem var(--light-main-color);
+}
+
+.project-modal-close-btn {
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+    font-size: 3rem;
+    cursor: pointer;
+    color: var(--main-color); /* Cor do 'x' no tema escuro */
+    transition: color 0.3s ease;
+}
+
+body.light-theme .project-modal-close-btn {
+    color: var(--light-main-color); /* Cor do 'x' no tema claro */
+}
+
+.project-modal-close-btn:hover {
+    color: var(--hover-color); /* Cor no hover (tema escuro) */
+}
+
+body.light-theme .project-modal-close-btn:hover {
+    color: var(--light-hover-color); /* Cor no hover (tema claro) */
+}
+
+.project-modal-body {
+    display: flex;
+    gap: 3rem;
+    align-items: flex-start; /* Alinha o topo dos conteúdos */
+}
+
+.project-modal-image-container {
+    flex: 1; /* Ocupa metade do espaço disponível */
+    min-width: 300px; /* Largura mínima para a imagem */
+    display: flex; /* Para centralizar a imagem verticalmente se ela for menor */
+    align-items: center;
+    justify-content: center;
+}
+
+.project-modal-image-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    object-fit: contain; /* Garante que a imagem se ajuste sem cortar */
+}
+
+.project-modal-details {
+    flex: 1; /* Ocupa a outra metade do espaço disponível */
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.project-modal-details h3 {
+    font-size: 2.5rem;
+    color: var(--main-color); /* Título azul no tema escuro */
+}
+
+body.light-theme .project-modal-details h3 {
+    color: var(--light-main-color); /* Título azul no tema claro */
+}
+
+.project-modal-details p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+.project-modal-btn {
+    display: inline-block;
+    padding: 1rem 2.8rem;
+    background: var(--main-color); /* Cor do botão no tema escuro */
+    border-radius: 4rem;
+    box-shadow: 0 0 1rem var(--main-color);
+    font-size: 1.6rem;
+    color: var(--second-bg-color); /* Cor do texto do botão (escuro) */
+    letter-spacing: .1rem;
+    font-weight: 600;
+    transition: .5s ease;
+    text-align: center;
+    margin-top: 1rem; /* Espaçamento acima do botão */
+    text-decoration: none; /* Remove sublinhado */
+}
+
+body.light-theme .project-modal-btn {
+    background: var(--light-main-color); /* Cor do botão no tema claro */
+    box-shadow: 0 0 1rem var(--light-main-color);
+    color: #fff; /* Cor do texto do botão (branco) */
+}
+
+.project-modal-btn:hover {
+    box-shadow: none;
+    color: var(--text-color); /* Hover para texto claro no tema escuro */
+}
+
+body.light-theme .project-modal-btn:hover {
+    box-shadow: none;
+    color: var(--light-text-color); /* Hover para texto escuro no tema claro */
+}
+
+
+/* Responsividade para o Modal de Projeto */
+@media (max-width: 768px) {
+    .project-modal-content {
+        width: 95%;
+        padding: 2.5rem;
+    }
+
+    .project-modal-body {
+        flex-direction: column; /* Empilha imagem e detalhes */
+        align-items: center; /* Centraliza conteúdo empilhado */
+        gap: 2rem;
+    }
+
+    .project-modal-image-container {
+        min-width: unset; /* Remove min-width em telas pequenas */
+        max-width: 80%; /* Limita a largura da imagem */
+    }
+
+    .project-modal-details {
+        text-align: center; /* Centraliza o texto e título */
+        align-items: center; /* Centraliza o botão também */
+    }
+
+    .project-modal-details h3 {
+        font-size: 3rem;
+    }
+
+    .project-modal-details p {
+        font-size: 1.6rem;
+    }
+
+    .project-modal-close-btn {
+        font-size: 2.5rem;
+        top: 1rem;
+        right: 1.5rem;
+    }
+}
+
+@media (max-width: 450px) {
+    .project-modal-content {
+        padding: 2rem;
+    }
+    .project-modal-details h3 {
+        font-size: 2.5rem;
+    }
+    .project-modal-details p {
+        font-size: 1.5rem;
+    }
+    .project-modal-btn {
+        padding: 0.8rem 2rem;
+        font-size: 1.5rem;
     }
 }
