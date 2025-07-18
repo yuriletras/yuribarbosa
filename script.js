@@ -378,52 +378,60 @@ const projectModalTitle = document.getElementById('projectModalTitle');
 const projectModalDescription = document.getElementById('projectModalDescription');
 const projectModalLink = document.getElementById('projectModalLink');
 
-portfolioBoxes.forEach(box => {
-    box.addEventListener('click', () => {
-        // Obter dados do projeto do data-attributes
-        const imgSrc = box.dataset.projectImg;
-        const title = box.dataset.projectTitle;
-        const description = box.dataset.projectDescription;
-        const link = box.dataset.projectLink;
+// NOVO: Adicione uma verificação para todos os elementos essenciais do modal de projeto
+if (projectModal && projectModalCloseBtn && projectModalImage && projectModalTitle && projectModalDescription && projectModalLink) {
 
-        // Preencher o modal com os dados
-        projectModalImage.src = imgSrc;
-        projectModalImage.alt = title; // Boa prática para acessibilidade
-        projectModalTitle.textContent = title;
-        projectModalDescription.textContent = description;
-        projectModalLink.href = link;
+    portfolioBoxes.forEach(box => {
+        box.addEventListener('click', () => {
+            // Obter dados do projeto do data-attributes
+            const imgSrc = box.dataset.projectImg;
+            const title = box.dataset.projectTitle;
+            const description = box.dataset.projectDescription;
+            const link = box.dataset.projectLink;
 
-        // Mostrar o botão "Ver Projeto" apenas se houver um link válido
-        if (link && link !== '#') {
-            projectModalLink.style.display = 'inline-block';
-        } else {
-            projectModalLink.style.display = 'none'; // Esconde se não houver link
-        }
+            // Preencher o modal com os dados
+            projectModalImage.src = imgSrc;
+            projectModalImage.alt = title; // Boa prática para acessibilidade
+            projectModalTitle.textContent = title;
+            projectModalDescription.textContent = description;
+            projectModalLink.href = link;
 
-        // Adicionar classe 'active' para exibir o modal
-        projectModal.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Evita scroll da página principal
+            // Mostrar o botão "Ver Projeto" apenas se houver um link válido
+            if (link && link !== '#') {
+                projectModalLink.style.display = 'inline-block';
+            } else {
+                projectModalLink.style.display = 'none'; // Esconde se não houver link
+            }
+
+            // Adicionar classe 'active' para exibir o modal
+            projectModal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Evita scroll da página principal
+        });
     });
-});
 
-// Fechar modal ao clicar no 'x'
-projectModalCloseBtn.addEventListener('click', () => {
-    projectModal.classList.remove('active');
-    document.body.style.overflow = ''; // Restaura scroll da página
-});
-
-// Fechar modal ao clicar fora do conteúdo do modal
-projectModal.addEventListener('click', (e) => {
-    if (e.target === projectModal) { // Verifica se o clique foi no overlay, não no conteúdo
+    // Fechar modal ao clicar no 'x'
+    projectModalCloseBtn.addEventListener('click', () => {
         projectModal.classList.remove('active');
         document.body.style.overflow = ''; // Restaura scroll da página
-    }
-});
+    });
 
-// Fechar modal ao pressionar ESC
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && projectModal.classList.contains('active')) {
-        projectModal.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-});
+    // Fechar modal ao clicar fora do conteúdo do modal
+    projectModal.addEventListener('click', (e) => {
+        if (e.target === projectModal) { // Verifica se o clique foi no overlay, não no conteúdo
+            projectModal.classList.remove('active');
+            document.body.style.overflow = ''; // Restaura scroll da página
+        }
+    });
+
+    // Fechar modal ao pressionar ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && projectModal.classList.contains('active')) {
+            projectModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+
+} else {
+    // Adicione um console.warn para informar quando o modal de projeto não é ativado
+    console.warn("Elementos essenciais do modal de projeto (ou portfolioBoxes) ausentes. A funcionalidade de modal de projeto não será ativada.");
+}
