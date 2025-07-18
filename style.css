@@ -7,6 +7,9 @@
     --text-color: #fff;
     --main-color: #0ef;
     --hover-color: #00eeff; /* Cor para hover de botões/links no tema escuro */
+    /* ... suas outras variáveis ... */
+    --border-color: rgba(255, 255, 255, 0.1); /* Cor de borda suave para o tema escuro */
+    /* ... */
 
     /* Variáveis para o tema claro */
     --light-bg-color: #f0f2f5;
@@ -14,6 +17,12 @@
     --light-text-color: #333;
     --light-main-color: #007bff; /* Seu azul mais claro para o tema claro */
     --light-hover-color: #0056b3; /* Um tom mais escuro para hover no tema claro */
+}
+
+body.light-theme {
+    /* ... suas outras variáveis de tema claro ... */
+    --light-border-color: rgba(0, 0, 0, 0.1); /* Cor de borda suave para o tema claro */
+    /* ... */
 }
 
 /* Reset CSS e estilos básicos */
@@ -447,137 +456,146 @@ body.light-theme .about-image {
 }
 
 /* --- Seção Minhas Habilidades --- */
+/* --- Seção Habilidades --- */
 .skills {
-    background: var(--bg-color);
+    background: var(--bg-color); /* Mantido do seu CSS */
+    padding: 8rem 5%; /* Adicionei padding para a seção */
 }
 
-.skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
-    gap: 3rem;
-    margin-top: 5rem;
-}
-
-.skill-item {
-    background: var(--second-bg-color);
-    padding: 3rem 2rem 4rem;
-    border-radius: 2rem;
+.skills .heading {
     text-align: center;
-    border: .2rem solid var(--main-color);
-    transition: .5s ease;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    height: 12rem; /* AJUSTADO: Diminuído para acomodar apenas ícone e título */
+    margin-bottom: 5rem; /* Ajustei a margem para dar espaço aos botões */
+}
+
+/* Estilos para os botões de filtro de categoria (NOVOS) */
+.skill-categories-buttons {
     display: flex;
-    flex-direction: column;
-    justify-content: center; /* AJUSTADO: Centraliza verticalmente o conteúdo */
-    align-items: center;
+    justify-content: center;
+    gap: 2rem; /* Espaço entre os botões */
+    margin-bottom: 4rem; /* Espaço entre os botões e as habilidades */
+    flex-wrap: wrap; /* Permite que os botões quebrem em telas pequenas */
+    padding: 0 2%; /* Adicionei padding para garantir que não encoste nas bordas em telas pequenas */
+}
+
+.category-btn {
+    padding: 1rem 2.5rem;
+    background: var(--second-bg-color); /* Fundo padrão do botão (tema escuro) */
+    color: var(--main-color); /* Texto do botão (azul do tema escuro) */
+    border: .2rem solid var(--main-color); /* Borda do botão */
+    border-radius: 4rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 .5rem var(--main-color); /* Sombra suave */
+}
+
+.category-btn:hover {
+    background: var(--main-color); /* Fundo no hover (azul do tema escuro) */
+    color: var(--second-bg-color); /* Texto no hover (fundo secundário do tema escuro) */
+    box-shadow: 0 0 1rem var(--main-color); /* Sombra maior no hover */
+}
+
+.category-btn.active {
+    background: var(--main-color); /* Fundo do botão ativo (azul do tema escuro) */
+    color: var(--second-bg-color); /* Texto do botão ativo (fundo secundário do tema escuro) */
+    box-shadow: 0 0 1.5rem var(--main-color); /* Sombra destacada para o ativo */
+    border-color: var(--main-color); /* Garante que a borda continue azul */
+}
+
+/* Base do grid de habilidades (AJUSTADO para o novo sistema) */
+.skills-grid {
+    display: none; /* Inicialmente todos os grids de habilidades estão ocultos */
+    /* Seus estilos de grid existentes, que serão ativados quando display: grid for aplicado */
+    grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr)); /* Mantido do seu CSS */
+    gap: 3rem; /* Mantido do seu CSS */
+    margin-top: 5rem; /* Mantido do seu CSS */
+    max-width: 1200px; /* Limita a largura máxima do grid para melhor alinhamento */
+    margin-left: auto; /* Centraliza o grid */
+    margin-right: auto; /* Centraliza o grid */
+    padding: 0 2%; /* Adicionei padding para não encostar nas bordas */
+}
+
+/* Exibir apenas o grid de habilidades ativo */
+.skills-grid.active-skills-grid {
+    display: grid; /* Exibe o grid de habilidades ativo */
+    animation: fadeIn 0.5s forwards; /* Adiciona uma animação suave */
+}
+
+/* Animação de fade-in para as habilidades (NOVA) */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estilo para cada item de habilidade (MANTIDO E AJUSTADO LEVEMENTE) */
+.skill-item {
+    background: var(--second-bg-color); /* Mantido do seu CSS */
+    padding: 3rem 2rem 4rem; /* Mantido do seu CSS */
+    border-radius: 2rem; /* Mantido do seu CSS */
+    text-align: center; /* Mantido do seu CSS */
+    border: .2rem solid var(--main-color); /* Mantido do seu CSS */
+    transition: .5s ease; /* Mantido do seu CSS */
+    cursor: pointer; /* Mantido do seu CSS */
+    position: relative; /* Mantido do seu CSS */
+    overflow: hidden; /* Mantido do seu CSS */
+    height: 12rem; /* Mantido do seu CSS */
+    display: flex; /* Mantido do seu CSS */
+    flex-direction: column; /* Mantido do seu CSS */
+    justify-content: center; /* Mantido do seu CSS */
+    align-items: center; /* Mantido do seu CSS */
 }
 
 body.light-theme .skill-item {
-    background: #323946; /* Fundo escuro das caixas de habilidades no tema claro */
-    border: .2rem solid var(--light-main-color); /* Borda com a cor principal clara */
+    background: #323946; /* Mantido do seu CSS (fundo escuro no tema claro) */
+    border: .2rem solid var(--light-main-color); /* Mantido do seu CSS */
 }
 
 .skill-item:hover {
-    background: var(--main-color);
-    color: var(--second-bg-color);
-    transform: translateY(-.8rem);
-    box-shadow: 0 0 2rem var(--main-color);
+    background: var(--main-color); /* Mantido do seu CSS */
+    color: var(--second-bg-color); /* Mantido do seu CSS */
+    transform: translateY(-.8rem); /* Mantido do seu CSS */
+    box-shadow: 0 0 2rem var(--main-color); /* Mantido do seu CSS */
 }
 
 body.light-theme .skill-item:hover {
-    background: var(--light-main-color); /* Hover para a cor principal clara */
-    color: var(--light-second-bg-color); /* Texto branco no hover */
-    box-shadow: 0 0 2rem var(--light-main-color);
+    background: var(--light-main-color); /* Mantido do seu CSS */
+    color: var(--light-second-bg-color); /* Mantido do seu CSS */
+    box-shadow: 0 0 2rem var(--light-main-color); /* Mantido do seu CSS */
 }
 
 .skill-item i {
-    font-size: 3rem;
-    color: var(--main-color);
-    margin-bottom: 1.5rem;
+    font-size: 3rem; /* Mantido do seu CSS */
+    color: var(--main-color); /* Mantido do seu CSS */
+    margin-bottom: 1.5rem; /* Mantido do seu CSS */
 }
 
-/* Cor do ícone da habilidade para ser branco no tema claro */
 body.light-theme .skill-item i {
-    color: #fff;
+    color: #fff; /* Mantido do seu CSS */
 }
 
 .skill-item:hover i {
-    color: var(--second-bg-color);
+    color: var(--second-bg-color); /* Mantido do seu CSS */
 }
 
 .skill-item h3 {
-    font-size: 1.6rem;
-    margin-bottom: 0; /* AJUSTADO: Removido margin-bottom para que não haja espaço extra */
+    font-size: 1.6rem; /* Mantido do seu CSS */
+    margin-bottom: 0; /* Mantido do seu CSS */
 }
 
-/* Cor do texto (título e descrição) dentro das caixas de habilidades para ser branco */
-body.light-theme .skill-item h3 { /* AJUSTADO: Removido p.skill-description daqui */
-    color: #fff; /* Branco para o texto */
+body.light-theme .skill-item h3 {
+    color: #fff; /* Mantido do seu CSS */
 }
 
-/* REMOVIDOS: Os estilos para p.skill-description e .read-more-btn não são mais necessários
-   pois esses elementos não estarão mais visíveis nas caixas de habilidade. */
-/* O trecho comentado abaixo foi removido intencionalmente */
-/*
-.skill-item p.skill-description {
-    font-size: 1.5rem;
-    line-height: 1.5;
-    color: var(--text-color);
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    transition: all 0.3s ease;
-    margin-bottom: 1rem;
-}
-
-.skill-item.active p.skill-description {
-    -webkit-line-clamp: unset;
-    overflow: visible;
-    text-overflow: unset;
-    height: auto;
-}
-
-.skill-item .read-more-btn {
-    display: inline-block;
-    margin-top: 0.1rem;
-    margin-bottom: 4rem;
-    padding: 0.8rem 1.8rem;
-    background: var(--main-color);
-    color: var(--second-bg-color);
-    border-radius: 0.8rem;
-    font-size: 1.4rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.3s ease, color 0.3s ease;
-    border: 1px solid var(--main-color);
-}
-
-.skill-item .read-more-btn:hover {
-    background: transparent;
-    color: var(--main-color);
-    box-shadow: 0 0 1rem var(--main-color);
-}
-
-body.light-theme .skill-item .read-more-btn {
-    background: var(--light-main-color);
-    color: var(--light-second-bg-color);
-    border-color: var(--light-main-color);
-}
-
-body.light-theme .skill-item .read-more-btn:hover {
-    background: transparent;
-    color: var(--light-main-color);
-    box-shadow: 0 0 1rem var(--light-main-color);
-}
-*/
 
 /* --- Estilos para o Modal de Habilidades --- */
-/* Estes estilos permanecem inalterados, pois se referem ao modal em si */
+/* Estes estilos permanecem praticamente inalterados, apenas o background-color */
 .skill-modal {
     display: none;
     position: fixed;
@@ -602,7 +620,7 @@ body.light-theme .skill-item .read-more-btn:hover {
 }
 
 .skill-modal-content {
-    background-color: var(--second-bg-color);
+    background-color: var(--second-bg-color); /* Mantido do seu CSS */
     margin: auto;
     padding: 4rem;
     border-radius: 1.5rem;
@@ -624,9 +642,9 @@ body.light-theme .skill-item .read-more-btn:hover {
 }
 
 body.light-theme .skill-modal-content {
-    background-color: #323946; /* Fundo escuro do modal no tema claro */
+    background-color: #323946; /* Mantido do seu CSS (fundo escuro do modal no tema claro) */
     box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.1);
-    color: #fff; /* Texto branco no modal escuro */
+    color: #fff; /* Mantido do seu CSS (texto branco no modal escuro) */
 }
 
 .skill-modal-close-btn {
@@ -657,6 +675,48 @@ body.light-theme .skill-modal-content {
 .skill-modal-content p {
     font-size: 1.8rem;
     line-height: 1.6;
+}
+
+/* --- Media Queries para Responsividade dos Botões e Habilidades --- */
+@media (max-width: 768px) {
+    .skill-categories-buttons {
+        flex-direction: column; /* Botões empilhados em telas pequenas */
+        align-items: center; /* Centraliza os botões */
+        gap: 1.5rem;
+    }
+    .category-btn {
+        width: 80%; /* Ocupa mais largura em telas pequenas */
+        max-width: 250px; /* Limita a largura máxima */
+    }
+
+    .skills-grid {
+        grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); /* Reduz o minmax para habilidades em telas menores */
+    }
+
+    .skill-item {
+        height: 10rem; /* Ajuste a altura em telas menores se necessário */
+        padding: 2rem 1.5rem;
+    }
+
+    .skill-item i {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .skill-item h3 {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .category-btn {
+        font-size: 1.4rem;
+        padding: 0.8rem 2rem;
+    }
+
+    .skill-item h3 {
+        font-size: 1.3rem;
+    }
 }
 
 /* --- Seção Portfólio --- */
@@ -812,12 +872,102 @@ body.light-theme .portfolio-box .portfolio-layer a i {
 
 /* --- Seção Contato --- */
 .contact {
-    background: var(--bg-color);
+    background: var(--bg-color); /* Mantém o background da seção */
+    padding: 7rem 5%; /* Adicione padding para dar espaço ao conteúdo */
+    display: flex; /* Adiciona flexbox ao container principal da seção */
+    flex-direction: column; /* Para empilhar o título e o wrapper */
+    align-items: center; /* Centraliza horizontalmente o título e o wrapper */
+    justify-content: center; /* Centraliza verticalmente se houver espaço */
+    min-height: 100vh; /* Opcional: Garante que a seção ocupe pelo menos a altura da viewport */
 }
 
+.contact .heading {
+    text-align: center;
+    margin-bottom: 5rem; /* Espaçamento abaixo do título da seção */
+}
+
+/* Novo container para o layout de duas colunas */
+.contact-content-wrapper {
+    display: flex; /* Habilita Flexbox */
+    justify-content: center; /* Centraliza o conteúdo horizontalmente DENTRO do wrapper */
+    align-items: center; /* Centraliza verticalmente as duas colunas */
+    gap: 5rem; /* Espaço entre as duas colunas */
+    flex-wrap: wrap; /* Permite que as colunas quebrem para a próxima linha em telas menores */
+    max-width: 1200px; /* Limita a largura máxima do wrapper para melhor leitura */
+    width: 100%; /* Garante que o wrapper ocupe a largura disponível para centralização */
+    /* Removido margin: 0 auto; daqui, já que o pai (.contact) já centraliza */
+}
+
+/* Lado Esquerdo - Textos e Caixa CTA */
+.contact-left {
+    flex: 1; /* Ocupa o máximo de espaço possível */
+    min-width: 300px; /* Largura mínima para o lado esquerdo antes de quebrar */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centraliza verticalmente o conteúdo dentro do .contact-left */
+    align-items: center; /* **MUDANÇA AQUI: Centraliza horizontalmente os itens no lado esquerdo** */
+    gap: 2rem; /* Espaço entre os elementos do lado esquerdo */
+    text-align: center; /* **MUDANÇA AQUI: Centraliza o texto das frases** */
+}
+
+.contact-phrase-main {
+    font-size: 3.5rem; /* Tamanho da fonte para a frase maior */
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text-color); /* Cor do texto padrão */
+    /* Removido text-align: left; */
+}
+
+.contact-phrase-sub {
+    font-size: 1.5rem; /* Tamanho da fonte para a frase menor */
+    line-height: 1.5;
+    color: var(--text-color); /* Cor do texto padrão */
+    margin-bottom: 2rem; /* Espaço antes da caixa de CTA */
+    /* Removido text-align: left; */
+}
+
+.call-to-action-box {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem 3rem;
+    background: var(--main-color); /* Cor de fundo da caixa (azul do tema escuro) */
+    color: var(--second-bg-color); /* Cor do texto (fundo secundário do tema escuro) */
+    border-radius: 4rem; /* Borda arredondada para parecer um botão */
+    font-size: 1.8rem;
+    font-weight: 600;
+    box-shadow: 0 0 1rem var(--main-color);
+    transition: all 0.5s ease; /* **MUDANÇA AQUI: Aumentei o tempo de transição para o movimento** */
+    cursor: default; /* Indica que não é clicável como um botão real */
+    max-width: fit-content; /* Ajusta a largura ao conteúdo */
+}
+
+.call-to-action-box i {
+    font-size: 2.5rem; /* Tamanho da seta */
+    transition: transform 0.5s ease; /* **MUDANÇA AQUI: Aumentei o tempo de transição para a seta** */
+}
+
+.call-to-action-box:hover {
+    box-shadow: 0 0 2rem var(--main-color); /* Efeito de hover suave */
+    transform: translateX(20px); /* **MUDANÇA AQUI: Move a caixa para a direita** */
+    /* Removido translateY(-5px) */
+}
+
+.call-to-action-box:hover i {
+    transform: translateX(10px); /* **MUDANÇA AQUI: Seta se move ainda mais para a direita no hover** */
+}
+
+/* Lado Direito - Formulário de Contato */
+.contact-right {
+    flex: 1; /* Ocupa o máximo de espaço possível */
+    min-width: 350px; /* Largura mínima para o formulário antes de quebrar (um pouco maior para o formulário) */
+    display: flex;
+    justify-content: center; /* Centraliza o formulário se houver espaço extra */
+}
+
+/* Seu CSS EXISTENTE para o formulário, levemente ajustado para o novo layout */
 .contact form {
-    max-width: 70rem;
-    margin: 0 auto;
+    width: 100%; /* Permite que o formulário ocupe o espaço disponível em contact-right */
     text-align: center;
 }
 
@@ -839,19 +989,108 @@ body.light-theme .portfolio-box .portfolio-layer a i {
     resize: none;
 }
 
-body.light-theme .contact form .input-box input,
-body.light-theme .contact form textarea {
-    background: var(--light-second-bg-color); /* Mantido claro */
-    color: var(--light-text-color); /* Texto escuro no input claro */
-}
-
 .contact form .input-box input {
-    width: 49%;
+    width: 49%; /* Mantém os dois inputs lado a lado */
 }
 
 .contact form .btn {
     margin-top: 2rem;
     cursor: pointer;
+}
+
+/* --- Ajustes para o Tema Claro na Seção de Contato --- */
+body.light-theme .contact-phrase-main,
+body.light-theme .contact-phrase-sub {
+    color: var(--light-text-color); /* Usa a cor do texto do tema claro */
+}
+
+body.light-theme .call-to-action-box {
+    background: var(--light-main-color); /* Cor de fundo da caixa (azul do tema claro) */
+    color: #ffffff; /* Texto branco na caixa CTA do tema claro */
+    box-shadow: 0 0 1rem var(--light-main-color);
+}
+
+body.light-theme .call-to-action-box:hover {
+    box-shadow: 0 0 2rem var(--light-main-color);
+}
+
+body.light-theme .contact form .input-box input,
+body.light-theme .contact form textarea {
+    background: var(--light-second-bg-color); /* Fundo claro para inputs */
+    color: var(--light-text-color); /* Texto escuro para inputs */
+}
+
+body.light-theme .contact form .input-box input::placeholder,
+body.light-theme .contact form textarea::placeholder {
+    color: var(--light-text-color); /* Cor do placeholder no tema claro */
+    opacity: 0.7; /* Suaviza o placeholder */
+}
+
+
+/* --- Media Queries para Responsividade --- */
+@media (max-width: 991px) {
+    .contact-content-wrapper {
+        flex-direction: column; /* Pilha as colunas em telas menores */
+        align-items: center; /* Centraliza os itens empilhados */
+        gap: 3rem;
+    }
+
+    .contact-left,
+    .contact-right {
+        min-width: unset; /* Remove a largura mínima para permitir que eles se expandam */
+        width: 100%; /* Ocupa toda a largura disponível */
+        /* Removido text-align: center; e align-items: center; pois já estão definidos acima ou serão sobrescritos */
+    }
+
+    .contact-phrase-main,
+    .contact-phrase-sub {
+        text-align: center; /* Garante que o texto fique centralizado */
+        padding: 0 1rem; /* Adiciona um pouco de padding para texto em telas pequenas */
+    }
+
+    .call-to-action-box {
+        margin: 0 auto; /* Centraliza a caixa no modo mobile */
+        transform: none !important; /* Desabilita o translateX no hover para mobile */
+    }
+    .call-to-action-box:hover {
+        transform: none !important; /* Garante que não haja translateX no hover para mobile */
+    }
+    .call-to-action-box:hover i {
+        transform: none !important; /* Garante que não haja translateX da seta no hover para mobile */
+    }
+
+    .contact form .input-box input {
+        width: 100%; /* Inputs um abaixo do outro em telas menores */
+    }
+}
+
+@media (max-width: 768px) {
+    .contact-phrase-main {
+        font-size: 2.8rem; /* Reduz um pouco o tamanho da fonte */
+    }
+    .contact-phrase-sub {
+        font-size: 1.3rem;
+    }
+    /* Ajuste para input-box para garantir que os inputs fiquem em colunas em telas menores */
+    .contact form .input-box {
+        flex-direction: column; /* Força os inputs a ficarem em coluna */
+    }
+    .contact form .input-box input {
+        width: 100%; /* Inputs ocupam toda a largura */
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-phrase-main {
+        font-size: 2.2rem;
+    }
+    .contact-phrase-sub {
+        font-size: 1.1rem;
+    }
+    .call-to-action-box {
+        font-size: 1.6rem;
+        padding: 1.2rem 2.5rem;
+    }
 }
 
 /* --- Seção Rodapé (Footer) --- */
@@ -902,7 +1141,7 @@ body.light-theme .footer {
 
 /* Estilos para a imagem no lugar do nome */
 .footer-logo-img {
-    width: 25rem; /* Ajuste o tamanho da largura da imagem (como a do site de referência) */
+    width: 20rem; /* Ajuste o tamanho da largura da imagem (como a do site de referência) */
     height: auto; /* Mantém a proporção da imagem */
     /* Se a imagem for um logo e precisar de ajuste de cor para temas, pode usar filter aqui. Ex: */
     /* filter: brightness(0); /* Para logos pretos ficarem brancos no tema claro */
@@ -1540,4 +1779,453 @@ body.light-theme .project-modal-btn:hover {
         padding: 0.8rem 2rem;
         font-size: 1.5rem;
     }
+}
+
+/* --- Estilos para o Blog --- */
+.blog-main {
+    padding-top: 8rem; /* Para dar espaço ao cabeçalho fixo */
+    min-height: 100vh; /* Garante que a seção ocupe a tela toda */
+    background: var(--bg-color); /* Mesma cor de fundo principal */
+}
+
+.blog-posts-list {
+    padding: 2rem 5%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.posts-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    padding-top: 2rem;
+}
+
+.post-card {
+    background: var(--second-bg-color);
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: .2rem solid var(--main-color);
+}
+
+.post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 2.5rem var(--main-color);
+}
+
+.post-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+.post-card-content {
+    padding: 2rem;
+}
+
+.post-card-content h3 {
+    font-size: 2.2rem;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+.post-card-meta {
+    font-size: 1.4rem;
+    color: var(--main-color);
+    margin-bottom: 1.5rem;
+}
+
+.post-card-content p {
+    font-size: 1.6rem;
+    color: var(--text-color);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.post-card-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+}
+
+.post-card-actions .like-display {
+    font-size: 1.5rem;
+    color: var(--main-color);
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.post-card-actions .like-display i {
+    font-size: 1.8rem;
+}
+
+.post-card-actions .btn { /* Reutiliza seu estilo de botão existente */
+    display: inline-block;
+    padding: 1rem 2.8rem;
+    background: var(--main-color);
+    border-radius: 4rem;
+    box-shadow: 0 0 1rem var(--main-color);
+    font-size: 1.6rem;
+    color: var(--bg-color);
+    letter-spacing: .1rem;
+    font-weight: 600;
+    transition: .5s ease;
+    text-decoration: none; /* Garante que não haja sublinhado */
+}
+
+.post-card-actions .btn:hover {
+    box-shadow: none;
+}
+
+/* --- Estilos para a página de Artigo Individual (blog/post.html) --- */
+.blog-post-content {
+    background: var(--second-bg-color);
+    max-width: 900px;
+    margin: 5rem auto 3rem;
+    padding: 4rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 2rem rgba(0, 0, 0, 0.2);
+    border: .2rem solid var(--main-color);
+    color: var(--text-color);
+}
+
+.blog-post-content h1 {
+    font-size: 3.8rem;
+    color: var(--main-color);
+    margin-bottom: 2rem;
+    line-height: 1.2;
+}
+
+.blog-post-content .post-meta {
+    font-size: 1.5rem;
+    color: var(--text-color);
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border-color); /* Adicione uma variável para cor da borda se não tiver */
+    padding-bottom: 1rem;
+}
+
+.blog-post-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.8rem;
+    margin: 3rem 0;
+    display: block;
+}
+
+.blog-post-content .post-content-html { /* Adicionado wrapper para o conteúdo HTML */
+    font-size: 1.8rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+}
+/* Estilos para tags dentro de post-content-html */
+.blog-post-content .post-content-html h2 {
+    font-size: 3rem;
+    color: var(--main-color);
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+}
+.blog-post-content .post-content-html p {
+    font-size: 1.8rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+}
+.blog-post-content .post-content-html ul {
+    list-style-type: disc;
+    margin-left: 3rem;
+    margin-bottom: 2rem;
+    font-size: 1.7rem;
+    line-height: 1.6;
+}
+.blog-post-content .post-content-html ul li {
+    margin-bottom: 0.8rem;
+}
+
+
+.post-actions {
+    display: flex;
+    gap: 2rem;
+    margin-top: 4rem;
+    border-top: 1px solid var(--border-color);
+    padding-top: 2rem;
+    justify-content: center;
+}
+
+.like-button, .share-button {
+    padding: 1.2rem 2.5rem;
+    background: var(--main-color);
+    color: var(--bg-color);
+    border: none;
+    border-radius: 4rem;
+    font-size: 1.7rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+}
+
+.like-button:hover, .share-button:hover {
+    background: var(--second-bg-color);
+    color: var(--main-color);
+    border: .2rem solid var(--main-color);
+    box-shadow: 0 0 1rem var(--main-color);
+}
+
+.like-button i, .share-button i {
+    font-size: 2rem;
+}
+
+/* --- Tema Claro para o Blog --- */
+body.light-theme .blog-main {
+    background: var(--light-bg-color);
+}
+
+body.light-theme .post-card {
+    background: var(--light-second-bg-color);
+    border-color: var(--light-main-color);
+    box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.1);
+}
+
+body.light-theme .post-card:hover {
+    box-shadow: 0 0 2.5rem var(--light-main-color);
+}
+
+body.light-theme .post-card-content h3 {
+    color: var(--light-text-color);
+}
+
+body.light-theme .post-card-meta {
+    color: var(--light-main-color);
+}
+
+body.light-theme .post-card-content p {
+    color: var(--light-text-color);
+}
+
+body.light-theme .post-card-actions .like-display {
+    color: var(--light-main-color);
+}
+
+body.light-theme .post-card-actions .btn {
+    background: var(--light-main-color);
+    color: #fff;
+    box-shadow: 0 0 1rem var(--light-main-color);
+}
+
+body.light-theme .post-card-actions .btn:hover {
+    background: var(--light-second-bg-color);
+    color: var(--light-main-color);
+    border-color: var(--light-main-color);
+    box-shadow: none;
+}
+
+body.light-theme .blog-post-content {
+    background: var(--light-second-bg-color);
+    border-color: var(--light-main-color);
+    box-shadow: 0 0 2rem rgba(0, 0, 0, 0.1);
+    color: var(--light-text-color);
+}
+
+body.light-theme .blog-post-content h1 {
+    color: var(--light-main-color);
+}
+
+body.light-theme .blog-post-content .post-meta {
+    color: var(--light-text-color);
+    border-bottom-color: var(--light-border-color);
+}
+
+body.light-theme .blog-post-content h2 {
+    color: var(--light-main-color);
+}
+
+body.light-theme .like-button, body.light-theme .share-button {
+    background: var(--light-main-color);
+    color: #fff;
+}
+
+body.light-theme .like-button:hover, body.light-theme .share-button:hover {
+    background: var(--light-second-bg-color);
+    color: var(--light-main-color);
+    border-color: var(--light-main-color);
+    box-shadow: 0 0 1rem var(--light-main-color);
+}
+
+
+/* Responsividade para o Blog */
+@media (max-width: 768px) {
+    .posts-container {
+        grid-template-columns: 1fr; /* Coluna única em telas menores */
+    }
+
+    .blog-post-content {
+        padding: 3rem 2rem;
+        margin: 3rem auto;
+    }
+
+    .blog-post-content h1 {
+        font-size: 3rem;
+    }
+
+    .blog-post-content p {
+        font-size: 1.6rem;
+    }
+
+    .blog-post-content h2 {
+        font-size: 2.5rem;
+    }
+}
+
+/* --- Estilos para a Seção de Comentários --- */
+.comments-section {
+    background: var(--second-bg-color);
+    max-width: 900px;
+    margin: 3rem auto 5rem; /* Ajuste a margem conforme necessário */
+    padding: 4rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 2rem rgba(0, 0, 0, 0.2);
+    border: .2rem solid var(--main-color);
+    color: var(--text-color);
+}
+
+.comments-section h2, .comments-section h3 {
+    color: var(--main-color);
+    margin-bottom: 2rem;
+    font-size: 2.8rem;
+    border-bottom: 2px solid var(--main-color);
+    padding-bottom: 1rem;
+}
+
+.comments-section h3 {
+    margin-top: 4rem;
+    font-size: 2.4rem;
+}
+
+.comments-list {
+    margin-bottom: 3rem;
+    max-height: 400px; /* Limita a altura da lista de comentários */
+    overflow-y: auto; /* Adiciona scroll se houver muitos comentários */
+    padding-right: 1rem; /* Espaçamento para a barra de rolagem */
+}
+
+.comment-item {
+    background: var(--bg-color);
+    border: 1px solid var(--main-color);
+    border-radius: 0.8rem;
+    padding: 1.5rem 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 0 0.8rem rgba(0, 0, 0, 0.1);
+}
+
+.comment-item .comment-author {
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+.comment-item .comment-content {
+    font-size: 1.6rem;
+    line-height: 1.6;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+.comment-item .comment-date {
+    font-size: 1.3rem;
+    color: var(--main-color);
+    text-align: right;
+}
+
+/* Estilos do Formulário de Comentários */
+.comment-form .form-group {
+    margin-bottom: 2rem;
+}
+
+.comment-form label {
+    display: block;
+    font-size: 1.6rem;
+    color: var(--text-color);
+    margin-bottom: 0.8rem;
+}
+
+.comment-form input[type="text"],
+.comment-form textarea {
+    width: 100%;
+    padding: 1.2rem 1.5rem;
+    background: var(--bg-color);
+    border: 1px solid var(--main-color);
+    border-radius: 0.8rem;
+    font-size: 1.6rem;
+    color: var(--text-color);
+    outline: none;
+    transition: border-color 0.3s ease;
+    resize: vertical; /* Permite redimensionar verticalmente */
+}
+
+.comment-form input[type="text"]:focus,
+.comment-form textarea:focus {
+    border-color: var(--main-color);
+    box-shadow: 0 0 0.8rem var(--main-color);
+}
+
+.comment-form .btn { /* Reutiliza o estilo do botão */
+    display: block;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 1.2rem 3rem;
+}
+
+/* --- Tema Claro para a Seção de Comentários --- */
+body.light-theme .comments-section {
+    background: var(--light-second-bg-color);
+    border-color: var(--light-main-color);
+    color: var(--light-text-color);
+    box-shadow: 0 0 2rem rgba(0, 0, 0, 0.1);
+}
+
+body.light-theme .comments-section h2, body.light-theme .comments-section h3 {
+    color: var(--light-main-color);
+    border-bottom-color: var(--light-main-color);
+}
+
+body.light-theme .comment-item {
+    background: var(--light-bg-color);
+    border-color: var(--light-main-color);
+    box-shadow: 0 0 0.8rem rgba(0, 0, 0, 0.05);
+}
+
+body.light-theme .comment-item .comment-author {
+    color: var(--light-text-color);
+}
+
+body.light-theme .comment-item .comment-content {
+    color: var(--light-text-color);
+}
+
+body.light-theme .comment-item .comment-date {
+    color: var(--light-main-color);
+}
+
+body.light-theme .comment-form label {
+    color: var(--light-text-color);
+}
+
+body.light-theme .comment-form input[type="text"],
+body.light-theme .comment-form textarea {
+    background: var(--light-bg-color);
+    border-color: var(--light-main-color);
+    color: var(--light-text-color);
+}
+
+body.light-theme .comment-form input[type="text"]:focus,
+body.light-theme .comment-form textarea:focus {
+    border-color: var(--light-main-color);
+    box-shadow: 0 0 0.8rem var(--light-main-color);
 }

@@ -1,5 +1,3 @@
-// script.js
-
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- Lógica para Alternância de Tema (Modo Claro/Escuro) ---
@@ -161,14 +159,14 @@ document.addEventListener('DOMContentLoaded', () => {
         console.warn("Elementos 'portfolioContainer' ou 'viewAllProjectsBtn' não encontrados. A funcionalidade 'Ver Todos' não será ativada.");
     }
 
-    // --- Lógica para o Modal de Habilidades ---
+    // --- Lógica para o Modal de Habilidades e Filtragem de Categorias (INTEGRADO) ---
     const skillItems = document.querySelectorAll('.skill-item');
-    const skillModal = document.getElementById('skillModal'); // ID do modal no HTML, use 'skillModal' se for o mesmo do modal de projetos
-    const modalSkillTitle = document.getElementById('skillModalTitle'); // ID do título dentro do modal
-    const modalSkillDescription = document.getElementById('skillModalDescription'); // ID da descrição dentro do modal
+    const skillModal = document.getElementById('skillModal');
+    const modalSkillTitle = document.getElementById('skillModalTitle');
+    const modalSkillDescription = document.getElementById('skillModalDescription');
     const skillModalCloseBtn = document.querySelector('.skill-modal-close-btn');
 
-    // Mapeamento de detalhes das habilidades
+    // Mapeamento de detalhes das habilidades (ADICIONADO VERCEL)
     // ATENÇÃO: Certifique-se que este objeto está completo com TODAS as suas habilidades
     // e as descrições que você quer que apareçam no modal.
     const skillDetails = {
@@ -181,21 +179,22 @@ document.addEventListener('DOMContentLoaded', () => {
         github: { title: 'GitHub', description: 'Plataforma de colaboração para versionamento de código e gerenciamento de projetos em equipe, incluindo criação de repositórios, pull requests e issues tracking.' },
         figma: { title: 'Figma', description: 'Criação de designs de interface de usuário (UI) e protótipos interativos para web e mobile, com foco em usabilidade e experiência do usuário (UX).' },
         nodejs: { title: 'Node.js', description: 'Desenvolvimento de aplicações back-end escaláveis e APIs com Node.js, utilizando Express.js para criação de rotas, middlewares e integração com bancos de dados.' },
-        java: { title: 'Java', description: 'Programação orientada a objetos para aplicações robustas e sistemas empresariais, com experiência em Spring Boot, APIs RESTful e integração com sistemas legados.' }
+        java: { title: 'Java', description: 'Programação orientada a objetos para aplicações robustas e sistemas empresariais, com experiência em Spring Boot, APIs RESTful e integração com sistemas legados.' },
+        vercel: { title: 'Vercel', description: 'Plataforma de deployment para sites e aplicações web, com foco em front-ends modernos e Serverless Functions. Oferece deploy contínuo e CDN global, facilitando a entrega rápida de aplicações.' } // Adicionei a descrição para Vercel
     };
 
 
-    if (skillItems.length > 0 && skillModal && modalSkillTitle && modalSkillDescription && skillModalCloseBtn) { // Simplificada a verificação
+    if (skillItems.length > 0 && skillModal && modalSkillTitle && modalSkillDescription && skillModalCloseBtn) {
         skillItems.forEach(item => {
-            item.addEventListener('click', () => { // Evento de clique direto no item
-                const skillId = item.dataset.skillId; // Pega o ID da habilidade do data-attribute
+            item.addEventListener('click', () => {
+                const skillId = item.dataset.skillId;
                 const details = skillDetails[skillId];
 
                 if (details) {
                     modalSkillTitle.textContent = details.title;
                     modalSkillDescription.textContent = details.description;
 
-                    skillModal.classList.add('active'); // Adiciona a classe 'active' para mostrar o modal
+                    skillModal.classList.add('active');
                     document.body.style.overflow = 'hidden'; // Impede a rolagem do body quando o modal está aberto
                 } else {
                     console.warn(`Detalhes da habilidade com ID '${skillId}' não encontrados no objeto skillDetails.`);
@@ -211,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Fechar o modal ao clicar fora do conteúdo do modal
         skillModal.addEventListener('click', (event) => {
-            if (event.target === skillModal) { // Se o clique foi no overlay (o próprio modal), não no conteúdo
+            if (event.target === skillModal) {
                 skillModal.classList.remove('active');
                 document.body.style.overflow = ''; // Restaura a rolagem do body
             }
@@ -227,6 +226,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     } else {
         console.warn("Elementos essenciais do modal de habilidades ou skill items ausentes. A funcionalidade de modal de habilidades não será ativada.");
+    }
+
+    // --- Lógica para filtrar habilidades por categoria (NOVO BLOCO) ---
+    const categoryButtons = document.querySelectorAll('.category-btn');
+    const skillGrids = document.querySelectorAll('.skills-grid');
+
+    categoryButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove a classe 'active' de todos os botões
+            categoryButtons.forEach(btn => btn.classList.remove('active'));
+            // Remove a classe 'active-skills-grid' de todos os grids de habilidades
+            skillGrids.forEach(grid => grid.classList.remove('active-skills-grid'));
+
+            // Adiciona a classe 'active' ao botão clicado
+            button.classList.add('active');
+
+            // Pega a categoria do botão clicado (ex: 'frontend', 'backend', 'devops')
+            const targetCategory = button.dataset.category;
+
+            // Encontra o grid de habilidades correspondente e adiciona a classe 'active-skills-grid'
+            const targetGrid = document.getElementById(`${targetCategory}-skills`);
+            if (targetGrid) {
+                targetGrid.classList.add('active-skills-grid');
+            }
+        });
+    });
+
+    // Garante que o grid de 'frontend' esteja ativo ao carregar a página
+    // Isso é importante caso você não tenha 'active-skills-grid' no HTML inicial
+    const initialActiveGrid = document.getElementById('frontend-skills');
+    if (initialActiveGrid && !initialActiveGrid.classList.contains('active-skills-grid')) {
+        initialActiveGrid.classList.add('active-skills-grid');
     }
 
 }); // Fim de DOMContentLoaded para tudo que depende do DOM
