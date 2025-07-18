@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Administração do Blog</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        /* Estilos específicos para a página de login */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            justify-content: center; /* Centraliza verticalmente o conteúdo */
+            align-items: center; /* Centraliza horizontalmente o conteúdo */
+            background-color: var(--background-color, #1a1a2e); /* Cor de fundo do seu tema */
+            color: var(--text-color-light, #fff);
+        }
+
+        .header, .footer {
+            display: none; /* Esconde cabeçalho e rodapé na página de login para uma experiência focada */
+        }
+
+        .login-container {
+            background-color: var(--secondary-bg-color, #2a2a4a);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: var(--box-shadow, 0 0 20px rgba(0,0,0,0.5));
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .login-container h1 {
+            font-size: 2.2em;
+            margin-bottom: 30px;
+            color: var(--primary-color, #00b894);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--text-color-light, #eee);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--input-border-color, #444);
+            border-radius: 5px;
+            background-color: var(--input-bg-color, #1e1e3b);
+            color: var(--text-color-light, #eee);
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color, #00b894);
+            box-shadow: 0 0 0 3px rgba(var(--primary-rgb, 0,184,148), 0.3);
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary-color, #00b894);
+            color: var(--text-color-dark, #fff);
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-button:hover {
+            background-color: var(--primary-hover-color, #008f7a);
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            margin-top: 15px;
+            font-size: 0.9em;
+            display: none; /* Inicialmente escondida */
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Login Administrativo</h1>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Usuário:</label>
+                <input type="text" id="username" name="username" required autocomplete="username">
+            </div>
+            <div class="form-group">
+                <label for="password">Senha:</label>
+                <input type="password" id="password" name="password" required autocomplete="current-password">
+            </div>
+            <button type="submit" class="login-button">Entrar</button>
+            <p id="errorMessage" class="error-message">Usuário ou senha inválidos.</p>
+        </form>
+    </div>
+
+    <script>
+        // Substitua esta URL pela URL base do seu backend (ex: se está em localhost:5000)
+        // Se você já fez deploy, use a URL de deploy (ex: https://seubackend.herokuapp.com)
+        const BACKEND_BASE_URL = 'https://portfolio-blog-backend-z8mi.onrender.com'; // ALtere para a URL do seu backend!
+
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+
+            errorMessage.style.display = 'none'; // Esconde a mensagem de erro anterior
+
+            try {
+                const response = await fetch(`${BACKEND_BASE_URL}/api/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) { // Se a resposta foi bem-sucedida (status 200)
+                    localStorage.setItem('adminToken', data.token); // Armazena o token JWT
+                    window.location.href = 'admin.html'; // Redireciona para a página admin
+                } else {
+                    // Erro do backend (ex: 400 Bad Request, 401 Unauthorized)
+                    errorMessage.textContent = data.msg || 'Erro ao fazer login.';
+                    errorMessage.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Erro de rede ou servidor:', error);
+                errorMessage.textContent = 'Não foi possível conectar ao servidor. Tente novamente.';
+                errorMessage.style.display = 'block';
+            }
+        });
+
+        // Verifica se o usuário já está logado ao carregar a página
+        // Se houver um token, tenta redirecionar para admin.html (útil se o usuário fechar/abrir a aba)
+        // Uma verificação de token mais robusta seria fazer uma requisição para o backend
+        // para validar o token, mas para simplificar, verificamos apenas a existência.
+        if (localStorage.getItem('adminToken')) {
+            // Poderíamos adicionar uma verificação de token com o backend aqui,
+            // mas por agora, apenas a existência é suficiente para o redirecionamento imediato.
+            window.location.href = 'admin.html';
+        }
+    </script>
+</body>
+</html>

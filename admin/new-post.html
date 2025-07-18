@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar/Editar Post - Yuri Portfólio</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        /* ESTILO ADICIONADO/AJUSTADO AQUI */
+        .main-content {
+            padding-top: 80px;
+            min-height: calc(100vh - 160px); /* Garante que o main-content ocupe a altura restante */
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: var(--secondary-bg-color, #333);
+            box-shadow: var(--box-shadow, 0 0 10px rgba(0,0,0,0.3));
+        }
+        .form-container h1.heading {
+            margin-bottom: 30px;
+        }
+
+        .form-group { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1rem; }
+        .mb-4 { margin-bottom: 1.5rem; }
+        .me-2 { margin-right: 0.5rem; }
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: var(--text-color-light, #eee);
+        }
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            color: var(--text-color-dark, #333);
+            background-color: var(--input-bg-color, #fff);
+            border: 1px solid var(--input-border-color, #ced4da);
+            border-radius: 0.25rem;
+            box-sizing: border-box;
+        }
+        .form-control:focus {
+            border-color: var(--primary-color, #007bff);
+            outline: 0;
+            box-shadow: 0 0 0 0.25rem rgba(var(--primary-rgb, 0,123,255), 0.25);
+        }
+        .form-text {
+            font-size: 0.875em;
+            color: var(--text-color-muted, #6c757d);
+        }
+        .form-actions { text-align: right; }
+
+        .btn-primary {
+            background-color: var(--primary-color, #007bff);
+            color: var(--text-color-dark, #fff);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: bold;
+        }
+        .btn-primary:hover {
+            background-color: var(--primary-hover-color, #0056b3);
+        }
+        .btn-secondary {
+            background-color: var(--button-bg-secondary, #6c757d);
+            color: var(--button-text-secondary, #fff);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: bold;
+        }
+        .btn-secondary:hover {
+            background-color: var(--button-hover-secondary, #5a6268);
+        }
+        /* Estilo para o botão de Logout no Header */
+        .logout-button {
+            background: none;
+            border: none;
+            color: var(--text-color-light, #fff);
+            font-size: 1rem;
+            cursor: pointer;
+            margin-left: 20px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            text-decoration: none;
+        }
+        .logout-button:hover {
+            background-color: var(--primary-color, #007bff);
+        }
+        .header .navbar {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <a href="../index.html" class="logo">
+            <img src="../img/marca dagua 2 copia logo.png" alt="Logo Yuri Barbosa" class="main-logo">
+        </a>
+        <div id="menu-icon" class="bx bx-menu"></div>
+        <nav class="navbar">
+            <a href="../index.html#home">Início</a>
+            <a href="../index.html#about">Sobre Mim</a>
+            <a href="../index.html#skills">Habilidades</a>
+            <a href="../index.html#portfolio">Portfólio</a>
+            <a href="../index.html#contact">Contato</a>
+            <a href="../blog/index.html" class="navbar-link">Blog</a>
+            <a href="admin.html" class="navbar-link">Admin</a>
+            <button id="logoutBtn" class="logout-button">Sair</button>
+        </nav>
+        <div id="theme-toggle" class="bx bx-moon"></div>
+    </header>
+
+    <main class="main-content">
+        <div class="form-container">
+            <h1 id="formTitle" class="heading">Criar Novo Post</h1>
+
+            <form id="postForm">
+                <div class="form-group mb-3">
+                    <label for="postTitle" class="form-label">Título:</label>
+                    <input type="text" id="postTitle" class="form-control" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="postSlug" class="form-label">Slug (URL amigável):</label>
+                    <input type="text" id="postSlug" class="form-control" required>
+                    <small class="form-text text-muted">Será usado na URL (ex: "meu-novo-artigo"). Não use espaços ou caracteres especiais.</small>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="postAuthor" class="form-label">Autor:</label>
+                    <input type="text" id="postAuthor" class="form-control" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="postSummary" class="form-label">Resumo (Curta descrição):</label>
+                    <textarea id="postSummary" rows="3" class="form-control" required></textarea>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="postThumbnail" class="form-label">URL da Thumbnail (Imagem de Capa):</label>
+                    <input type="text" id="postThumbnail" class="form-control">
+                </div>
+                <div class="form-group mb-4">
+                    <label for="postContent" class="form-label">Conteúdo (HTML):</label>
+                    <textarea id="postContent" rows="15" class="form-control" required></textarea>
+                    <small class="form-text text-muted">Você pode usar tags HTML para formatar o texto (parágrafos, negrito, listas, etc.).</small>
+                </div>
+                <div class="form-actions text-end">
+                    <button type="button" id="cancelBtn" class="btn btn-secondary me-2">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Post</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content-wrapper">
+            <div class="footer-left-content">
+                <img src="../img/ybarbosa.png" alt="Seu Logo ou Foto no Footer" class="footer-logo-img">
+                <p class="footer-slogan">Vivendo, aprendendo e evoluindo um dia de cada vez.</p>
+            </div>
+
+            <div class="footer-right-content">
+                <h3 class="footer-social-heading">SOCIAL</h3>
+                <div class="footer-social-links">
+                    <a href="http://www.linkedin.com/in/yuri-basi" target="_blank"><i class='bx bxl-linkedin'></i></a>
+                    <a href="https://github.com/yuriletras/yuriletras" target="_blank"><i class='bx bxl-github'></i></a>
+                    <a href="URL_DO_SEU_YOUTUBE" target="_blank"><i class='bx bxl-youtube'></i></a>
+                    <a href="URL_DO_SEU_INSTAGRAM" target="_blank"><i class='bx bxl-instagram'></i></a>
+                </div>
+            </div>
+        </div>
+        <hr class="footer-divider">
+        <div class="footer-copyright">
+            <p>Copyright &copy; 2025 by Yuri Barbosa | All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Substitua esta URL pela URL base do seu backend
+        const BACKEND_BASE_URL = 'https://portfolio-blog-backend-z8mi.onrender.com'; // ALtere para a URL do seu backend!
+
+        let currentPostId = null; // Para armazenar o ID do post se estiver em modo de edição
+
+        // --- Função de Verificação de Autenticação ---
+        function checkAuthAndRedirect() {
+            const token = localStorage.getItem('adminToken');
+            if (!token) {
+                window.location.href = 'login.html';
+                return false;
+            }
+            return true;
+        }
+
+        // --- Função de Logout ---
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            localStorage.removeItem('adminToken');
+            window.location.href = 'login.html';
+        });
+
+        // --- Função para Carregar Post para Edição ---
+        async function loadPostForEdit(postId) {
+            const token = localStorage.getItem('adminToken');
+            if (!token) {
+                checkAuthAndRedirect();
+                return;
+            }
+
+            try {
+                const response = await fetch(`${BACKEND_BASE_URL}/api/posts/${postId}`, {
+                    method: 'GET',
+                    headers: {
+                        'x-auth-token': token // Envia o token (mesmo sendo GET, bom manter para consistência)
+                    }
+                });
+
+                if (!response.ok) {
+                    if (response.status === 401 || response.status === 403) {
+                        localStorage.removeItem('adminToken');
+                        checkAuthAndRedirect();
+                        return;
+                    }
+                    throw new Error(`Erro ao carregar post para edição: ${response.statusText}`);
+                }
+
+                const post = await response.json();
+                document.getElementById('formTitle').textContent = 'Editar Post';
+                document.getElementById('postTitle').value = post.title;
+                document.getElementById('postSlug').value = post.slug;
+                document.getElementById('postAuthor').value = post.author;
+                document.getElementById('postSummary').value = post.summary;
+                document.getElementById('postThumbnail').value = post.thumbnailUrl || '';
+                document.getElementById('postContent').value = post.content;
+                currentPostId = postId; // Armazena o ID do post que está sendo editado
+
+            } catch (error) {
+                console.error('Erro ao carregar post para edição:', error);
+                alert(`Erro ao carregar post para edição: ${error.message}`);
+                // Opcional: Redirecionar de volta para admin.html se o post não for encontrado
+                window.location.href = 'admin.html';
+            }
+        }
+
+        // --- Manipulador do Formulário (Salvar/Atualizar Post) ---
+        document.getElementById('postForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const token = localStorage.getItem('adminToken');
+            if (!token) {
+                checkAuthAndRedirect();
+                return;
+            }
+
+            const postData = {
+                title: document.getElementById('postTitle').value,
+                slug: document.getElementById('postSlug').value,
+                author: document.getElementById('postAuthor').value,
+                summary: document.getElementById('postSummary').value,
+                thumbnailUrl: document.getElementById('postThumbnail').value,
+                content: document.getElementById('postContent').value
+            };
+
+            let url = `${BACKEND_BASE_URL}/api/posts`;
+            let method = 'POST';
+
+            if (currentPostId) { // Se estiver editando um post existente
+                url = `${BACKEND_BASE_URL}/api/posts/${currentPostId}`;
+                method = 'PUT';
+            }
+
+            try {
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-auth-token': token // Envia o token JWT
+                    },
+                    body: JSON.stringify(postData)
+                });
+
+                if (!response.ok) {
+                    if (response.status === 401 || response.status === 403) {
+                        localStorage.removeItem('adminToken');
+                        checkAuthAndRedirect();
+                        return;
+                    }
+                    const errorData = await response.json();
+                    throw new Error(errorData.msg || `Erro ao ${currentPostId ? 'atualizar' : 'criar'} post: ${response.statusText}`);
+                }
+
+                alert(`Post ${currentPostId ? 'atualizado' : 'criado'} com sucesso!`);
+                window.location.href = 'admin.html'; // Redireciona de volta para a lista
+            } catch (error) {
+                console.error(`Erro ao ${currentPostId ? 'atualizar' : 'criar'} post:`, error);
+                alert(`Erro: ${error.message}`);
+            }
+        });
+
+        // --- Listener para o botão "Cancelar" ---
+        document.getElementById('cancelBtn').addEventListener('click', function() {
+            window.location.href = 'admin.html'; // Volta para a lista de posts
+        });
+
+        // --- Inicialização da página ---
+        document.addEventListener('DOMContentLoaded', () => {
+            if (checkAuthAndRedirect()) { // Verifica autenticação
+                // Verifica se há um ID de post na URL (modo de edição)
+                const urlParams = new URLSearchParams(window.location.search);
+                const postId = urlParams.get('id');
+
+                if (postId) {
+                    loadPostForEdit(postId); // Carrega o post para edição
+                }
+            }
+        });
+    </script>
+    <script src="../script.js"></script>
+</body>
+</html>

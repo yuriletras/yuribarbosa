@@ -2229,3 +2229,161 @@ body.light-theme .comment-form textarea:focus {
     border-color: var(--light-main-color);
     box-shadow: 0 0 0.8rem var(--light-main-color);
 }
+
+/* ========================================================== */
+/* NOVAS SEÇÕES PARA ESTILOS DO ADMIN*/
+/* ========================================================== */
+
+/* --- Estilos de Fundo e Texto (se ainda não tiver) --- */
+.bg-dark {
+    background-color: #212529; /* Substitua pela cor de fundo do seu portfólio */
+}
+
+.text-light {
+    color: #f8f9fa; /* Substitua pela cor do texto claro do seu portfólio */
+}
+
+.text-muted { /* Para o texto pequeno de ajuda em formulários */
+    color: #6c757d;
+}
+
+.text-end { /* Para alinhar botões à direita */
+    text-align: right;
+}
+
+.text-center { /* Para alinhar texto ao centro */
+    text-align: center;
+}
+
+
+/* --- Estilos de Layout/Containers --- */
+.container {
+    max-width: 960px; /* Adapte à largura máxima do seu conteúdo */
+    margin: 0 auto;
+    padding: 0 15px; /* Adiciona padding nas laterais */
+}
+
+.py-5 { /* Padding top e bottom, se não tiver essa classe */
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+/* Flexbox para alinhamento (se não tiver) */
+.d-flex {
+    display: flex;
+}
+.justify-content-end {
+    justify-content: flex-end;
+}
+
+
+/* --- Estilos de Botões --- */
+/* Estilo base para todos os botões (se não tiver) */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: 1px solid transparent; /* Bordas padrão transparentes */
+}
+
+/* Botão Primário (Cor principal do seu portfólio) */
+.btn-primary {
+    background-color: #007bff; /* Exemplo: azul. USE A COR DO SEU PORTFÓLIO */
+    color: white;
+    border-color: #007bff;
+}
+.btn-primary:hover {
+    background-color: #0056b3; /* Um tom um pouco mais escuro ao passar o mouse */
+    border-color: #0056b3;
+}
+
+/* Botão Secundário (Cor neutra/secundária) */
+.btn-secondary {
+    background-color: #6c757d; /* Exemplo: cinza. USE UMA COR SECUNDÁRIA DO SEU PORTFÓLIO */
+    color: white;
+    border-color: #6c757d;
+}
+.btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+/* Botão de Perigo (Vermelho, para "Excluir") */
+.btn-danger {
+    background-color: #dc3545; /* Exemplo: vermelho. USE UMA COR DE ALERTA DO SEU PORTFÓLIO */
+    color: white;
+    border-color: #dc3545;
+}
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+
+/* --- Estilos de Formulários --- */
+.form-group {
+    margin-bottom: 1rem; /* Margem padrão para grupos de formulário */
+}
+
+.mb-3 { /* Margem inferior pequena */
+    margin-bottom: 1rem;
+}
+
+.mb-4 { /* Margem inferior média */
+    margin-bottom: 1.5rem;
+}
+
+.me-2 { /* Margem à direita pequena */
+    margin-right: 0.5rem;
+}
+
+.form-label { /* Estilo para rótulos/labels */
+    display: block; /* Garante que o rótulo ocupe a linha inteira */
+    margin-bottom: 0.5rem;
+    font-weight: bold; /* Deixa o texto em negrito */
+}
+
+.form-control { /* Estilo para inputs e textareas */
+    width: 100%; /* Ocupa toda a largura disponível */
+    padding: 0.75rem 1rem; /* Padding interno */
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057; /* Cor do texto do input */
+    background-color: #fff; /* Fundo branco do input */
+    background-clip: padding-box;
+    border: 1px solid #ced4da; /* Borda do input */
+    border-radius: 0.25rem; /* Bordas arredondadas */
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+/* Estilo para quando o input está em foco */
+.form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #80bdff; /* Cor da borda ao focar */
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25); /* Sombra ao focar */
+}
+
+/* --- Estilos para a lista de posts do Admin --- */
+.list-group {
+    list-style: none; /* Remove bolinhas da lista */
+    padding: 0;
+    margin: 0;
+}
+
+.list-group-item {
+    display: flex; /* Para alinhar título e botões na mesma linha */
+    justify-content: space-between; /* Espaça os elementos */
+    align-items: center; /* Alinha verticalmente */
+    padding: 1rem 0;
+    border-bottom: 1px solid #333; /* Uma borda sutil entre os itens */
+}
+.list-group-item:last-child {
+    border-bottom: none; /* Remove a borda do último item */
+}
