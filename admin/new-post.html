@@ -188,143 +188,144 @@
     </footer>
 
     <script>
-        // Substitua esta URL pela URL base do seu backend
-        const BACKEND_BASE_URL = 'https://portfolio-blog-backend-z8mi.onrender.com'; // ALtere para a URL do seu backend!
+    // Substitua esta URL pela URL base do seu backend
+    const BACKEND_BASE_URL = 'https://portfolio-blog-backend-z8mi.onrender.com'; // ALtere para a URL do seu backend!
 
-        let currentPostId = null; // Para armazenar o ID do post se estiver em modo de edição
+    let currentPostId = null; // Para armazenar o ID do post se estiver em modo de edição
 
-        // --- Função de Verificação de Autenticação ---
-        function checkAuthAndRedirect() {
-            const token = localStorage.getItem('adminToken');
-            if (!token) {
-                window.location.href = 'login.html';
-                return false;
-            }
-            return true;
-        }
-
-        // --- Função de Logout ---
-        document.getElementById('logoutBtn').addEventListener('click', function() {
-            localStorage.removeItem('adminToken');
+    // --- Função de Verificação de Autenticação ---
+    function checkAuthAndRedirect() {
+        const token = localStorage.getItem('adminToken');
+        if (!token) {
             window.location.href = 'login.html';
-        });
+            return false;
+        }
+        return true;
+    }
 
-        // --- Função para Carregar Post para Edição ---
-        async function loadPostForEdit(postId) {
-            const token = localStorage.getItem('adminToken');
-            if (!token) {
-                checkAuthAndRedirect();
-                return;
-            }
+    // --- Função de Logout ---
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+        localStorage.removeItem('adminToken'); // Remove o token
+        window.location.href = 'login.html'; // Redireciona para o login
+    });
 
-            try {
-                const response = await fetch(`${BACKEND_BASE_URL}/api/posts/${postId}`, {
-                    method: 'GET',
-                    headers: {
-                        'x-auth-token': token // Envia o token (mesmo sendo GET, bom manter para consistência)
-                    }
-                });
-
-                if (!response.ok) {
-                    if (response.status === 401 || response.status === 403) {
-                        localStorage.removeItem('adminToken');
-                        checkAuthAndRedirect();
-                        return;
-                    }
-                    throw new Error(`Erro ao carregar post para edição: ${response.statusText}`);
-                }
-
-                const post = await response.json();
-                document.getElementById('formTitle').textContent = 'Editar Post';
-                document.getElementById('postTitle').value = post.title;
-                document.getElementById('postSlug').value = post.slug;
-                document.getElementById('postAuthor').value = post.author;
-                document.getElementById('postSummary').value = post.summary;
-                document.getElementById('postThumbnail').value = post.thumbnailUrl || '';
-                document.getElementById('postContent').value = post.content;
-                currentPostId = postId; // Armazena o ID do post que está sendo editado
-
-            } catch (error) {
-                console.error('Erro ao carregar post para edição:', error);
-                alert(`Erro ao carregar post para edição: ${error.message}`);
-                // Opcional: Redirecionar de volta para admin.html se o post não for encontrado
-                window.location.href = 'admin.html';
-            }
+    // --- Função para Carregar Post para Edição ---
+    async function loadPostForEdit(postId) {
+        const token = localStorage.getItem('adminToken');
+        if (!token) {
+            checkAuthAndRedirect();
+            return;
         }
 
-        // --- Manipulador do Formulário (Salvar/Atualizar Post) ---
-        document.getElementById('postForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-
-            const token = localStorage.getItem('adminToken');
-            if (!token) {
-                checkAuthAndRedirect();
-                return;
-            }
-
-            const postData = {
-                title: document.getElementById('postTitle').value,
-                slug: document.getElementById('postSlug').value,
-                author: document.getElementById('postAuthor').value,
-                summary: document.getElementById('postSummary').value,
-                thumbnailUrl: document.getElementById('postThumbnail').value,
-                content: document.getElementById('postContent').value
-            };
-
-            let url = `${BACKEND_BASE_URL}/api/posts`;
-            let method = 'POST';
-
-            if (currentPostId) { // Se estiver editando um post existente
-                url = `${BACKEND_BASE_URL}/api/posts/${currentPostId}`;
-                method = 'PUT';
-            }
-
-            try {
-                const response = await fetch(url, {
-                    method: method,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-auth-token': token // Envia o token JWT
-                    },
-                    body: JSON.stringify(postData)
-                });
-
-                if (!response.ok) {
-                    if (response.status === 401 || response.status === 403) {
-                        localStorage.removeItem('adminToken');
-                        checkAuthAndRedirect();
-                        return;
-                    }
-                    const errorData = await response.json();
-                    throw new Error(errorData.msg || `Erro ao ${currentPostId ? 'atualizar' : 'criar'} post: ${response.statusText}`);
+        try {
+            const response = await fetch(`${BACKEND_BASE_URL}/api/posts/${postId}`, { // USA ID AQUI
+                method: 'GET',
+                headers: {
+                    'x-auth-token': token // Envia o token (mesmo sendo GET, bom manter para consistência)
                 }
+            });
 
-                alert(`Post ${currentPostId ? 'atualizado' : 'criado'} com sucesso!`);
-                window.location.href = 'admin.html'; // Redireciona de volta para a lista
-            } catch (error) {
-                console.error(`Erro ao ${currentPostId ? 'atualizar' : 'criar'} post:`, error);
-                alert(`Erro: ${error.message}`);
-            }
-        });
-
-        // --- Listener para o botão "Cancelar" ---
-        document.getElementById('cancelBtn').addEventListener('click', function() {
-            window.location.href = 'admin.html'; // Volta para a lista de posts
-        });
-
-        // --- Inicialização da página ---
-        document.addEventListener('DOMContentLoaded', () => {
-            if (checkAuthAndRedirect()) { // Verifica autenticação
-                // Verifica se há um ID de post na URL (modo de edição)
-                const urlParams = new URLSearchParams(window.location.search);
-                const postId = urlParams.get('id');
-
-                if (postId) {
-                    loadPostForEdit(postId); // Carrega o post para edição
+            if (!response.ok) {
+                if (response.status === 401 || response.status === 403) {
+                    localStorage.removeItem('adminToken'); // Remove token inválido
+                    checkAuthAndRedirect(); // Redireciona
+                    return;
                 }
+                throw new Error(`Erro ao carregar post para edição: ${response.statusText}`);
             }
-        });
-    </script>
+
+            const post = await response.json();
+            document.getElementById('formTitle').textContent = 'Editar Post';
+            document.getElementById('postTitle').value = post.title;
+            document.getElementById('postSlug').value = post.slug;
+            document.getElementById('postSlug').readOnly = true; // Slug não editável na edição
+            document.getElementById('postAuthor').value = post.author;
+            document.getElementById('postSummary').value = post.summary;
+            document.getElementById('postThumbnail').value = post.thumbnail || ''; // USA 'thumbnail' AQUI
+            document.getElementById('postContent').value = post.content;
+            currentPostId = postId; // Armazena o ID do post que está sendo editado
+
+        } catch (error) {
+            console.error('Erro ao carregar post para edição:', error);
+            alert(`Erro ao carregar post para edição: ${error.message}`);
+            // Opcional: Redirecionar de volta para admin.html se o post não for encontrado
+            window.location.href = 'admin.html';
+        }
+    }
+
+    // --- Manipulador do Formulário (Salvar/Atualizar Post) ---
+    document.getElementById('postForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const token = localStorage.getItem('adminToken');
+        if (!token) {
+            checkAuthAndRedirect();
+            return;
+        }
+
+        const postData = {
+            title: document.getElementById('postTitle').value,
+            slug: document.getElementById('postSlug').value,
+            author: document.getElementById('postAuthor').value,
+            summary: document.getElementById('postSummary').value,
+            thumbnail: document.getElementById('postThumbnail').value, // USA 'thumbnail' AQUI
+            content: document.getElementById('postContent').value
+        };
+
+        let url = `${BACKEND_BASE_URL}/api/posts`;
+        let method = 'POST';
+
+        if (currentPostId) { // Se estiver editando um post existente
+            url = `${BACKEND_BASE_URL}/api/posts/${currentPostId}`; // USA ID AQUI
+            method = 'PUT';
+        }
+
+        try {
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': token // Envia o token JWT
+                },
+                body: JSON.stringify(postData)
+            });
+
+            if (!response.ok) {
+                if (response.status === 401 || response.status === 403) {
+                    localStorage.removeItem('adminToken');
+                    checkAuthAndRedirect();
+                    return;
+                }
+                const errorData = await response.json();
+                throw new Error(errorData.msg || `Erro ao ${currentPostId ? 'atualizar' : 'criar'} post: ${response.statusText}`);
+            }
+
+            alert(`Post ${currentPostId ? 'atualizado' : 'criado'} com sucesso!`);
+            window.location.href = 'admin.html'; // Redireciona de volta para a lista
+        } catch (error) {
+            console.error(`Erro ao ${currentPostId ? 'atualizar' : 'criar'} post:`, error);
+            alert(`Erro: ${error.message}`);
+        }
+    });
+
+    // --- Listener para o botão "Cancelar" ---
+    document.getElementById('cancelBtn').addEventListener('click', function() {
+        window.location.href = 'admin.html'; // Volta para a lista de posts
+    });
+
+    // --- Inicialização da página ---
+    document.addEventListener('DOMContentLoaded', () => {
+        if (checkAuthAndRedirect()) { // Verifica a autenticação ao carregar
+            // Verifica se há um ID de post na URL (modo de edição)
+            const urlParams = new URLSearchParams(window.location.search);
+            const postId = urlParams.get('id'); // PEGA 'id' DA URL
+
+            if (postId) {
+                loadPostForEdit(postId); // Carrega o post para edição
+            }
+        }
+    });
+</script>
     <script src="../script.js"></script>
 </body>
 </html>
