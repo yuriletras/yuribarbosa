@@ -2,43 +2,45 @@
 
 document.addEventListener('DOMContentLoaded', async () => {
     // URL base da sua API de blog (onde seu backend Node.js está rodando)
-    const API_BASE_URL = 'https://portfolio-blog-backend-z8mi.onrender.com/api/posts';
+    // AQUI É A ÚNICA MUDANÇA: REMOVA O "/api/posts" DA URL BASE
+    const API_BASE_URL = 'https://portfolio-blog-backend-z8mi.onrender.com'; // <--- CORREÇÃO AQUI!
 
     const postsContainer = document.getElementById('postsContainer');
-    const blogPostContent = document.getElementById('blogPostContent'); // Este elemento deve estar em post.html
-    const postTitleTag = document.getElementById('post-title-tag'); // Para atualizar o <title> da página
+    const blogPostContent = document.getElementById('blogPostContent');
+    const postTitleTag = document.getElementById('post-title-tag');
 
-    // NOVOS ELEMENTOS PARA COMENTÁRIOS (Adicionados no Passo 24)
-    const commentsList = document.getElementById('commentsList'); // Onde os comentários serão exibidos
-    const commentForm = document.getElementById('commentForm');    // O formulário de envio de comentários
-    const commentAuthorInput = document.getElementById('commentAuthor'); // Campo de autor
-    const commentContentInput = document.getElementById('commentContent'); // Campo de conteúdo
+    const commentsList = document.getElementById('commentsList');
+    const commentForm = document.getElementById('commentForm');
+    const commentAuthorInput = document.getElementById('commentAuthor');
+    const commentContentInput = document.getElementById('commentContent');
 
     // --- Função para carregar a LISTA de posts (para blog/index.html) ---
     const loadBlogPosts = async () => {
-        if (!postsContainer) return; // Se não estiver na página de lista de posts, sai
+        if (!postsContainer) return;
 
-        postsContainer.innerHTML = '<p>Carregando posts...</p>'; // Mensagem de carregamento
+        postsContainer.innerHTML = '<p>Carregando posts...</p>';
 
         try {
-            const response = await fetch(API_BASE_URL); // Faz a requisição GET para sua API (para todos os posts)
+            // AGORA ADICIONE O "/api/posts" AQUI NA CHAMADA FETCH
+            const response = await fetch(`${API_BASE_URL}/api/posts`); // <--- CORREÇÃO AQUI!
             if (!response.ok) {
                 throw new Error(`Erro HTTP! Status: ${response.status}`);
             }
-            const posts = await response.json(); // Converte a resposta para JSON
+            const posts = await response.json();
 
             if (posts.length === 0) {
                 postsContainer.innerHTML = '<p>Nenhum post encontrado no momento.</p>';
                 return;
             }
 
-            postsContainer.innerHTML = ''; // Limpa a mensagem de carregamento
+            postsContainer.innerHTML = '';
             posts.forEach(post => {
                 const postDate = new Date(post.publishedAt);
                 const formattedDate = postDate.toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' });
 
                 const postCard = `
-                    <div class="post-card" data-post-id="${post._id}"> <img src="${post.thumbnail || '../images/blog/default-thumb.jpg'}" alt="${post.title}">
+                    <div class="post-card" data-post-id="${post._id}">
+                        <img src="${post.thumbnail || '../images/blog/default-thumb.jpg'}" alt="${post.title}">
                         <div class="post-card-content">
                             <h3>${post.title}</h3>
                             <p class="post-card-meta">Publicado em: ${formattedDate} por ${post.author}</p>
@@ -61,10 +63,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- Função para carregar um post ESPECÍFICO (para blog/post.html) ---
     const loadSinglePost = async () => {
-        if (!blogPostContent) return; // Se não estiver na página de um único post, sai
+        if (!blogPostContent) return;
 
         const urlParams = new URLSearchParams(window.location.search);
-        // AQUI É A MUDANÇA CRÍTICA: Pegue o 'id' da URL, não o 'slug'
         const postId = urlParams.get('id');
 
         if (!postId) {
@@ -76,25 +77,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         blogPostContent.innerHTML = '<p>Carregando post...</p>';
 
         try {
-            // AQUI É A MUDANÇA CRÍTICA: Faça a requisição para /api/posts/:id (usando o postId)
-            const response = await fetch(`${API_BASE_URL}/${postId}`);
+            // AGORA ADICIONE O "/api/posts" AQUI NA CHAMADA FETCH
+            const response = await fetch(`${API_BASE_URL}/api/posts/${postId}`); // <--- CORREÇÃO AQUI!
             if (!response.ok) {
                 if (response.status === 404) {
                     blogPostContent.innerHTML = '<p>O post que você está procurando não foi encontrado.</p>';
                     if (postTitleTag) postTitleTag.textContent = 'Post Não Encontrado';
                     return;
                 }
-                // Adicionei tratamento para 400 Bad Request que vimos no console
                 if (response.status === 400) {
-                     blogPostContent.innerHTML = '<p>O ID do post é inválido. Por favor, verifique o link.</p>';
-                     if (postTitleTag) postTitleTag.textContent = 'ID Inválido';
-                     return;
+                    blogPostContent.innerHTML = '<p>O ID do post é inválido. Por favor, verifique o link.</p>';
+                    if (postTitleTag) postTitleTag.textContent = 'ID Inválido';
+                    return;
                 }
                 throw new Error(`Erro HTTP! Status: ${response.status}`);
             }
             const post = await response.json();
 
-            // Atualiza o título da página
             if (postTitleTag) postTitleTag.textContent = `${post.title} - Meu Blog`;
 
             const postDate = new Date(post.publishedAt);
@@ -117,21 +116,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </article>
             `;
 
-            // Adiciona um listener para o botão de curtir
             const likeButton = blogPostContent.querySelector('.like-button');
             if (likeButton) {
-                // Mude handleLikePost para aceitar _id
                 likeButton.addEventListener('click', () => handleLikePost(post._id));
             }
 
-            // Adiciona um listener para o botão de compartilhar
             const shareButton = blogPostContent.querySelector('.share-button');
             if (shareButton) {
                 shareButton.addEventListener('click', () => handleSharePost(shareButton.dataset.postTitle, shareButton.dataset.postUrl));
             }
 
-            // CHAMA A FUNÇÃO PARA CARREGAR E RENDERIZAR OS COMENTÁRIOS DESTE POST
-            await loadComments(postId); // Mudei para passar postId
+            await loadComments(postId);
 
         } catch (error) {
             console.error('Erro ao carregar post:', error);
@@ -141,12 +136,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     // --- Funções de Ação (Curtir e Compartilhar) ---
-    // Mude handleLikePost para aceitar _id
-    const handleLikePost = async (postId) => { // Mudança aqui: de slug para postId
+    const handleLikePost = async (postId) => {
         try {
-            // Requisição PUT para a API de like (você precisará criar esta rota no backend depois)
-            // A rota no backend para like também precisaria usar :id
-            const response = await fetch(`${API_BASE_URL}/${postId}/like`, { // Mudança aqui: de slug para postId
+            // AGORA ADICIONE O "/api/posts" AQUI NA CHAMADA FETCH
+            const response = await fetch(`${API_BASE_URL}/api/posts/${postId}/like`, { // <--- CORREÇÃO AQUI!
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -159,7 +152,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
             const updatedPost = await response.json();
-            // Mude o seletor para usar data-post-id
             const likeCountSpan = document.querySelector(`.like-button[data-post-id="${postId}"] .like-count`);
             if (likeCountSpan) {
                 likeCountSpan.textContent = updatedPost.likes;
@@ -173,8 +165,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     const handleSharePost = (title, url) => {
-        // ... (esta função permanece a mesma) ...
-        if (navigator.share) { // Web Share API (para navegadores modernos)
+        if (navigator.share) {
             navigator.share({
                 title: title,
                 url: url
@@ -184,7 +175,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 console.error('Erro ao compartilhar:', error);
             });
         } else {
-            // Fallback para navegadores que não suportam Web Share API
             navigator.clipboard.writeText(url)
                 .then(() => {
                     alert(`Link copiado para a área de transferência: ${url}\nCompartilhe "${title}"`);
@@ -197,11 +187,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     // --- Função para renderizar os comentários ---
-    // Mude para aceitar postId, não slug
-    const renderComments = (comments) => { // Esta função só renderiza, não precisa saber o ID do post
+    const renderComments = (comments) => {
         if (!commentsList) return;
 
-        commentsList.innerHTML = ''; // Limpa a lista existente
+        commentsList.innerHTML = '';
 
         if (comments.length === 0) {
             commentsList.innerHTML = '<p>Nenhum comentário ainda. Seja o primeiro a comentar!</p>';
@@ -223,19 +212,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     };
 
-    // --- Função para carregar comentários de um post (chamada por loadSinglePost) ---
-    // Mude para aceitar postId, não slug
-    const loadComments = async (postId) => { // Mudança aqui: de slug para postId
+    // --- Função para carregar comentários de um post ---
+    const loadComments = async (postId) => {
         if (!commentsList) return;
 
         try {
-            // A rota para comentários no backend também precisaria usar :id
-            const response = await fetch(`${API_BASE_URL}/${postId}/comments`); // Mudança aqui: de slug para postId
+            // AGORA ADICIONE O "/api/posts" AQUI NA CHAMADA FETCH
+            const response = await fetch(`${API_BASE_URL}/api/posts/${postId}/comments`); // <--- CORREÇÃO AQUI!
             if (!response.ok) {
                 throw new Error(`Erro HTTP ao carregar comentários! Status: ${response.status}`);
             }
             const comments = await response.json();
-            renderComments(comments); // Renderiza os comentários
+            renderComments(comments);
         } catch (error) {
             console.error('Erro ao carregar comentários:', error);
             commentsList.innerHTML = '<p>Não foi possível carregar os comentários.</p>';
@@ -244,23 +232,22 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- Função para enviar um novo comentário ---
     const submitComment = async (event) => {
-        event.preventDefault(); // Impede o envio padrão do formulário
+        event.preventDefault();
 
         const urlParams = new URLSearchParams(window.location.search);
-        // AQUI É A MUDANÇA CRÍTICA: Pega o 'id' da URL do post
-        const postId = urlParams.get('id'); // Mudança aqui: de slug para postId
+        const postId = urlParams.get('id');
 
         const author = commentAuthorInput.value.trim();
         const content = commentContentInput.value.trim();
 
-        if (!postId || !author || !content) { // Mudança aqui: de slug para postId
+        if (!postId || !author || !content) {
             alert('Por favor, preencha todos os campos do comentário e verifique se o post está carregado.');
             return;
         }
 
         try {
-            // A rota para enviar comentários no backend também precisaria usar :id
-            const response = await fetch(`${API_BASE_URL}/${postId}/comments`, { // Mudança aqui: de slug para postId
+            // AGORA ADICIONE O "/api/posts" AQUI NA CHAMADA FETCH
+            const response = await fetch(`${API_BASE_URL}/api/posts/${postId}/comments`, { // <--- CORREÇÃO AQUI!
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -276,12 +263,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             const newComment = await response.json();
             alert('Comentário enviado com sucesso!');
 
-            // Limpa o formulário
             commentAuthorInput.value = '';
             commentContentInput.value = '';
 
-            // Recarrega os comentários para incluir o novo
-            loadComments(postId); // Mudança aqui: de slug para postId
+            loadComments(postId);
 
         } catch (error) {
             console.error('Erro ao enviar comentário:', error);
@@ -289,19 +274,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
-    // --- Decide qual função carregar com base na URL ---
-    // Se a URL for blog/index.html (ou apenas /blog/ no deploy), carrega a lista
     if (window.location.pathname.includes('/blog/index.html') || window.location.pathname.endsWith('/blog/')) {
         loadBlogPosts();
-    }
-    // Se a URL for blog/post.html?id=..., carrega um único post
-    // Mudei de '?slug=' para '?id='
-    else if (window.location.pathname.includes('/blog/post.html')) {
+    } else if (window.location.pathname.includes('/blog/post.html')) {
         loadSinglePost();
     }
 
-    // --- Adicionar listener ao formulário de comentário ---
-    if (commentForm) { // Garante que o formulário existe na página atual
+    if (commentForm) {
         commentForm.addEventListener('submit', submitComment);
     }
 });
