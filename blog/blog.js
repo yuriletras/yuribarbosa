@@ -2,8 +2,7 @@
 
 document.addEventListener('DOMContentLoaded', async () => {
     // URL base da sua API de blog (onde seu backend Node.js está rodando)
-    // AQUI É A ÚNICA MUDANÇA: REMOVA O "/api/posts" DA URL BASE
-    const API_BASE_URL = 'https://portfolio-blog-backend-z8mi.onrender.com'; // <--- CORREÇÃO AQUI!
+    const API_BASE_URL = 'https://portfolio-blog-backend-z8mi.onrender.com'; // Correção já feita aqui!
 
     const postsContainer = document.getElementById('postsContainer');
     const blogPostContent = document.getElementById('blogPostContent');
@@ -21,8 +20,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         postsContainer.innerHTML = '<p>Carregando posts...</p>';
 
         try {
-            // AGORA ADICIONE O "/api/posts" AQUI NA CHAMADA FETCH
-            const response = await fetch(`${API_BASE_URL}/api/posts`); // <--- CORREÇÃO AQUI!
+            const response = await fetch(`${API_BASE_URL}/api/posts`); // Correção já feita aqui!
             if (!response.ok) {
                 throw new Error(`Erro HTTP! Status: ${response.status}`);
             }
@@ -46,13 +44,24 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <p class="post-card-meta">Publicado em: ${formattedDate} por ${post.author}</p>
                             <p>${post.summary}</p>
                             <div class="post-card-actions">
-                                <span class="like-display"><i class='bx bxs-heart'></i> ${post.likes || 0}</span>
+                                <button class="btn-like" data-post-id="${post._id}"><i class='bx bxs-heart'></i> <span class="like-display">${post.likes || 0}</span></button>
                                 <a href="post.html?id=${post._id}" class="btn">Ler Mais <i class='bx bx-right-arrow-alt'></i></a>
                             </div>
                         </div>
                     </div>
                 `;
                 postsContainer.innerHTML += postCard;
+            });
+
+            // NOVO: Adiciona listeners aos botões de curtir nos cards da lista
+            document.querySelectorAll('.post-card .btn-like').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    // Pega o ID do atributo data-post-id do próprio botão
+                    const postId = e.currentTarget.dataset.postId;
+                    if (postId) {
+                        handleLikePost(postId);
+                    }
+                });
             });
 
         } catch (error) {
@@ -77,8 +86,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         blogPostContent.innerHTML = '<p>Carregando post...</p>';
 
         try {
-            // AGORA ADICIONE O "/api/posts" AQUI NA CHAMADA FETCH
-            const response = await fetch(`${API_BASE_URL}/api/posts/${postId}`); // <--- CORREÇÃO AQUI!
+            const response = await fetch(`${API_BASE_URL}/api/posts/${postId}`); // Correção já feita aqui!
             if (!response.ok) {
                 if (response.status === 404) {
                     blogPostContent.innerHTML = '<p>O post que você está procurando não foi encontrado.</p>';
@@ -116,6 +124,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </article>
             `;
 
+            // Listener para o botão de curtir na página de post individual
             const likeButton = blogPostContent.querySelector('.like-button');
             if (likeButton) {
                 likeButton.addEventListener('click', () => handleLikePost(post._id));
@@ -138,25 +147,38 @@ document.addEventListener('DOMContentLoaded', async () => {
     // --- Funções de Ação (Curtir e Compartilhar) ---
     const handleLikePost = async (postId) => {
         try {
-            // AGORA ADICIONE O "/api/posts" AQUI NA CHAMADA FETCH
-            const response = await fetch(`${API_BASE_URL}/api/posts/${postId}/like`, { // <--- CORREÇÃO AQUI!
+            // AQUI: A URL e o método já estão corretos
+            const response = await fetch(`${API_BASE_URL}/api/posts/${postId}/like`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                body: JSON.stringify({}) // Enviando um corpo vazio, conforme sua API espera
             });
 
             if (!response.ok) {
-                const errorData = await response.json();
+                // Tenta ler o erro como JSON. Se falhar (ex: retornou HTML), cai no catch e usa a mensagem genérica.
+                const errorData = await response.json().catch(() => ({ msg: 'Resposta não é JSON ou erro desconhecido.' }));
                 throw new Error(`Falha ao curtir: ${errorData.msg || response.statusText}`);
             }
 
-            const updatedPost = await response.json();
-            const likeCountSpan = document.querySelector(`.like-button[data-post-id="${postId}"] .like-count`);
-            if (likeCountSpan) {
-                likeCountSpan.textContent = updatedPost.likes;
+            const updatedData = await response.json(); // O backend deve retornar { msg: ..., likes: ... }
+            const newLikesCount = updatedData.likes; // Pega o número de likes do retorno do backend
+
+            // ATUALIZA O NÚMERO DE LIKES TANTO NO CARD QUANTO NA PÁGINA DO POST
+            // Para a lista de posts (index.html)
+            const likeDisplayOnCard = document.querySelector(`.post-card[data-post-id="${postId}"] .like-display`);
+            if (likeDisplayOnCard) {
+                likeDisplayOnCard.textContent = newLikesCount;
             }
-            alert(`Você curtiu o post "${updatedPost.title}"! Total de curtidas: ${updatedPost.likes}`);
+
+            // Para a página de post individual (post.html)
+            const likeCountSpanOnSinglePost = document.querySelector(`.like-button[data-post-id="${postId}"] .like-count`);
+            if (likeCountSpanOnSinglePost) {
+                likeCountSpanOnSinglePost.textContent = newLikesCount;
+            }
+
+            alert(`Você curtiu o post! Total de curtidas: ${newLikesCount}`);
 
         } catch (error) {
             console.error('Erro ao curtir o post:', error);
@@ -217,8 +239,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!commentsList) return;
 
         try {
-            // AGORA ADICIONE O "/api/posts" AQUI NA CHAMADA FETCH
-            const response = await fetch(`${API_BASE_URL}/api/posts/${postId}/comments`); // <--- CORREÇÃO AQUI!
+            const response = await fetch(`${API_BASE_URL}/api/posts/${postId}/comments`); // Correção já feita aqui!
             if (!response.ok) {
                 throw new Error(`Erro HTTP ao carregar comentários! Status: ${response.status}`);
             }
@@ -246,8 +267,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         try {
-            // AGORA ADICIONE O "/api/posts" AQUI NA CHAMADA FETCH
-            const response = await fetch(`${API_BASE_URL}/api/posts/${postId}/comments`, { // <--- CORREÇÃO AQUI!
+            const response = await fetch(`${API_BASE_URL}/api/posts/${postId}/comments`, { // Correção já feita aqui!
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -266,7 +286,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             commentAuthorInput.value = '';
             commentContentInput.value = '';
 
-            loadComments(postId);
+            loadComments(postId); // Recarrega os comentários para exibir o novo
 
         } catch (error) {
             console.error('Erro ao enviar comentário:', error);
@@ -274,6 +294,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
+    // Inicialização baseada na URL
     if (window.location.pathname.includes('/blog/index.html') || window.location.pathname.endsWith('/blog/')) {
         loadBlogPosts();
     } else if (window.location.pathname.includes('/blog/post.html')) {
