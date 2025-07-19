@@ -2387,3 +2387,28 @@ body.light-theme .comment-form textarea:focus {
 .list-group-item:last-child {
     border-bottom: none; /* Remove a borda do último item */
 }
+
+/* Estilo para o botão Curtir dentro dos cards do blog */
+.post-card-actions .btn-like {
+    /* Você pode até remover o background-color daqui se btn-primary já der a cor */
+    background-color: var(--primary-color); /* Garante que pegue a cor primária */
+    color: var(--text-color-dark); /* Geralmente branco para botões primários */
+    border: none; /* Se quiser sem borda */
+    padding: 8px 15px; /* Ajuste o padding para ficar parecido com o "Ler Mais" */
+    border-radius: 5px;
+    display: flex; /* Para alinhar o ícone e o texto */
+    align-items: center;
+    gap: 5px; /* Espaço entre o ícone e o número */
+    font-weight: 600;
+    font-size: 0.9em; /* Talvez um pouco menor para o contexto */
+    text-decoration: none;
+}
+
+.post-card-actions .btn-like:hover {
+    background-color: var(--primary-hover-color);
+    /* Ou defina uma cor de hover específica se o primary-hover-color não for o que você quer */
+}
+
+.post-card-actions .btn-like .bx {
+    font-size: 1.1em; /* Ajuste o tamanho do ícone */
+}
