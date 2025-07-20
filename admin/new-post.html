@@ -108,10 +108,12 @@
 <body>
 
     <header class="header">
+        <i class='bx bx-menu' id="menu-icon"></i>
+
         <a href="../index.html" class="logo">
             <img src="../img/marca dagua 2 copia logo.png" alt="Logo Yuri Barbosa" class="main-logo">
         </a>
-        <div id="menu-icon" class="bx bx-menu"></div>
+        
         <nav class="navbar">
             <a href="../index.html#home">Início</a>
             <a href="../index.html#about">Sobre Mim</a>
@@ -144,7 +146,7 @@
                     <input type="text" id="postAuthor" class="form-control" required>
                 </div>
                 <div class="form-group mb-3">
-                     <label for="postCategory" class="form-label">Categoria:</label>
+                    <label for="postCategory" class="form-label">Categoria:</label>
                     <select id="postCategory" class="form-control" required>
                     <option value="">Selecione uma categoria</option>
                     <option value="Programação">Programação</option>
@@ -279,15 +281,15 @@
         }
 
        // ... dentro do listener de submit do postForm ...
-const postData = {
-    title: document.getElementById('postTitle').value,
-    slug: document.getElementById('postSlug').value,
-    author: document.getElementById('postAuthor').value,
-    summary: document.getElementById('postSummary').value,
-    thumbnail: document.getElementById('postThumbnail').value,
-    content: document.getElementById('postContent').value,
-    category: document.getElementById('postCategory').value // Coleta o valor do campo de categoria
-};
+        const postData = {
+            title: document.getElementById('postTitle').value,
+            slug: document.getElementById('postSlug').value,
+            author: document.getElementById('postAuthor').value,
+            summary: document.getElementById('postSummary').value,
+            thumbnail: document.getElementById('postThumbnail').value,
+            content: document.getElementById('postContent').value,
+            category: document.getElementById('postCategory').value // Coleta o valor do campo de categoria
+        };
 
         let url = `${BACKEND_BASE_URL}/api/posts`;
         let method = 'POST';
@@ -343,6 +345,6 @@ const postData = {
         }
     });
 </script>
-    <script src="../script.js"></script>
+    <script src="../script.js"></script> <script src="admin.js"></script> </body>
 </body>
 </html>

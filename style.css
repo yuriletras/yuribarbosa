@@ -1,36 +1,57 @@
 /* Importação de fontes e variáveis globais */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap'); */
 
 :root {
+    /* Cores para o tema escuro (padrão) */
     --bg-color: #1f242d;
     --second-bg-color: #323946;
     --text-color: #fff;
-    --main-color: #0ef;
+    --main-color: #0ef; /* Azul ciano principal */
     --hover-color: #00eeff; /* Cor para hover de botões/links no tema escuro */
-    /* ... suas outras variáveis ... */
     --border-color: rgba(255, 255, 255, 0.1); /* Cor de borda suave para o tema escuro */
-    /* ... */
 
-    /* Variáveis para o tema claro */
-    --light-bg-color: #f0f2f5;
-    --light-second-bg-color: #ffffff;
-    --light-text-color: #333;
-    --light-main-color: #007bff; /* Seu azul mais claro para o tema claro */
+    /* Cores para o tema claro */
+    --light-bg-color: #f0f2f5; /* Fundo claro principal */
+    --light-second-bg-color: #ffffff; /* Fundo claro secundário (para cards, seções) */
+    --light-text-color: #333; /* Texto escuro */
+    --light-main-color: #007bff; /* Azul vibrante para o tema claro */
     --light-hover-color: #0056b3; /* Um tom mais escuro para hover no tema claro */
+    --light-border-color: rgba(0, 0, 0, 0.1); /* Cor de borda suave para o tema claro */
+
+    /* Variáveis para botões de admin (se diferentes das principais) */
+    --primary-color: #007bff; /* Cor primária para botões (ex: azul) */
+    --primary-hover-color: #0056b3; /* Cor de hover para botões primários */
+    --text-color-dark: #fff; /* Cor do texto para fundos escuros */
 }
 
+/* Estilos do Tema Claro - Sobrescreve as variáveis padrão */
 body.light-theme {
-    /* ... suas outras variáveis de tema claro ... */
-    --light-border-color: rgba(0, 0, 0, 0.1); /* Cor de borda suave para o tema claro */
-    /* ... */
+    --bg-color: var(--light-bg-color);
+    --second-bg-color: var(--light-second-bg-color);
+    --text-color: var(--light-text-color);
+    --main-color: var(--light-main-color);
+    --hover-color: var(--light-hover-color);
+    --border-color: var(--light-border-color);
+
+    /* Cores específicas para elementos do tema claro com fundo escuro (header, modals, etc.) */
+    /* Estas são exceções à regra geral de var(--light-...) */
+    --header-bg-light-theme: #323946; /* Fundo do cabeçalho fixo no tema claro */
+    --header-sticky-bg-light-theme: #323946; /* Fundo do cabeçalho sticky no tema claro */
+    --modal-bg-light-theme: #323946; /* Fundo de modais no tema claro */
+    --modal-text-light-theme: #fff; /* Texto de modais no tema claro */
+    --card-bg-light-theme: #323946; /* Fundo de cards (portfolio, skills) no tema claro */
+    --card-text-light-theme: #fff; /* Texto de cards (portfolio, skills) no tema claro */
+    --icon-color-light-theme-on-dark-bg: #fff; /* Cor de ícones em fundo escuro no tema claro */
 }
+
 
 /* Reset CSS e estilos básicos */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif; /* Usando Poppins como padrão */
     text-decoration: none;
     outline: none;
     border: none;
@@ -43,19 +64,9 @@ html {
 }
 
 body {
-    font-family: 'Montserrat', sans-serif; /* Aplica a fonte Montserrat a todo o site */
     background: var(--bg-color);
     color: var(--text-color);
     transition: background 0.3s ease, color 0.3s ease; /* Transição suave para mudança de tema */
-}
-
-/* Estilos do Tema Claro */
-body.light-theme {
-    --bg-color: var(--light-bg-color);
-    --second-bg-color: var(--light-second-bg-color);
-    --text-color: var(--light-text-color);
-    --main-color: var(--light-main-color);
-    --hover-color: var(--light-hover-color);
 }
 
 /* Cabeçalho */
@@ -78,14 +89,14 @@ body.light-theme {
     background: var(--second-bg-color); /* Fundo do cabeçalho quando sticky */
 }
 
-body.light-theme .header.sticky {
-    border-bottom: .1rem solid rgba(0, 0, 0, .1);
-    background: #323946; /* Fundo escuro do cabeçalho sticky no tema claro */
-}
-
 /* Fundo do header não sticky no tema claro */
 body.light-theme .header {
-    background: #323946;
+    background: var(--header-bg-light-theme); /* Fundo escuro do cabeçalho no tema claro */
+}
+
+body.light-theme .header.sticky {
+    border-bottom: .1rem solid rgba(0, 0, 0, .1);
+    background: var(--header-sticky-bg-light-theme); /* Fundo escuro do cabeçalho sticky no tema claro */
 }
 
 .logo {
@@ -97,15 +108,16 @@ body.light-theme .header {
     align-items: center;
 }
 
-/* Cor da logo e ícone do tema no tema claro para serem brancos */
+/* Cor da logo e ícone do tema no tema claro para serem brancos (quando o header tem fundo escuro) */
 body.light-theme .logo,
-body.light-theme #theme-toggle {
-    color: #fff; /* Branco para a logo e ícone do tema no header escuro */
+body.light-theme #theme-toggle,
+body.light-theme .header .nav-link .bx-cog {
+    color: var(--icon-color-light-theme-on-dark-bg); /* Branco para a logo e ícones no header escuro */
 }
 
 /* Cor do ícone do menu para mobile no tema claro para ser branco */
 body.light-theme #menu-icon {
-    color: #fff;
+    color: var(--icon-color-light-theme-on-dark-bg);
 }
 
 .main-logo {
@@ -117,7 +129,11 @@ body.light-theme #menu-icon {
 #menu-icon {
     font-size: 3.6rem;
     color: var(--text-color);
-    display: none; /* Escondido por padrão, aparece em telas menores */
+    display: none; /* ESCONDIDO POR PADRÃO, aparece em telas menores */
+    /* Remova ou ajuste qualquer margin-left que possa estar aqui */
+    margin-right: 2rem; /* Adicione uma margem à direita para separar da logo */
+    cursor: pointer; /* Indica que é clicável */
+    z-index: 101; /* Garante que ele esteja acima do navbar quando aberto */
 }
 
 #theme-toggle {
@@ -125,6 +141,40 @@ body.light-theme #menu-icon {
     color: var(--text-color);
     cursor: pointer;
     margin-left: 2rem; /* Espaçamento entre o nav e o ícone de tema */
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+#theme-toggle:hover {
+    transform: scale(1.15);
+    color: var(--main-color);
+}
+
+/* Estilos para o ícone da engrenagem (Admin) */
+.header .nav-link .bx-cog { /* Mais específico para evitar conflitos */
+    font-size: 2.8rem; /* Ajustei para ser consistente com o theme-toggle */
+    color: var(--text-color); /* Cor branca/clara */
+    margin-left: 1.5rem; /* Espaçamento da esquerda para separar do "Blog". Ajuste se precisar. */
+    transition: transform 0.3s ease, color 0.3s ease; /* Animação suave para hover */
+    vertical-align: middle; /* Alinha o ícone com o texto se houver texto próximo */
+    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+}
+
+/* Animação e cor ao passar o mouse */
+.header .nav-link .bx-cog:hover {
+    transform: scale(1.15); /* Aumenta o tamanho em 15% ao passar o mouse */
+    color: var(--main-color); /* Muda a cor para sua cor principal */
+}
+
+/* Pequeno ajuste para o alinhamento geral da navbar se os ícones ficarem desalinhados */
+.header .navbar {
+    display: flex;
+    align-items: center; /* Garante que os itens dentro da navbar fiquem centralizados verticalmente */
+}
+
+.navbar {
+    justify-content: center; /* Alinha os itens do menu horizontalmente */
+    align-items: center;
+    /* Outras propriedades para o layout horizontal */
 }
 
 .navbar a {
@@ -139,9 +189,9 @@ body.light-theme #menu-icon {
     color: var(--main-color); /* Esta é a cor que o link adquire no hover e quando ativo */
 }
 
-/* Cor dos links do navbar no tema claro para serem brancos */
+/* Cor dos links do navbar no tema claro para serem brancos (quando o header tem fundo escuro) */
 body.light-theme .navbar a {
-    color: #fff;
+    color: var(--icon-color-light-theme-on-dark-bg);
 }
 
 /* Hover no menu superior para o azul mais claro no tema claro */
@@ -179,7 +229,7 @@ section {
     font-weight: 600;
     transition: .5s ease;
     margin-top: 3rem;
-
+    cursor: pointer; /* Garante que seja um cursor de ponteiro */
 }
 
 .btn:hover {
@@ -215,7 +265,7 @@ section {
 }
 
 body.light-theme .home-image {
-    background-color: #323946; /* Fundo escuro do círculo no tema claro */
+    background-color: var(--card-bg-light-theme); /* Fundo escuro do círculo no tema claro */
     box-shadow: 0 0 2rem var(--light-main-color); /* Sombra azul clara no tema claro */
 }
 
@@ -228,7 +278,6 @@ body.light-theme .home-image {
     animation: none;
     box-shadow: none;
 }
-
 
 @keyframes floatImage {
     0% {
@@ -296,17 +345,6 @@ body.light-theme .home-image {
     box-shadow: 0 0 1rem var(--main-color);
 }
 
-/* --- No seu media query para telas menores (ex: max-width: 991px) --- */
-@media (max-width: 991px) {
-    /* ... seus outros estilos de media query ... */
-    .home-content p {
-        text-align: justify; /* Manter justificado também em telas menores */
-        max-width: 90%; /* Ajuste a largura para telas menores, se necessário */
-        margin-left: auto;
-        margin-right: auto;
-    }
-}
-
 /* --- Seção Sobre Mim --- */
 .about {
     align-items: center;
@@ -352,7 +390,7 @@ body.light-theme .about {
 
 /* Corrigido: Fundo e sombra da imagem About no tema claro */
 body.light-theme .about-image {
-    background-color: #323946; /* Fundo escuro do círculo no tema claro */
+    background-color: var(--card-bg-light-theme); /* Fundo escuro do círculo no tema claro */
     box-shadow: 0 0 2rem var(--light-main-color); /* Sombra azul clara no tema claro */
 }
 
@@ -388,93 +426,25 @@ body.light-theme .about-image {
     display: inline-block;
 }
 
-/* --- Media Queries para Responsividade --- */
-@media (max-width: 991px) {
-    .about {
-        text-align: center;
-    }
-
-    .about-container {
-        flex-direction: column;
-        gap: 5rem;
-        margin-top: 3rem;
-        align-items: center;
-    }
-
-    .about-image {
-        order: 1;
-        width: 40vw;
-        height: 40vw;
-        max-width: 20rem;
-        max-height: 20rem;
-    }
-
-    .about-image img {
-        width: 100%;
-        height: 100%;
-    }
-
-    .about-content {
-        order: 2;
-        max-width: 90%;
-        margin-left: auto;
-        margin-right: auto;
-        text-align: center;
-    }
-
-    .about-content h3 {
-        /* text-align: center; */
-    }
-
-    .about-content p {
-        text-align: justify;
-        margin-left: auto;
-        margin-right: auto;
-        padding: 0 1rem;
-    }
-
-    .about-content .btn {
-        display: inline-block;
-    }
-}
-
-@media (max-width: 768px) {
-    .about-image {
-        width: 50vw;
-        height: 50vw;
-    }
-}
-
-@media (max-width: 450px) {
-    .about-image {
-        width: 70vw;
-        height: 70vw;
-    }
-    .about-content p {
-        padding: 0;
-    }
-}
-
 /* --- Seção Minhas Habilidades --- */
-/* --- Seção Habilidades --- */
 .skills {
-    background: var(--bg-color); /* Mantido do seu CSS */
-    padding: 8rem 5%; /* Adicionei padding para a seção */
+    background: var(--bg-color);
+    padding: 8rem 5%;
 }
 
 .skills .heading {
     text-align: center;
-    margin-bottom: 5rem; /* Ajustei a margem para dar espaço aos botões */
+    margin-bottom: 5rem;
 }
 
-/* Estilos para os botões de filtro de categoria (NOVOS) */
+/* Estilos para os botões de filtro de categoria */
 .skill-categories-buttons {
     display: flex;
     justify-content: center;
-    gap: 2rem; /* Espaço entre os botões */
-    margin-bottom: 4rem; /* Espaço entre os botões e as habilidades */
-    flex-wrap: wrap; /* Permite que os botões quebrem em telas pequenas */
-    padding: 0 2%; /* Adicionei padding para garantir que não encoste nas bordas em telas pequenas */
+    gap: 2rem;
+    margin-bottom: 4rem;
+    flex-wrap: wrap;
+    padding: 0 2%;
 }
 
 .category-btn {
@@ -482,7 +452,7 @@ body.light-theme .about-image {
     background: var(--second-bg-color); /* Fundo padrão do botão (tema escuro) */
     color: var(--main-color); /* Texto do botão (azul do tema escuro) */
     border: .2rem solid var(--main-color); /* Borda do botão */
-    border-radius: .8rem; /* <-- ALTERE ESTA LINHA: De 4rem para .8rem (ou um valor similar) */
+    border-radius: .8rem; /* Ajustado para .8rem */
     font-size: 1.6rem;
     font-weight: 600;
     cursor: pointer;
@@ -503,26 +473,47 @@ body.light-theme .about-image {
     border-color: var(--main-color); /* Garante que a borda continue azul */
 }
 
-/* Base do grid de habilidades (AJUSTADO para o novo sistema) */
+/* Tema Claro para botões de categoria */
+body.light-theme .category-btn {
+    background: var(--light-second-bg-color);
+    color: var(--light-main-color);
+    border-color: var(--light-main-color);
+    box-shadow: 0 0 .5rem var(--light-main-color);
+}
+
+body.light-theme .category-btn:hover {
+    background: var(--light-main-color);
+    color: var(--light-second-bg-color);
+    box-shadow: 0 0 1rem var(--light-main-color);
+}
+
+body.light-theme .category-btn.active {
+    background: var(--light-main-color);
+    color: var(--light-second-bg-color);
+    box-shadow: 0 0 1.5rem var(--light-main-color);
+    border-color: var(--light-main-color);
+}
+
+
+/* Base do grid de habilidades */
 .skills-grid {
     display: none; /* Inicialmente todos os grids de habilidades estão ocultos */
-    /* Seus estilos de grid existentes, que serão ativados quando display: grid for aplicado */
-    grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr)); /* Mantido do seu CSS */
-    gap: 3rem; /* Mantido do seu CSS */
-    margin-top: 5rem; /* Mantido do seu CSS */
-    max-width: 1200px; /* Limita a largura máxima do grid para melhor alinhamento */
-    margin-left: auto; /* Centraliza o grid */
-    margin-right: auto; /* Centraliza o grid */
-    padding: 0 2%; /* Adicionei padding para não encostar nas bordas */
+    grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+    gap: 3rem;
+    margin-top: 5rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 2%;
 }
 
 /* Exibir apenas o grid de habilidades ativo */
 .skills-grid.active-skills-grid {
-    display: grid; /* Exibe o grid de habilidades ativo */
+    display: grid;
     animation: fadeIn 0.5s forwards; /* Adiciona uma animação suave */
 }
 
-/* Animação de fade-in para as habilidades (NOVA) */
+/* Animação de fade-in para as habilidades */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -534,68 +525,66 @@ body.light-theme .about-image {
     }
 }
 
-/* Estilo para cada item de habilidade (MANTIDO E AJUSTADO LEVEMENTE) */
+/* Estilo para cada item de habilidade */
 .skill-item {
-    background: var(--second-bg-color); /* Mantido do seu CSS */
-    padding: 3rem 2rem 4rem; /* Mantido do seu CSS */
-    border-radius: 2rem; /* Mantido do seu CSS */
-    text-align: center; /* Mantido do seu CSS */
-    border: .2rem solid var(--main-color); /* Mantido do seu CSS */
-    transition: .5s ease; /* Mantido do seu CSS */
-    cursor: pointer; /* Mantido do seu CSS */
-    position: relative; /* Mantido do seu CSS */
-    overflow: hidden; /* Mantido do seu CSS */
-    height: 12rem; /* Mantido do seu CSS */
-    display: flex; /* Mantido do seu CSS */
-    flex-direction: column; /* Mantido do seu CSS */
-    justify-content: center; /* Mantido do seu CSS */
-    align-items: center; /* Mantido do seu CSS */
+    background: var(--second-bg-color);
+    padding: 3rem 2rem 4rem;
+    border-radius: 2rem;
+    text-align: center;
+    border: .2rem solid var(--main-color);
+    transition: .5s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    height: 12rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 body.light-theme .skill-item {
-    background: #323946; /* Mantido do seu CSS (fundo escuro no tema claro) */
-    border: .2rem solid var(--light-main-color); /* Mantido do seu CSS */
+    background: var(--card-bg-light-theme); /* Fundo escuro no tema claro */
+    border: .2rem solid var(--light-main-color);
 }
 
 .skill-item:hover {
-    background: var(--main-color); /* Mantido do seu CSS */
-    color: var(--second-bg-color); /* Mantido do seu CSS */
-    transform: translateY(-.8rem); /* Mantido do seu CSS */
-    box-shadow: 0 0 2rem var(--main-color); /* Mantido do seu CSS */
+    background: var(--main-color);
+    color: var(--second-bg-color);
+    transform: translateY(-.8rem);
+    box-shadow: 0 0 2rem var(--main-color);
 }
 
 body.light-theme .skill-item:hover {
-    background: var(--light-main-color); /* Mantido do seu CSS */
-    color: var(--light-second-bg-color); /* Mantido do seu CSS */
-    box-shadow: 0 0 2rem var(--light-main-color); /* Mantido do seu CSS */
+    background: var(--light-main-color);
+    color: var(--light-second-bg-color);
+    box-shadow: 0 0 2rem var(--light-main-color);
 }
 
 .skill-item i {
-    font-size: 3rem; /* Mantido do seu CSS */
-    color: var(--main-color); /* Mantido do seu CSS */
-    margin-bottom: 1.5rem; /* Mantido do seu CSS */
+    font-size: 3rem;
+    color: var(--main-color);
+    margin-bottom: 1.5rem;
 }
 
 body.light-theme .skill-item i {
-    color: #fff; /* Mantido do seu CSS */
+    color: var(--icon-color-light-theme-on-dark-bg);
 }
 
 .skill-item:hover i {
-    color: var(--second-bg-color); /* Mantido do seu CSS */
+    color: var(--second-bg-color);
 }
 
 .skill-item h3 {
-    font-size: 1.6rem; /* Mantido do seu CSS */
-    margin-bottom: 0; /* Mantido do seu CSS */
+    font-size: 1.6rem;
+    margin-bottom: 0;
 }
 
 body.light-theme .skill-item h3 {
-    color: #fff; /* Mantido do seu CSS */
+    color: var(--card-text-light-theme);
 }
 
-
 /* --- Estilos para o Modal de Habilidades --- */
-/* Estes estilos permanecem praticamente inalterados, apenas o background-color */
 .skill-modal {
     display: none;
     position: fixed;
@@ -620,7 +609,7 @@ body.light-theme .skill-item h3 {
 }
 
 .skill-modal-content {
-    background-color: var(--second-bg-color); /* Mantido do seu CSS */
+    background-color: var(--second-bg-color);
     margin: auto;
     padding: 4rem;
     border-radius: 1.5rem;
@@ -642,9 +631,9 @@ body.light-theme .skill-item h3 {
 }
 
 body.light-theme .skill-modal-content {
-    background-color: #323946; /* Mantido do seu CSS (fundo escuro do modal no tema claro) */
+    background-color: var(--modal-bg-light-theme); /* Fundo escuro do modal no tema claro */
     box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.1);
-    color: #fff; /* Mantido do seu CSS (texto branco no modal escuro) */
+    color: var(--modal-text-light-theme); /* Texto branco no modal escuro */
 }
 
 .skill-modal-close-btn {
@@ -665,6 +654,14 @@ body.light-theme .skill-modal-content {
     cursor: pointer;
 }
 
+body.light-theme .skill-modal-close-btn {
+    color: var(--light-main-color);
+}
+body.light-theme .skill-modal-close-btn:hover {
+    color: var(--light-hover-color);
+}
+
+
 .skill-modal-content h3 {
     font-size: 3.5rem;
     margin-bottom: 2rem;
@@ -677,48 +674,6 @@ body.light-theme .skill-modal-content {
     line-height: 1.6;
 }
 
-/* --- Media Queries para Responsividade dos Botões e Habilidades --- */
-@media (max-width: 768px) {
-    .skill-categories-buttons {
-        flex-direction: column; /* Botões empilhados em telas pequenas */
-        align-items: center; /* Centraliza os botões */
-        gap: 1.5rem;
-    }
-    .category-btn {
-        width: 80%; /* Ocupa mais largura em telas pequenas */
-        max-width: 250px; /* Limita a largura máxima */
-    }
-
-    .skills-grid {
-        grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); /* Reduz o minmax para habilidades em telas menores */
-    }
-
-    .skill-item {
-        height: 10rem; /* Ajuste a altura em telas menores se necessário */
-        padding: 2rem 1.5rem;
-    }
-
-    .skill-item i {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-    }
-
-    .skill-item h3 {
-        font-size: 1.4rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .category-btn {
-        font-size: 1.4rem;
-        padding: 0.8rem 2rem;
-    }
-
-    .skill-item h3 {
-        font-size: 1.3rem;
-    }
-}
-
 /* --- Seção Portfólio --- */
 .portfolio {
     background: var(--second-bg-color);
@@ -727,7 +682,7 @@ body.light-theme .skill-modal-content {
 }
 
 body.light-theme .portfolio {
-    background: var(--light-second-bg-color); /* Deve ser branco, ex: #ffffff */
+    background: var(--light-second-bg-color);
     color: var(--light-text-color);
 }
 
@@ -787,9 +742,8 @@ body.light-theme .portfolio {
     flex-direction: column;
 }
 
-
 body.light-theme .portfolio-box {
-    background: #323946; /* Fundo escuro das caixas de portfólio no tema claro */
+    background: var(--card-bg-light-theme); /* Fundo escuro das caixas de portfólio no tema claro */
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(0, 0, 0, 0.05); /* Mantém a borda clara */
 }
@@ -797,12 +751,12 @@ body.light-theme .portfolio-box {
 /* Cor do texto (título e descrição) dentro das caixas de portfólio para ser branco */
 body.light-theme .portfolio-box h4,
 body.light-theme .portfolio-box p {
-    color: #fff;
+    color: var(--card-text-light-theme);
 }
 
 /* Cor do ícone dentro do layer do portfólio no tema claro */
 body.light-theme .portfolio-box .portfolio-layer a i {
-    color: #323946; /* Ícone escuro sobre fundo branco do círculo */
+    color: var(--second-bg-color); /* Ícone escuro sobre fundo branco do círculo */
 }
 
 .portfolio-box img {
@@ -831,6 +785,10 @@ body.light-theme .portfolio-box .portfolio-layer a i {
     padding: 2rem 3rem;
     transform: translateY(100%);
     transition: .5s ease;
+}
+
+body.light-theme .portfolio-box .portfolio-layer {
+    background: linear-gradient(rgba(0,0,0,0.7), var(--light-main-color));
 }
 
 .portfolio-box:hover .portfolio-layer {
@@ -872,58 +830,59 @@ body.light-theme .portfolio-box .portfolio-layer a i {
 
 /* --- Seção Contato --- */
 .contact {
-    background: var(--bg-color); /* Mantém o background da seção */
-    padding: 7rem 5%; /* Adicione padding para dar espaço ao conteúdo */
-    display: flex; /* Adiciona flexbox ao container principal da seção */
-    flex-direction: column; /* Para empilhar o título e o wrapper */
-    align-items: center; /* Centraliza horizontalmente o título e o wrapper */
-    justify-content: center; /* Centraliza verticalmente se houver espaço */
-    min-height: 100vh; /* Opcional: Garante que a seção ocupe pelo menos a altura da viewport */
+    background: var(--bg-color);
+    padding: 7rem 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+body.light-theme .contact {
+    background: var(--light-bg-color);
 }
 
 .contact .heading {
     text-align: center;
-    margin-bottom: 5rem; /* Espaçamento abaixo do título da seção */
+    margin-bottom: 5rem;
 }
 
 /* Novo container para o layout de duas colunas */
 .contact-content-wrapper {
-    display: flex; /* Habilita Flexbox */
-    justify-content: center; /* Centraliza o conteúdo horizontalmente DENTRO do wrapper */
-    align-items: center; /* Centraliza verticalmente as duas colunas */
-    gap: 5rem; /* Espaço entre as duas colunas */
-    flex-wrap: wrap; /* Permite que as colunas quebrem para a próxima linha em telas menores */
-    max-width: 1200px; /* Limita a largura máxima do wrapper para melhor leitura */
-    width: 100%; /* Garante que o wrapper ocupe a largura disponível para centralização */
-    /* Removido margin: 0 auto; daqui, já que o pai (.contact) já centraliza */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5rem;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    width: 100%;
 }
 
 /* Lado Esquerdo - Textos e Caixa CTA */
 .contact-left {
-    flex: 1; /* Ocupa o máximo de espaço possível */
-    min-width: 300px; /* Largura mínima para o lado esquerdo antes de quebrar */
+    flex: 1;
+    min-width: 300px;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Centraliza verticalmente o conteúdo dentro do .contact-left */
-    align-items: center; /* **MUDANÇA AQUI: Centraliza horizontalmente os itens no lado esquerdo** */
-    gap: 2rem; /* Espaço entre os elementos do lado esquerdo */
-    text-align: center; /* **MUDANÇA AQUI: Centraliza o texto das frases** */
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    text-align: center;
 }
 
 .contact-phrase-main {
-    font-size: 3.5rem; /* Tamanho da fonte para a frase maior */
+    font-size: 3.5rem;
     font-weight: 700;
     line-height: 1.2;
-    color: var(--text-color); /* Cor do texto padrão */
-    /* Removido text-align: left; */
+    color: var(--text-color);
 }
 
 .contact-phrase-sub {
-    font-size: 1.5rem; /* Tamanho da fonte para a frase menor */
+    font-size: 1.5rem;
     line-height: 1.5;
-    color: var(--text-color); /* Cor do texto padrão */
-    margin-bottom: 2rem; /* Espaço antes da caixa de CTA */
-    /* Removido text-align: left; */
+    color: var(--text-color);
+    margin-bottom: 2rem;
 }
 
 .call-to-action-box {
@@ -931,43 +890,57 @@ body.light-theme .portfolio-box .portfolio-layer a i {
     align-items: center;
     gap: 1.5rem;
     padding: 1.5rem 3rem;
-    background: var(--main-color); /* Cor de fundo da caixa (azul do tema escuro) */
-    color: var(--second-bg-color); /* Cor do texto (fundo secundário do tema escuro) */
-    border-radius: .8rem; /* <-- ALTERE ESTA LINHA: De 4rem para .8rem (ou um valor similar) */
+    background: var(--main-color);
+    color: var(--second-bg-color);
+    border-radius: .8rem;
     font-size: 1.8rem;
     font-weight: 600;
     box-shadow: 0 0 1rem var(--main-color);
     transition: all 0.5s ease;
-    cursor: default; /* Indica que não é clicável como um botão real */
-    max-width: fit-content; /* Ajusta a largura ao conteúdo */
+    cursor: default;
+    max-width: fit-content;
 }
 
 .call-to-action-box i {
-    font-size: 2.5rem; /* Tamanho da seta */
-    transition: transform 0.5s ease; /* **MUDANÇA AQUI: Aumentei o tempo de transição para a seta** */
+    font-size: 2.5rem;
+    transition: transform 0.5s ease;
 }
 
 .call-to-action-box:hover {
-    box-shadow: 0 0 2rem var(--main-color); /* Efeito de hover suave */
-    transform: translateX(20px); /* **MUDANÇA AQUI: Move a caixa para a direita** */
-    /* Removido translateY(-5px) */
+    box-shadow: 0 0 2rem var(--main-color);
+    transform: translateX(20px);
 }
 
 .call-to-action-box:hover i {
-    transform: translateX(10px); /* **MUDANÇA AQUI: Seta se move ainda mais para a direita no hover** */
+    transform: translateX(10px);
+}
+
+/* --- Ajustes para o Tema Claro na Seção de Contato --- */
+body.light-theme .contact-phrase-main,
+body.light-theme .contact-phrase-sub {
+    color: var(--light-text-color); /* Usa a cor do texto do tema claro */
+}
+
+body.light-theme .call-to-action-box {
+    background: var(--light-main-color); /* Cor de fundo da caixa (azul do tema claro) */
+    color: #ffffff; /* Texto branco na caixa CTA do tema claro */
+    box-shadow: 0 0 1rem var(--light-main-color);
+}
+
+body.light-theme .call-to-action-box:hover {
+    box-shadow: 0 0 2rem var(--light-main-color);
 }
 
 /* Lado Direito - Formulário de Contato */
 .contact-right {
-    flex: 1; /* Ocupa o máximo de espaço possível */
-    min-width: 350px; /* Largura mínima para o formulário antes de quebrar (um pouco maior para o formulário) */
+    flex: 1;
+    min-width: 350px;
     display: flex;
-    justify-content: center; /* Centraliza o formulário se houver espaço extra */
+    justify-content: center;
 }
 
-/* Seu CSS EXISTENTE para o formulário, levemente ajustado para o novo layout */
 .contact form {
-    width: 100%; /* Permite que o formulário ocupe o espaço disponível em contact-right */
+    width: 100%;
     text-align: center;
 }
 
@@ -998,22 +971,6 @@ body.light-theme .portfolio-box .portfolio-layer a i {
     cursor: pointer;
 }
 
-/* --- Ajustes para o Tema Claro na Seção de Contato --- */
-body.light-theme .contact-phrase-main,
-body.light-theme .contact-phrase-sub {
-    color: var(--light-text-color); /* Usa a cor do texto do tema claro */
-}
-
-body.light-theme .call-to-action-box {
-    background: var(--light-main-color); /* Cor de fundo da caixa (azul do tema claro) */
-    color: #ffffff; /* Texto branco na caixa CTA do tema claro */
-    box-shadow: 0 0 1rem var(--light-main-color);
-}
-
-body.light-theme .call-to-action-box:hover {
-    box-shadow: 0 0 2rem var(--light-main-color);
-}
-
 body.light-theme .contact form .input-box input,
 body.light-theme .contact form textarea {
     background: var(--light-second-bg-color); /* Fundo claro para inputs */
@@ -1027,91 +984,23 @@ body.light-theme .contact form textarea::placeholder {
 }
 
 
-/* --- Media Queries para Responsividade --- */
-@media (max-width: 991px) {
-    .contact-content-wrapper {
-        flex-direction: column; /* Pilha as colunas em telas menores */
-        align-items: center; /* Centraliza os itens empilhados */
-        gap: 3rem;
-    }
-
-    .contact-left,
-    .contact-right {
-        min-width: unset; /* Remove a largura mínima para permitir que eles se expandam */
-        width: 100%; /* Ocupa toda a largura disponível */
-        /* Removido text-align: center; e align-items: center; pois já estão definidos acima ou serão sobrescritos */
-    }
-
-    .contact-phrase-main,
-    .contact-phrase-sub {
-        text-align: center; /* Garante que o texto fique centralizado */
-        padding: 0 1rem; /* Adiciona um pouco de padding para texto em telas pequenas */
-    }
-
-    .call-to-action-box {
-        margin: 0 auto; /* Centraliza a caixa no modo mobile */
-        transform: none !important; /* Desabilita o translateX no hover para mobile */
-    }
-    .call-to-action-box:hover {
-        transform: none !important; /* Garante que não haja translateX no hover para mobile */
-    }
-    .call-to-action-box:hover i {
-        transform: none !important; /* Garante que não haja translateX da seta no hover para mobile */
-    }
-
-    .contact form .input-box input {
-        width: 100%; /* Inputs um abaixo do outro em telas menores */
-    }
-}
-
-@media (max-width: 768px) {
-    .contact-phrase-main {
-        font-size: 2.8rem; /* Reduz um pouco o tamanho da fonte */
-    }
-    .contact-phrase-sub {
-        font-size: 1.3rem;
-    }
-    /* Ajuste para input-box para garantir que os inputs fiquem em colunas em telas menores */
-    .contact form .input-box {
-        flex-direction: column; /* Força os inputs a ficarem em coluna */
-    }
-    .contact form .input-box input {
-        width: 100%; /* Inputs ocupam toda a largura */
-    }
-}
-
-@media (max-width: 480px) {
-    .contact-phrase-main {
-        font-size: 2.2rem;
-    }
-    .contact-phrase-sub {
-        font-size: 1.1rem;
-    }
-    .call-to-action-box {
-        font-size: 1.6rem;
-        padding: 1.2rem 2.5rem;
-    }
-}
-
 /* --- Seção Rodapé (Footer) --- */
 .footer {
     display: flex;
-    flex-direction: column; /* Agora o footer empilha seus filhos (wrapper, hr, copyright) */
-    align-items: center; /* Centraliza horizontalmente todo o conteúdo do footer */
-    padding: 3rem 9%; /* Padding geral do footer */
-    background: var(--second-bg-color); /* Fundo padrão (tema escuro) */
-    color: var(--text-color); /* Cor do texto padrão (tema escuro) */
-    border-top: none; /* Removido para combinar com o exemplo */
-    box-shadow: none; /* Removido para combinar com o exemplo */
-    margin-top: auto; /* Mantém o "sticky footer" (empurra para o final da página) */
+    flex-direction: column;
+    align-items: center;
+    padding: 3rem 9%;
+    background: var(--second-bg-color);
+    color: var(--text-color);
+    border-top: none;
+    box-shadow: none;
+    margin-top: auto;
 }
 
 /* TEMA CLARO para o Footer: Ajustar o background e cor do texto principal */
 body.light-theme .footer {
-    /* Mantido como #323946 conforme sua preferência, sem mudar o root */
-    background: #323946; 
-    /* Cor principal do texto no tema claro (para elementos não sobrescritos individualmente) */
-    color: var(--light-text-color); 
+    background: var(--header-bg-light-theme); /* Usando a mesma cor escura do header no tema claro */
+    color: var(--icon-color-light-theme-on-dark-bg); /* Cor principal do texto no tema claro para contraste */
     border-top: none;
     box-shadow: none;
 }
@@ -1119,43 +1008,31 @@ body.light-theme .footer {
 /* --- Wrapper para o conteúdo principal do footer (esquerda e direita) --- */
 .footer-content-wrapper {
     display: flex;
-    justify-content: space-between; /* Empurra os lados esquerdo e direito para as extremidades */
-    align-items: flex-start; /* Alinha o conteúdo ao topo de cada coluna */
-    width: 100%; /* Ocupa a largura total do footer */
-    max-width: 1200px; /* Limita a largura em telas muito grandes */
-    padding-bottom: 2rem; /* Espaço entre este wrapper e a linha de quebra */
-    flex-wrap: wrap; /* Permite que as colunas quebrem em telas menores */
-    text-align: left; /* Garante que o texto nas colunas comece à esquerda por padrão */
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 1200px;
+    padding-bottom: 2rem;
+    flex-wrap: wrap;
+    text-align: left;
 }
 
 /* --- ESTILOS DO LADO ESQUERDO DO FOOTER (FOTO E SLOGAN) --- */
 .footer-left-content {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Alinha o conteúdo à esquerda dentro desta coluna */
+    align-items: flex-start;
     gap: 1rem;
-    flex: 1; /* Permite que ocupe o espaço disponível */
-    min-width: 250px; /* Largura mínima para o bloco esquerdo */
-    padding-right: 2rem; /* Espaçamento entre os blocos esquerdo e direito */
+    flex: 1;
+    min-width: 250px;
+    padding-right: 2rem;
 }
 
 /* Estilos para a imagem no lugar do nome */
 .footer-logo-img {
     width: 20rem; /* Ajuste o tamanho da largura da imagem (como a do site de referência) */
     height: auto; /* Mantém a proporção da imagem */
-    /* Se a imagem for um logo e precisar de ajuste de cor para temas, pode usar filter aqui. Ex: */
-    /* filter: brightness(0); /* Para logos pretos ficarem brancos no tema claro */
 }
-
-/* Tema Claro para a imagem no footer (se precisar de ajustes específicos) */
-body.light-theme .footer-logo-img {
-    /* Exemplo: Se o logo for preto e precisar ficar branco no tema claro */
-    /* filter: invert(1) grayscale(1) brightness(2); */
-    /* Como o fundo é #323946 (escuro), se a imagem for clara, pode não precisar de filter.
-       Se for escura e precisar contrastar, mantenha a linha abaixo comentada e ative-a: */
-    /* filter: invert(1) grayscale(1) brightness(2); */ 
-}
-
 
 .footer-slogan {
     font-size: 1.4rem;
@@ -1165,22 +1042,21 @@ body.light-theme .footer-logo-img {
 
 /* TEMA CLARO para o Slogan: Garante que seja branco */
 body.light-theme .footer-slogan {
-    color: #fff; /* Força o texto do slogan a ser branco no tema claro */
+    color: var(--icon-color-light-theme-on-dark-bg); /* Força o texto do slogan a ser branco no tema claro */
 }
-
 
 /* --- ESTILOS DO LADO DIREITO DO FOOTER (TEXTO SOCIAL E ÍCONES) --- */
 .footer-right-content {
     display: flex;
     flex-direction: column;
-    align-items: flex-end; /* Alinha o conteúdo (título e ícones) à direita */
+    align-items: flex-end;
     gap: 1.5rem;
-    flex: 1; /* Permite que ocupe o espaço disponível */
-    min-width: 200px; /* Largura mínima para o bloco direito */
+    flex: 1;
+    min-width: 200px;
 }
 
 .footer-social-heading {
-    font-size: 1.8rem; /* Tamanho do texto "SOCIAL" */
+    font-size: 1.8rem;
     font-weight: 600;
     color: var(--text-color); /* Cor padrão (tema escuro) */
     text-transform: uppercase;
@@ -1190,43 +1066,43 @@ body.light-theme .footer-slogan {
 
 /* TEMA CLARO para o Título SOCIAL: Garante que seja branco */
 body.light-theme .footer-social-heading {
-    color: #fff; /* Força o título "SOCIAL" a ser branco no tema claro */
+    color: var(--icon-color-light-theme-on-dark-bg); /* Força o título "SOCIAL" a ser branco no tema claro */
 }
 
 .footer-social-links {
     display: flex;
-    gap: 1.5rem; /* Espaço entre os ícones das redes sociais */
+    gap: 1.5rem;
 }
 
 .footer-social-links a {
-    font-size: 2.5rem; /* Tamanho dos ícones */
+    font-size: 2.5rem;
     color: var(--text-color); /* Cor padrão dos ícones (tema escuro) */
     transition: .3s ease;
 }
 
 .footer-social-links a:hover {
     color: var(--main-color); /* Cor ao passar o mouse (tema escuro) */
-    transform: translateY(-.3rem); /* Leve efeito de subida no hover */
+    transform: translateY(-.3rem);
 }
 
 /* TEMA CLARO para os Ícones Sociais: Cor Branca e Hover Azul Claro */
 body.light-theme .footer-social-links a {
-    color: #fff; /* Força a cor dos ícones a ser branco no tema claro */
+    color: var(--icon-color-light-theme-on-dark-bg); /* Força a cor dos ícones a ser branco no tema claro */
 }
 
 body.light-theme .footer-social-links a:hover {
-    background: transparent; /* Garante que não tenha fundo no hover, como o exemplo */
+    background: transparent;
     color: var(--light-main-color); /* Cor azul claro no hover no tema claro */
 }
 
 /* --- LINHA DE QUEBRA --- */
 .footer-divider {
     width: 100%;
-    max-width: 1200px; /* Mesma largura do wrapper */
+    max-width: 1200px;
     border: none;
     border-top: 1px solid var(--main-color); /* Cor da linha (tema escuro) */
-    margin: 2rem 0; /* Espaçamento acima e abaixo da linha */
-    opacity: 0.5; /* Transparência da linha */
+    margin: 2rem 0;
+    opacity: 0.5;
 }
 
 /* Tema Claro para a Linha de Quebra: Mantém a cor azul claro */
@@ -1238,7 +1114,7 @@ body.light-theme .footer-divider {
 .footer-copyright {
     width: 100%;
     max-width: 1200px;
-    text-align: center; /* Centraliza o texto de copyright */
+    text-align: center;
 }
 
 .footer-copyright p {
@@ -1249,339 +1125,9 @@ body.light-theme .footer-divider {
 
 /* Tema Claro para o copyright */
 body.light-theme .footer-copyright p {
-    color: #fff; /* Força o texto do copyright a ser branco no tema claro */
+    color: var(--icon-color-light-theme-on-dark-bg); /* Força o texto do copyright a ser branco no tema claro */
 }
 
-
-/* --- Media Queries para responsividade do footer --- */
-@media (max-width: 768px) {
-    .footer-content-wrapper {
-        flex-direction: column; /* Empilha os blocos (esquerdo e direito) */
-        align-items: center; /* Centraliza os blocos empilhados */
-        gap: 2rem; /* Espaço entre os blocos */
-        padding-bottom: 1.5rem;
-    }
-
-    /* ORDENAÇÃO DOS ELEMENTOS NO FOOTER PARA TELAS MENORES */
-    .footer-content-wrapper .footer-left-content {
-        order: 1; /* A foto/slogan vem primeiro */
-        align-items: center; /* Centraliza o conteúdo dentro do bloco esquerdo */
-        text-align: center; /* Centraliza o texto do slogan */
-    }
-
-    .footer-content-wrapper .footer-right-content {
-        order: 2; /* O social vem em segundo lugar */
-        align-items: center; /* Centraliza o conteúdo dentro do bloco direito */
-        text-align: center; /* Centraliza o texto "SOCIAL" */
-    }
-
-    .footer-divider {
-        order: 3; /* A linha divisória vem em terceiro */
-    }
-
-    .footer-copyright {
-        order: 4; /* O copyright vem por último */
-    }
-
-    /* Outros ajustes de responsividade */
-    .footer-left-content,
-    .footer-right-content {
-        max-width: 100%; /* Permite que ocupem a largura total */
-    }
-
-    .footer-logo-img { /* Ajusta o tamanho da imagem em telas menores */
-        width: 12rem;
-    }
-
-    .footer-slogan {
-        font-size: 1.3rem;
-    }
-
-    .footer-social-heading {
-        font-size: 1.7rem;
-    }
-
-    .footer-social-links a {
-        font-size: 2.2rem;
-    }
-
-    .footer-divider {
-        margin: 1.5rem 0;
-    }
-
-    .footer-copyright p {
-        font-size: 1.3rem;
-    }
-}
-
-@media (max-width: 450px) {
-    .footer {
-        padding: 2rem 5%;
-    }
-    .footer-logo-img { /* Ajusta o tamanho da imagem em telas muito pequenas */
-        width: 10rem;
-    }
-    .footer-slogan {
-        font-size: 1.2rem;
-    }
-    .footer-social-heading {
-        font-size: 1.6rem;
-    }
-    .footer-social-links a {
-        font-size: 2rem;
-    }
-    .footer-divider {
-        margin: 1rem 0;
-    }
-    .footer-copyright p {
-        font-size: 1.2rem;
-    }
-}
-
-/* --- Media Queries para Responsividade --- */
-
-@media (max-width: 1200px) {
-    html {
-        font-size: 55%;
-    }
-}
-
-@media (max-width: 991px) {
-    .header {
-        padding: 2rem 3%;
-    }
-
-    section {
-        padding: 10rem 3% 2rem;
-    }
-
-    .home {
-        flex-direction: column;
-        gap: 3rem;
-    }
-
-    .home-content {
-        order: 2;
-        text-align: center;
-    }
-
-    .home-image {
-        /* Tamanho original para 991px, com as max/min para controle */
-        width: 45vw; /* Era 45vw */
-        height: 45vw; /* Era 45vw */
-        margin-top: 4rem;
-        max-width: 28rem; /* Mantendo os limites razoáveis */
-        max-height: 28rem;
-        min-width: 18rem;
-        min-height: 18rem;
-    }
-
-    .home-image img {
-        width: 100%;
-        height: 100%;
-    }
-
-    .about-container {
-        flex-direction: column;
-        gap: 3rem;
-    }
-
-    .about-image {
-        order: 1; /* Para aparecer acima do texto no mobile */
-        /* Tamanho original para 991px, com as max/min para controle */
-        width: 40vw; /* Era 40vw */
-        height: 40vw; /* Era 40vw */
-        max-width: 25rem; /* Mantendo os limites razoáveis */
-        max-height: 25rem;
-        min-width: 18rem;
-        min-height: 18rem;
-    }
-
-    .about-image img {
-        width: 100%;
-        height: 100%;
-    }
-
-    .skills-grid {
-        grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
-    }
-
-    .portfolio-container {
-        padding-left: 3%;
-        padding-right: 3%;
-    }
-
-    .contact form .input-box input {
-        width: 100%;
-    }
-
-    .footer {
-    /*    flex-direction: column-reverse; */
-    /*    gap: 2rem; */
-        padding: 2rem 3%;
-        text-align: center;
-    }
-
-    .footer-icons {
-        margin-top: 1.5rem;
-    }
-}
-
-@media (max-width: 768px) {
-    #menu-icon {
-        display: block;
-    }
-
-    .navbar {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        padding: 1rem 3%;
-        background: var(--second-bg-color);
-        border-top: .1rem solid rgba(0, 0, 0, .2);
-        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
-        display: none;
-        flex-direction: column;
-        text-align: center;
-        transition: .25s ease;
-    }
-
-    body.light-theme .navbar {
-        background: #323946; /* Fundo escuro do menu mobile no tema claro */
-        border-top: .1rem solid rgba(0, 0, 0, .1);
-    }
-
-    .navbar.active {
-        display: flex;
-    }
-
-    .navbar a {
-        display: block;
-        font-size: 2rem;
-        margin: 1rem 0;
-    }
-
-    /* Cores dos links do navbar no tema claro, quando o navbar tem fundo escuro (mobile) */
-    body.light-theme .navbar a {
-        color: #fff; /* Texto branco para os links */
-    }
-
-    body.light-theme .navbar a:hover,
-    body.light-theme .navbar a.active {
-        color: var(--light-main-color); /* Cor de destaque clara (azul) no hover */
-    }
-
-    .home-image {
-        /* Tamanho para 768px */
-        width: 60vw; /* Era 60vw */
-        height: 60vw; /* Era 60vw */
-        max-width: 35rem; /* Ajuste se o tamanho for excessivo */
-        max-height: 35rem;
-        min-width: 20rem;
-        min-height: 20rem;
-    }
-
-    .about-image {
-        /* Tamanho para 768px */
-        width: 50vw; /* Era 50vw */
-        height: 50vw; /* Era 50vw */
-        max-width: 30rem; /* Ajuste se o tamanho for excessivo */
-        max-height: 30rem;
-        min-width: 20rem;
-        min-height: 20rem;
-    }
-
-    .portfolio-box {
-        min-width: 25rem;
-    }
-
-    .skill-modal-content {
-        width: 90%;
-        padding: 3rem 2rem;
-    }
-
-    .skill-modal-close-btn {
-        font-size: 2.5rem;
-        top: 1rem;
-        right: 1.5rem;
-    }
-
-    .skill-modal-content h3 {
-        font-size: 3rem;
-    }
-
-    .skill-modal-content p {
-        font-size: 1.6rem;
-    }
-}
-
-@media (max-width: 617px) {
-    .home-image {
-        width: 80vw; /* Era 80vw */
-        height: 80vw; /* Era 80vw */
-        max-width: 40rem; /* Ajuste */
-        max-height: 40rem;
-    }
-
-    .about-image {
-        width: 60vw; /* Era 60vw */
-        height: 60vw; /* Era 60vw */
-        max-width: 35rem; /* Ajuste */
-        max-height: 35rem;
-    }
-}
-
-@media (max-width: 450px) {
-    html {
-        font-size: 50%;
-    }
-
-    .home-content h1 {
-        font-size: 4.5rem;
-    }
-
-    .home-content h3 {
-        font-size: 2.5rem;
-    }
-
-    .heading {
-        font-size: 3.5rem;
-    }
-
-    .home-image {
-        width: 90vw; /* Adapta para telas muito pequenas */
-        height: 90vw;
-        max-width: 30rem; /* Limite máximo para não ficar gigante em telas pequenas */
-        max-height: 30rem;
-    }
-
-    .about-image {
-        width: 80vw; /* Adapta para telas muito pequenas */
-        height: 80vw;
-        max-width: 25rem; /* Limite máximo para não ficar gigante em telas pequenas */
-        max-height: 25rem;
-    }
-
-    .skill-item {
-        height: auto;
-        min-height: 20rem;
-    }
-
-    .skill-item p.skill-description {
-        -webkit-line-clamp: unset;
-        overflow: visible;
-        text-overflow: unset;
-    }
-
-    .portfolio-box {
-        min-width: 100%;
-    }
-
-    .portfolio-container.show-all .portfolio-box {
-        max-width: 100%;
-    }
-}
 
 /* --- Project Modal Styles --- */
 .project-modal-overlay {
@@ -1624,8 +1170,8 @@ body.light-theme .footer-copyright p {
 
 /* Tema Claro para o Modal */
 body.light-theme .project-modal-content {
-    background: #323946; /* MUDADO: Fundo cinza escuro diretamente */
-    color: #ffffff; /* MUDADO: Texto branco diretamente */
+    background: var(--modal-bg-light-theme); /* Fundo cinza escuro diretamente */
+    color: var(--modal-text-light-theme); /* Texto branco diretamente */
     box-shadow: 0 0 2rem var(--light-main-color);
 }
 
@@ -1726,66 +1272,15 @@ body.light-theme .project-modal-btn:hover {
     color: var(--light-text-color); /* Hover para texto escuro no tema claro */
 }
 
-
-/* Responsividade para o Modal de Projeto */
-@media (max-width: 768px) {
-    .project-modal-content {
-        width: 95%;
-        padding: 2.5rem;
-    }
-
-    .project-modal-body {
-        flex-direction: column; /* Empilha imagem e detalhes */
-        align-items: center; /* Centraliza conteúdo empilhado */
-        gap: 2rem;
-    }
-
-    .project-modal-image-container {
-        min-width: unset; /* Remove min-width em telas pequenas */
-        max-width: 80%; /* Limita a largura da imagem */
-    }
-
-    .project-modal-details {
-        text-align: center; /* Centraliza o texto e título */
-        align-items: center; /* Centraliza o botão também */
-    }
-
-    .project-modal-details h3 {
-        font-size: 3rem;
-    }
-
-    .project-modal-details p {
-        font-size: 1.6rem;
-    }
-
-    .project-modal-close-btn {
-        font-size: 2.5rem;
-        top: 1rem;
-        right: 1.5rem;
-    }
-}
-
-@media (max-width: 450px) {
-    .project-modal-content {
-        padding: 2rem;
-    }
-    .project-modal-details h3 {
-        font-size: 2.5rem;
-    }
-    .project-modal-details p {
-        font-size: 1.5rem;
-    }
-    .project-modal-btn {
-        padding: 0.8rem 2rem;
-        font-size: 1.5rem;
-    }
-}
-
 /* --- Estilos para o Blog --- */
 .blog-main {
     padding-top: 8rem; /* Para dar espaço ao cabeçalho fixo */
     min-height: 100vh; /* Garante que a seção ocupe a tela toda */
     background: var(--bg-color); /* Mesma cor de fundo principal */
+}
+
+body.light-theme .blog-main {
+    background: var(--light-bg-color);
 }
 
 .blog-posts-list {
@@ -1810,9 +1305,19 @@ body.light-theme .project-modal-btn:hover {
     border: .2rem solid var(--main-color);
 }
 
+body.light-theme .post-card {
+    background: var(--light-second-bg-color);
+    border-color: var(--light-main-color);
+    box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.1);
+}
+
 .post-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 0 2.5rem var(--main-color);
+}
+
+body.light-theme .post-card:hover {
+    box-shadow: 0 0 2.5rem var(--light-main-color);
 }
 
 .post-card img {
@@ -1832,10 +1337,18 @@ body.light-theme .project-modal-btn:hover {
     margin-bottom: 1rem;
 }
 
+body.light-theme .post-card-content h3 {
+    color: var(--light-text-color);
+}
+
 .post-card-meta {
     font-size: 1.4rem;
     color: var(--main-color);
     margin-bottom: 1.5rem;
+}
+
+body.light-theme .post-card-meta {
+    color: var(--light-main-color);
 }
 
 .post-card-content p {
@@ -1843,6 +1356,10 @@ body.light-theme .project-modal-btn:hover {
     color: var(--text-color);
     line-height: 1.6;
     margin-bottom: 2rem;
+}
+
+body.light-theme .post-card-content p {
+    color: var(--light-text-color);
 }
 
 .post-card-actions {
@@ -1858,6 +1375,10 @@ body.light-theme .project-modal-btn:hover {
     display: flex;
     align-items: center;
     gap: .5rem;
+}
+
+body.light-theme .post-card-actions .like-display {
+    color: var(--light-main-color);
 }
 
 .post-card-actions .like-display i {
@@ -1878,8 +1399,56 @@ body.light-theme .project-modal-btn:hover {
     text-decoration: none; /* Garante que não haja sublinhado */
 }
 
+body.light-theme .post-card-actions .btn {
+    background: var(--light-main-color);
+    color: #fff;
+    box-shadow: 0 0 1rem var(--light-main-color);
+}
+
 .post-card-actions .btn:hover {
     box-shadow: none;
+}
+
+body.light-theme .post-card-actions .btn:hover {
+    background: var(--light-second-bg-color);
+    color: var(--light-main-color);
+    border-color: var(--light-main-color);
+    box-shadow: none;
+}
+
+/* Estilo para o botão Curtir dentro dos cards do blog */
+.post-card-actions .btn-like {
+    background-color: var(--main-color); /* Usando main-color para consistência */
+    color: var(--second-bg-color); /* Cor do texto no botão */
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+    font-size: 0.9em;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.post-card-actions .btn-like:hover {
+    background-color: var(--hover-color);
+    color: var(--text-color);
+}
+
+body.light-theme .post-card-actions .btn-like {
+    background-color: var(--light-main-color);
+    color: #fff;
+}
+
+body.light-theme .post-card-actions .btn-like:hover {
+    background-color: var(--light-hover-color);
+    color: var(--light-text-color);
+}
+
+.post-card-actions .btn-like .bx {
+    font-size: 1.1em;
 }
 
 /* --- Estilos para a página de Artigo Individual (blog/post.html) --- */
@@ -1894,6 +1463,13 @@ body.light-theme .project-modal-btn:hover {
     color: var(--text-color);
 }
 
+body.light-theme .blog-post-content {
+    background: var(--light-second-bg-color);
+    border-color: var(--light-main-color);
+    box-shadow: 0 0 2rem rgba(0, 0, 0, 0.1);
+    color: var(--light-text-color);
+}
+
 .blog-post-content h1 {
     font-size: 3.8rem;
     color: var(--main-color);
@@ -1901,12 +1477,21 @@ body.light-theme .project-modal-btn:hover {
     line-height: 1.2;
 }
 
+body.light-theme .blog-post-content h1 {
+    color: var(--light-main-color);
+}
+
 .blog-post-content .post-meta {
     font-size: 1.5rem;
     color: var(--text-color);
     margin-bottom: 2.5rem;
-    border-bottom: 1px solid var(--border-color); /* Adicione uma variável para cor da borda se não tiver */
+    border-bottom: 1px solid var(--border-color);
     padding-bottom: 1rem;
+}
+
+body.light-theme .blog-post-content .post-meta {
+    color: var(--light-text-color);
+    border-bottom-color: var(--light-border-color);
 }
 
 .blog-post-content img {
@@ -1929,11 +1514,19 @@ body.light-theme .project-modal-btn:hover {
     margin-top: 3rem;
     margin-bottom: 1.5rem;
 }
+body.light-theme .blog-post-content .post-content-html h2 {
+    color: var(--light-main-color);
+}
+
 .blog-post-content .post-content-html p {
     font-size: 1.8rem;
     line-height: 1.7;
     margin-bottom: 2rem;
 }
+body.light-theme .blog-post-content .post-content-html p {
+    color: var(--light-text-color);
+}
+
 .blog-post-content .post-content-html ul {
     list-style-type: disc;
     margin-left: 3rem;
@@ -1941,6 +1534,10 @@ body.light-theme .project-modal-btn:hover {
     font-size: 1.7rem;
     line-height: 1.6;
 }
+body.light-theme .blog-post-content .post-content-html ul {
+    color: var(--light-text-color);
+}
+
 .blog-post-content .post-content-html ul li {
     margin-bottom: 0.8rem;
 }
@@ -1970,84 +1567,16 @@ body.light-theme .project-modal-btn:hover {
     gap: .8rem;
 }
 
+body.light-theme .like-button, body.light-theme .share-button {
+    background: var(--light-main-color);
+    color: #fff;
+}
+
 .like-button:hover, .share-button:hover {
     background: var(--second-bg-color);
     color: var(--main-color);
     border: .2rem solid var(--main-color);
     box-shadow: 0 0 1rem var(--main-color);
-}
-
-.like-button i, .share-button i {
-    font-size: 2rem;
-}
-
-/* --- Tema Claro para o Blog --- */
-body.light-theme .blog-main {
-    background: var(--light-bg-color);
-}
-
-body.light-theme .post-card {
-    background: var(--light-second-bg-color);
-    border-color: var(--light-main-color);
-    box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.1);
-}
-
-body.light-theme .post-card:hover {
-    box-shadow: 0 0 2.5rem var(--light-main-color);
-}
-
-body.light-theme .post-card-content h3 {
-    color: var(--light-text-color);
-}
-
-body.light-theme .post-card-meta {
-    color: var(--light-main-color);
-}
-
-body.light-theme .post-card-content p {
-    color: var(--light-text-color);
-}
-
-body.light-theme .post-card-actions .like-display {
-    color: var(--light-main-color);
-}
-
-body.light-theme .post-card-actions .btn {
-    background: var(--light-main-color);
-    color: #fff;
-    box-shadow: 0 0 1rem var(--light-main-color);
-}
-
-body.light-theme .post-card-actions .btn:hover {
-    background: var(--light-second-bg-color);
-    color: var(--light-main-color);
-    border-color: var(--light-main-color);
-    box-shadow: none;
-}
-
-body.light-theme .blog-post-content {
-    background: var(--light-second-bg-color);
-    border-color: var(--light-main-color);
-    box-shadow: 0 0 2rem rgba(0, 0, 0, 0.1);
-    color: var(--light-text-color);
-}
-
-body.light-theme .blog-post-content h1 {
-    color: var(--light-main-color);
-}
-
-body.light-theme .blog-post-content .post-meta {
-    color: var(--light-text-color);
-    border-bottom-color: var(--light-border-color);
-}
-
-body.light-theme .blog-post-content h2 {
-    color: var(--light-main-color);
-}
-
-body.light-theme .like-button, body.light-theme .share-button {
-    background: var(--light-main-color);
-    color: #fff;
 }
 
 body.light-theme .like-button:hover, body.light-theme .share-button:hover {
@@ -2057,41 +1586,27 @@ body.light-theme .like-button:hover, body.light-theme .share-button:hover {
     box-shadow: 0 0 1rem var(--light-main-color);
 }
 
-
-/* Responsividade para o Blog */
-@media (max-width: 768px) {
-    .posts-container {
-        grid-template-columns: 1fr; /* Coluna única em telas menores */
-    }
-
-    .blog-post-content {
-        padding: 3rem 2rem;
-        margin: 3rem auto;
-    }
-
-    .blog-post-content h1 {
-        font-size: 3rem;
-    }
-
-    .blog-post-content p {
-        font-size: 1.6rem;
-    }
-
-    .blog-post-content h2 {
-        font-size: 2.5rem;
-    }
+.like-button i, .share-button i {
+    font-size: 2rem;
 }
 
 /* --- Estilos para a Seção de Comentários --- */
 .comments-section {
     background: var(--second-bg-color);
     max-width: 900px;
-    margin: 3rem auto 5rem; /* Ajuste a margem conforme necessário */
+    margin: 3rem auto 5rem;
     padding: 4rem;
     border-radius: 1rem;
     box-shadow: 0 0 2rem rgba(0, 0, 0, 0.2);
     border: .2rem solid var(--main-color);
     color: var(--text-color);
+}
+
+body.light-theme .comments-section {
+    background: var(--light-second-bg-color);
+    border-color: var(--light-main-color);
+    color: var(--light-text-color);
+    box-shadow: 0 0 2rem rgba(0, 0, 0, 0.1);
 }
 
 .comments-section h2, .comments-section h3 {
@@ -2100,6 +1615,11 @@ body.light-theme .like-button:hover, body.light-theme .share-button:hover {
     font-size: 2.8rem;
     border-bottom: 2px solid var(--main-color);
     padding-bottom: 1rem;
+}
+
+body.light-theme .comments-section h2, body.light-theme .comments-section h3 {
+    color: var(--light-main-color);
+    border-bottom-color: var(--light-main-color);
 }
 
 .comments-section h3 {
@@ -2123,11 +1643,21 @@ body.light-theme .like-button:hover, body.light-theme .share-button:hover {
     box-shadow: 0 0 0.8rem rgba(0, 0, 0, 0.1);
 }
 
+body.light-theme .comment-item {
+    background: var(--light-bg-color);
+    border-color: var(--light-main-color);
+    box-shadow: 0 0 0.8rem rgba(0, 0, 0, 0.05);
+}
+
 .comment-item .comment-author {
     font-weight: 700;
     font-size: 1.8rem;
     color: var(--text-color);
     margin-bottom: 0.5rem;
+}
+
+body.light-theme .comment-item .comment-author {
+    color: var(--light-text-color);
 }
 
 .comment-item .comment-content {
@@ -2137,10 +1667,18 @@ body.light-theme .like-button:hover, body.light-theme .share-button:hover {
     margin-bottom: 1rem;
 }
 
+body.light-theme .comment-item .comment-content {
+    color: var(--light-text-color);
+}
+
 .comment-item .comment-date {
     font-size: 1.3rem;
     color: var(--main-color);
     text-align: right;
+}
+
+body.light-theme .comment-item .comment-date {
+    color: var(--light-main-color);
 }
 
 /* Estilos do Formulário de Comentários */
@@ -2153,6 +1691,10 @@ body.light-theme .like-button:hover, body.light-theme .share-button:hover {
     font-size: 1.6rem;
     color: var(--text-color);
     margin-bottom: 0.8rem;
+}
+
+body.light-theme .comment-form label {
+    color: var(--light-text-color);
 }
 
 .comment-form input[type="text"],
@@ -2169,10 +1711,23 @@ body.light-theme .like-button:hover, body.light-theme .share-button:hover {
     resize: vertical; /* Permite redimensionar verticalmente */
 }
 
+body.light-theme .comment-form input[type="text"],
+body.light-theme .comment-form textarea {
+    background: var(--light-bg-color);
+    border-color: var(--light-main-color);
+    color: var(--light-text-color);
+}
+
 .comment-form input[type="text"]:focus,
 .comment-form textarea:focus {
     border-color: var(--main-color);
     box-shadow: 0 0 0.8rem var(--main-color);
+}
+
+body.light-theme .comment-form input[type="text"]:focus,
+body.light-theme .comment-form textarea:focus {
+    border-color: var(--light-main-color);
+    box-shadow: 0 0 0.8rem var(--light-main-color);
 }
 
 .comment-form .btn { /* Reutiliza o estilo do botão */
@@ -2182,56 +1737,8 @@ body.light-theme .like-button:hover, body.light-theme .share-button:hover {
     padding: 1.2rem 3rem;
 }
 
-/* --- Tema Claro para a Seção de Comentários --- */
-body.light-theme .comments-section {
-    background: var(--light-second-bg-color);
-    border-color: var(--light-main-color);
-    color: var(--light-text-color);
-    box-shadow: 0 0 2rem rgba(0, 0, 0, 0.1);
-}
-
-body.light-theme .comments-section h2, body.light-theme .comments-section h3 {
-    color: var(--light-main-color);
-    border-bottom-color: var(--light-main-color);
-}
-
-body.light-theme .comment-item {
-    background: var(--light-bg-color);
-    border-color: var(--light-main-color);
-    box-shadow: 0 0 0.8rem rgba(0, 0, 0, 0.05);
-}
-
-body.light-theme .comment-item .comment-author {
-    color: var(--light-text-color);
-}
-
-body.light-theme .comment-item .comment-content {
-    color: var(--light-text-color);
-}
-
-body.light-theme .comment-item .comment-date {
-    color: var(--light-main-color);
-}
-
-body.light-theme .comment-form label {
-    color: var(--light-text-color);
-}
-
-body.light-theme .comment-form input[type="text"],
-body.light-theme .comment-form textarea {
-    background: var(--light-bg-color);
-    border-color: var(--light-main-color);
-    color: var(--light-text-color);
-}
-
-body.light-theme .comment-form input[type="text"]:focus,
-body.light-theme .comment-form textarea:focus {
-    border-color: var(--light-main-color);
-    box-shadow: 0 0 0.8rem var(--light-main-color);
-}
-
 /* ========================================================== */
-/* NOVAS SEÇÕES PARA ESTILOS DO ADMIN*/
+/* ESTILOS DO ADMIN (NOVAS SEÇÕES) */
 /* ========================================================== */
 
 /* --- Estilos de Fundo e Texto (se ainda não tiver) --- */
@@ -2277,9 +1784,9 @@ body.light-theme .comment-form textarea:focus {
 }
 
 
-/* --- Estilos de Botões --- */
+/* --- Estilos de Botões (Admin) --- */
 /* Estilo base para todos os botões (se não tiver) */
-.btn {
+.btn-admin { /* Renomeado para evitar conflito com .btn do portfólio principal */
     display: inline-block;
     padding: 10px 20px;
     font-size: 1rem;
@@ -2293,40 +1800,40 @@ body.light-theme .comment-form textarea:focus {
 }
 
 /* Botão Primário (Cor principal do seu portfólio) */
-.btn-primary {
-    background-color: #007bff; /* Exemplo: azul. USE A COR DO SEU PORTFÓLIO */
-    color: white;
-    border-color: #007bff;
+.btn-primary-admin {
+    background-color: var(--primary-color);
+    color: var(--text-color-dark);
+    border-color: var(--primary-color);
 }
-.btn-primary:hover {
-    background-color: #0056b3; /* Um tom um pouco mais escuro ao passar o mouse */
-    border-color: #0056b3;
+.btn-primary-admin:hover {
+    background-color: var(--primary-hover-color);
+    border-color: var(--primary-hover-color);
 }
 
 /* Botão Secundário (Cor neutra/secundária) */
-.btn-secondary {
-    background-color: #6c757d; /* Exemplo: cinza. USE UMA COR SECUNDÁRIA DO SEU PORTFÓLIO */
-    color: white;
+.btn-secondary-admin {
+    background-color: #6c757d;
+    color: var(--text-color-dark);
     border-color: #6c757d;
 }
-.btn-secondary:hover {
+.btn-secondary-admin:hover {
     background-color: #5a6268;
     border-color: #545b62;
 }
 
 /* Botão de Perigo (Vermelho, para "Excluir") */
-.btn-danger {
-    background-color: #dc3545; /* Exemplo: vermelho. USE UMA COR DE ALERTA DO SEU PORTFÓLIO */
-    color: white;
+.btn-danger-admin {
+    background-color: #dc3545;
+    color: var(--text-color-dark);
     border-color: #dc3545;
 }
-.btn-danger:hover {
+.btn-danger-admin:hover {
     background-color: #c82333;
     border-color: #bd2130;
 }
 
 
-/* --- Estilos de Formulários --- */
+/* --- Estilos de Formulários (Admin) --- */
 .form-group {
     margin-bottom: 1rem; /* Margem padrão para grupos de formulário */
 }
@@ -2347,6 +1854,7 @@ body.light-theme .comment-form textarea:focus {
     display: block; /* Garante que o rótulo ocupe a linha inteira */
     margin-bottom: 0.5rem;
     font-weight: bold; /* Deixa o texto em negrito */
+    color: var(--text-color); /* Para se adaptar ao tema */
 }
 
 .form-control { /* Estilo para inputs e textareas */
@@ -2354,20 +1862,39 @@ body.light-theme .comment-form textarea:focus {
     padding: 0.75rem 1rem; /* Padding interno */
     font-size: 1rem;
     line-height: 1.5;
-    color: #495057; /* Cor do texto do input */
-    background-color: #fff; /* Fundo branco do input */
+    color: var(--text-color); /* Cor do texto do input */
+    background-color: var(--second-bg-color); /* Fundo do input */
     background-clip: padding-box;
-    border: 1px solid #ced4da; /* Borda do input */
+    border: 1px solid var(--border-color); /* Borda do input */
     border-radius: 0.25rem; /* Bordas arredondadas */
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
+
 /* Estilo para quando o input está em foco */
 .form-control:focus {
-    color: #495057;
-    background-color: #fff;
-    border-color: #80bdff; /* Cor da borda ao focar */
+    color: var(--text-color);
+    background-color: var(--second-bg-color);
+    border-color: var(--main-color); /* Cor da borda ao focar */
     outline: 0;
-    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25); /* Sombra ao focar */
+    box-shadow: 0 0 0 0.25rem rgba(var(--main-color-rgb), 0.25); /* Sombra ao focar */
+}
+
+/* Tema Claro para formulários de admin */
+body.light-theme .form-label {
+    color: var(--light-text-color);
+}
+
+body.light-theme .form-control {
+    color: var(--light-text-color);
+    background-color: var(--light-second-bg-color);
+    border-color: var(--light-border-color);
+}
+
+body.light-theme .form-control:focus {
+    color: var(--light-text-color);
+    background-color: var(--light-second-bg-color);
+    border-color: var(--light-main-color);
+    box-shadow: 0 0 0 0.25rem rgba(var(--light-main-color-rgb), 0.25);
 }
 
 /* --- Estilos para a lista de posts do Admin --- */
@@ -2382,33 +1909,660 @@ body.light-theme .comment-form textarea:focus {
     justify-content: space-between; /* Espaça os elementos */
     align-items: center; /* Alinha verticalmente */
     padding: 1rem 0;
-    border-bottom: 1px solid #333; /* Uma borda sutil entre os itens */
+    border-bottom: 1px solid var(--border-color); /* Uma borda sutil entre os itens */
+    color: var(--text-color);
 }
+
+body.light-theme .list-group-item {
+    border-color: var(--light-border-color);
+    color: var(--light-text-color);
+}
+
 .list-group-item:last-child {
     border-bottom: none; /* Remove a borda do último item */
 }
 
-/* Estilo para o botão Curtir dentro dos cards do blog */
+
+/* --- Media Queries Gerais para Responsividade --- */
+
+@media (max-width: 1200px) {
+    html {
+        font-size: 55%;
+    }
+}
+
+@media (max-width: 991px) {
+    .header {
+        display: flex;
+        justify-content: space-between; /* Mantém os elementos espalhados */
+        align-items: center;
+    }
+
+     .header .navbar {
+        /* Quando o menu está 'display: none;', isso não deve afetar o alinhamento de outros itens */
+        /* Se a logo e os ícones estiverem desalinhados, pode ser necessário ajustar o align-items ou gap no .header */
+    }
+
+    section {
+        padding: 10rem 3% 2rem;
+    }
+
+    .home {
+        flex-direction: column;
+        gap: 3rem;
+    }
+
+    .home-content {
+        order: 2;
+        text-align: center;
+    }
+
+    .home-image {
+        /* Tamanho original para 991px, com as max/min para controle */
+        width: 45vw;
+        height: 45vw;
+        margin-top: 4rem;
+        max-width: 28rem;
+        max-height: 28rem;
+        min-width: 18rem;
+        min-height: 18rem;
+    }
+
+    .home-image img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .about-container {
+        flex-direction: column;
+        gap: 3rem;
+    }
+
+    .about-image {
+        order: 1; /* Para aparecer acima do texto no mobile */
+        /* Tamanho original para 991px, com as max/min para controle */
+        width: 40vw;
+        height: 40vw;
+        max-width: 25rem;
+        max-height: 25rem;
+        min-width: 18rem;
+        min-height: 18rem;
+    }
+
+    .about-image img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .about-content {
+        order: 2;
+        max-width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+
+    .about-content p {
+        text-align: justify;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0 1rem;
+    }
+
+    .skills-grid {
+        grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+    }
+
+    .portfolio-container {
+        padding-left: 3%;
+        padding-right: 3%;
+    }
+
+    .contact-content-wrapper {
+        flex-direction: column; /* Pilha as colunas em telas menores */
+        align-items: center; /* Centraliza os itens empilhados */
+        gap: 3rem;
+    }
+
+    .contact-left,
+    .contact-right {
+        min-width: unset; /* Remove a largura mínima para permitir que eles se expandam */
+        width: 100%; /* Ocupa toda a largura disponível */
+    }
+
+    .contact-phrase-main,
+    .contact-phrase-sub {
+        text-align: center; /* Garante que o texto fique centralizado */
+        padding: 0 1rem; /* Adiciona um pouco de padding para texto em telas pequenas */
+    }
+
+    .call-to-action-box {
+        margin: 0 auto; /* Centraliza a caixa no modo mobile */
+        transform: none !important; /* Desabilita o translateX no hover para mobile */
+    }
+    .call-to-action-box:hover {
+        transform: none !important; /* Garante que não haja translateX no hover para mobile */
+    }
+    .call-to-action-box:hover i {
+        transform: none !important; /* Garante que não haja translateX da seta no hover para mobile */
+    }
+
+    .contact form .input-box input {
+        width: 100%; /* Inputs um abaixo do outro em telas menores */
+    }
+
+    .footer {
+        padding: 2rem 3%;
+        text-align: center;
+    }
+
+    /* ORDENAÇÃO DOS ELEMENTOS NO FOOTER PARA TELAS MENORES */
+    .footer-content-wrapper {
+        flex-direction: column; /* Empilha os blocos (esquerdo e direito) */
+        align-items: center; /* Centraliza os blocos empilhados */
+        gap: 2rem; /* Espaço entre os blocos */
+        padding-bottom: 1.5rem;
+    }
+    .footer-content-wrapper .footer-left-content {
+        order: 1; /* A foto/slogan vem primeiro */
+        align-items: center; /* Centraliza o conteúdo dentro do bloco esquerdo */
+        text-align: center; /* Centraliza o texto do slogan */
+    }
+    .footer-content-wrapper .footer-right-content {
+        order: 2; /* O social vem em segundo lugar */
+        align-items: center; /* Centraliza o conteúdo dentro do bloco direito */
+        text-align: center; /* Centraliza o texto "SOCIAL" */
+    }
+    .footer-divider {
+        order: 3; /* A linha divisória vem em terceiro */
+    }
+    .footer-copyright {
+        order: 4; /* O copyright vem por último */
+    }
+
+    .footer-icons {
+        margin-top: 1.5rem; /* Ajuste para espaçamento correto */
+    }
+
+    .footer-left-content,
+    .footer-right-content {
+        max-width: 100%; /* Permite que ocupem a largura total */
+    }
+
+}
+
+@media (max-width: 768px) {
+    #menu-icon {
+        display: block; /* EXIBE O ÍCONE EM TELAS MENORES */
+        order: -1; /* Força ele a ser o primeiro item no flex container */
+        margin-right: 2rem; /* Espaçamento entre o ícone e a logo */
+    }
+
+    .navbar {
+        position: fixed;
+        top: 80px; /* Ajuste conforme altura do header */
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 80px);
+        background: var(--second-bg-color);
+        flex-direction: column;
+        padding: 3rem 0;
+        transition: left 0.3s ease;
+        z-index: 1000;
+        overflow-y: auto;
+        display: none; /* Inicia oculto */
+        
+    }
+
+    body.light-theme .navbar {
+        background: var(--header-sticky-bg-light-theme); /* Fundo escuro do menu mobile no tema claro */
+        border-top: .1rem solid rgba(0, 0, 0, .1);
+    }
+
+    .navbar.active {
+        left: 0;
+        display: flex; /* Mostra quando tem a classe active */
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar a {
+        display: block;
+        font-size: 2rem;
+        margin: 1rem 0;
+    }
+
+    /* Cores dos links do navbar no tema claro, quando o navbar tem fundo escuro (mobile) */
+    body.light-theme .navbar a {
+        color: var(--icon-color-light-theme-on-dark-bg); /* Texto branco para os links */
+    }
+
+    body.light-theme .navbar a:hover,
+    body.light-theme .navbar a.active {
+        color: var(--light-main-color); /* Cor de destaque clara (azul) no hover */
+    }
+
+    .home-image {
+        /* Tamanho para 768px */
+        width: 60vw;
+        height: 60vw;
+        max-width: 35rem;
+        max-height: 35rem;
+        min-width: 20rem;
+        min-height: 20rem;
+    }
+
+    .about-image {
+        /* Tamanho para 768px */
+        width: 50vw;
+        height: 50vw;
+        max-width: 30rem;
+        max-height: 30rem;
+        min-width: 20rem;
+        min-height: 20rem;
+    }
+
+    .skills-grid {
+        grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); /* Reduz o minmax para habilidades em telas menores */
+    }
+
+    .skill-item {
+        height: 10rem; /* Ajuste a altura em telas menores se necessário */
+        padding: 2rem 1.5rem;
+    }
+
+    .skill-item i {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .skill-item h3 {
+        font-size: 1.4rem;
+    }
+
+
+    .portfolio-box {
+        min-width: 25rem;
+    }
+
+    .contact-phrase-main {
+        font-size: 2.8rem;
+    }
+    .contact-phrase-sub {
+        font-size: 1.3rem;
+    }
+    /* Ajuste para input-box para garantir que os inputs fiquem em colunas em telas menores */
+    .contact form .input-box {
+        flex-direction: column; /* Força os inputs a ficarem em coluna */
+    }
+    .contact form .input-box input {
+        width: 100%; /* Inputs ocupam toda a largura */
+    }
+
+    /* Footer */
+    .footer-logo-img { /* Ajusta o tamanho da imagem em telas menores */
+        width: 12rem;
+    }
+
+    .footer-slogan {
+        font-size: 1.3rem;
+    }
+
+    .footer-social-heading {
+        font-size: 1.7rem;
+    }
+
+    .footer-social-links a {
+        font-size: 2.2rem;
+    }
+
+    .footer-divider {
+        margin: 1.5rem 0;
+    }
+
+    .footer-copyright p {
+        font-size: 1.3rem;
+    }
+
+    /* Modais */
+    .skill-modal-content {
+        width: 90%;
+        padding: 3rem 2rem;
+    }
+
+    .skill-modal-close-btn {
+        font-size: 2.5rem;
+        top: 1rem;
+        right: 1.5rem;
+    }
+
+    .skill-modal-content h3 {
+        font-size: 3rem;
+    }
+
+    .skill-modal-content p {
+        font-size: 1.6rem;
+    }
+
+    .project-modal-content {
+        width: 95%;
+        padding: 2.5rem;
+    }
+
+    .project-modal-body {
+        flex-direction: column; /* Empilha imagem e detalhes */
+        align-items: center; /* Centraliza conteúdo empilhado */
+        gap: 2rem;
+    }
+
+    .project-modal-image-container {
+        min-width: unset; /* Remove min-width em telas pequenas */
+        max-width: 80%; /* Limita a largura da imagem */
+    }
+
+    .project-modal-details {
+        text-align: center; /* Centraliza o texto e título */
+        align-items: center; /* Centraliza o botão também */
+    }
+
+    .project-modal-details h3 {
+        font-size: 3rem;
+    }
+
+    .project-modal-details p {
+        font-size: 1.6rem;
+    }
+
+    .project-modal-close-btn {
+        font-size: 2.5rem;
+        top: 1rem;
+        right: 1.5rem;
+    }
+
+    /* Blog */
+    .posts-container {
+        grid-template-columns: 1fr; /* Coluna única em telas menores */
+    }
+
+    .blog-post-content {
+        padding: 3rem 2rem;
+        margin: 3rem auto;
+    }
+
+    .blog-post-content h1 {
+        font-size: 3rem;
+    }
+
+    .blog-post-content p {
+        font-size: 1.6rem;
+    }
+
+    .blog-post-content h2 {
+        font-size: 2.5rem;
+    }
+
+    /* Comentários */
+    .comments-section {
+        padding: 3rem 2rem;
+        margin: 3rem auto;
+    }
+
+    .comments-section h2, .comments-section h3 {
+        font-size: 2.4rem;
+    }
+
+    .comment-item .comment-author {
+        font-size: 1.6rem;
+    }
+
+    .comment-item .comment-content {
+        font-size: 1.4rem;
+    }
+
+    .comment-item .comment-date {
+        font-size: 1.2rem;
+    }
+
+    .comment-form label {
+        font-size: 1.4rem;
+    }
+
+    .comment-form input[type="text"],
+    .comment-form textarea {
+        padding: 1rem 1.2rem;
+        font-size: 1.4rem;
+    }
+
+    .comment-form .btn {
+        padding: 1rem 2.5rem;
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 617px) {
+    .home-image {
+        width: 80vw;
+        height: 80vw;
+        max-width: 40rem;
+        max-height: 40rem;
+    }
+
+    .about-image {
+        width: 60vw;
+        height: 60vw;
+        max-width: 35rem;
+        max-height: 35rem;
+    }
+}
+
+@media (max-width: 450px) {
+    html {
+        font-size: 50%;
+    }
+
+    .header {
+        padding: 2rem 5%;
+    }
+
+    section {
+        padding: 10rem 5% 2rem;
+    }
+
+    .home-content h1 {
+        font-size: 4.5rem;
+    }
+
+    .home-content h3 {
+        font-size: 2.5rem;
+    }
+
+    .heading {
+        font-size: 3.5rem;
+    }
+
+    .home-image {
+        width: 90vw; /* Adapta para telas muito pequenas */
+        height: 90vw;
+        max-width: 30rem; /* Limite máximo para não ficar gigante em telas pequenas */
+        max-height: 30rem;
+    }
+
+    .about-image {
+        width: 80vw; /* Adapta para telas muito pequenas */
+        height: 80vw;
+        max-width: 25rem; /* Limite máximo para não ficar gigante em telas pequenas */
+        max-height: 25rem;
+    }
+
+    .skill-categories-buttons {
+        flex-direction: column; /* Botões empilhados em telas pequenas */
+        align-items: center; /* Centraliza os botões */
+        gap: 1.5rem;
+    }
+    .category-btn {
+        width: 80%; /* Ocupa mais largura em telas pequenas */
+        max-width: 250px; /* Limita a largura máxima */
+        font-size: 1.4rem;
+        padding: 0.8rem 2rem;
+    }
+
+    .skill-item {
+        height: auto;
+        min-height: 20rem;
+    }
+
+    .skill-item h3 {
+        font-size: 1.3rem;
+    }
+
+    .skill-item p.skill-description {
+        -webkit-line-clamp: unset;
+        overflow: visible;
+        text-overflow: unset;
+    }
+
+    .portfolio-box {
+        min-width: 100%;
+    }
+
+    .portfolio-container.show-all .portfolio-box {
+        max-width: 100%;
+    }
+
+    .contact-phrase-main {
+        font-size: 2.2rem;
+    }
+    .contact-phrase-sub {
+        font-size: 1.1rem;
+    }
+    .call-to-action-box {
+        font-size: 1.6rem;
+        padding: 1.2rem 2.5rem;
+    }
+
+    .footer {
+        padding: 2rem 5%;
+    }
+    .footer-logo-img { /* Ajusta o tamanho da imagem em telas muito pequenas */
+        width: 10rem;
+    }
+    .footer-slogan {
+        font-size: 1.2rem;
+    }
+    .footer-social-heading {
+        font-size: 1.6rem;
+    }
+    .footer-social-links a {
+        font-size: 2rem;
+    }
+    .footer-divider {
+        margin: 1rem 0;
+    }
+    .footer-copyright p {
+        font-size: 1.2rem;
+    }
+
+    .project-modal-content {
+        padding: 2rem;
+    }
+    .project-modal-details h3 {
+        font-size: 2.5rem;
+    }
+    .project-modal-details p {
+        font-size: 1.5rem;
+    }
+    .project-modal-btn {
+        padding: 0.8rem 2rem;
+        font-size: 1.5rem;
+    }
+
+    /* Blog */
+    .blog-posts-list {
+        padding: 2rem 3%;
+    }
+    .blog-post-content {
+        padding: 2.5rem 1.5rem;
+    }
+    .blog-post-content h1 {
+        font-size: 2.5rem;
+    }
+    .blog-post-content p {
+        font-size: 1.4rem;
+    }
+    .blog-post-content h2 {
+        font-size: 2.2rem;
+    }
+    .post-actions {
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: center;
+    }
+    .like-button, .share-button {
+        width: 80%;
+        max-width: 250px;
+        justify-content: center;
+        font-size: 1.5rem;
+    }
+
+    /* Comentários */
+    .comments-section {
+        padding: 2.5rem 1.5rem;
+    }
+    .comments-section h2, .comments-section h3 {
+        font-size: 2rem;
+    }
+    .comment-item {
+        padding: 1.2rem 1.5rem;
+    }
+    .comment-item .comment-author {
+        font-size: 1.5rem;
+    }
+    .comment-item .comment-content {
+        font-size: 1.3rem;
+    }
+    .comment-item .comment-date {
+        font-size: 1.1rem;
+    }
+    .comment-form label {
+        font-size: 1.3rem;
+    }
+    .comment-form input[type="text"],
+    .comment-form textarea {
+        padding: 0.8rem 1rem;
+        font-size: 1.3rem;
+    }
+    .comment-form .btn {
+        padding: 0.8rem 2rem;
+        font-size: 1.4rem;
+    }
+}
+
+/* No seu style.css ou no bloco <style> da index.html blog */
+
 .post-card-actions .btn-like {
-    /* Você pode até remover o background-color daqui se btn-primary já der a cor */
-    background-color: var(--primary-color); /* Garante que pegue a cor primária */
-    color: var(--text-color-dark); /* Geralmente branco para botões primários */
-    border: none; /* Se quiser sem borda */
-    padding: 8px 15px; /* Ajuste o padding para ficar parecido com o "Ler Mais" */
-    border-radius: 5px;
-    display: flex; /* Para alinhar o ícone e o texto */
+    /* Define uma cor clara para o texto e ícone do botão de curtir */
+    color: var(--text-color-light, #eee); /* Ex: branco ou um cinza claro */
+    background-color: transparent; /* Se você não quiser um fundo no botão, ou defina um fundo sutil */
+    border: none;
+    padding: 5px 10px;
+    display: flex;
     align-items: center;
     gap: 5px; /* Espaço entre o ícone e o número */
-    font-weight: 600;
-    font-size: 0.9em; /* Talvez um pouco menor para o contexto */
-    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
 }
 
 .post-card-actions .btn-like:hover {
-    background-color: var(--primary-hover-color);
-    /* Ou defina uma cor de hover específica se o primary-hover-color não for o que você quer */
+    color: var(--primary-color, #007bff); /* Cor ao passar o mouse */
 }
 
-.post-card-actions .btn-like .bx {
-    font-size: 1.1em; /* Ajuste o tamanho do ícone */
+/* Garante que o número dentro do span também use essa cor */
+.post-card-actions .btn-like .like-display {
+    color: inherit; /* Isso faz com que ele herde a cor do pai (.btn-like) */
+    font-weight: bold; /* Opcional: para o número se destacar */
+}
+
+/* Se o ícone Boxicons não estiver com a cor correta, adicione também */
+.post-card-actions .btn-like i.bx {
+    color: inherit; /* Herda a cor do botão */
+    font-size: 1.2em; /* Tamanho do ícone */
 }
