@@ -144,6 +144,19 @@
                     <input type="text" id="postAuthor" class="form-control" required>
                 </div>
                 <div class="form-group mb-3">
+                     <label for="postCategory" class="form-label">Categoria:</label>
+                    <select id="postCategory" class="form-control" required>
+                    <option value="">Selecione uma categoria</option>
+                    <option value="Programação">Programação</option>
+                    <option value="Inteligência Artificial">Inteligência Artificial</option>
+                    <option value="Carreira">Carreira</option>
+                    <option value="Tecnologia">Tecnologia</option>
+                    <option value="Desenvolvimento Web">Desenvolvimento Web</option>
+                    <option value="Outros">Outros</option>
+                    </select>
+                    <small class="form-text text-muted">Selecione a categoria principal do seu artigo.</small>
+                </div>
+                <div class="form-group mb-3">
                     <label for="postSummary" class="form-label">Resumo (Curta descrição):</label>
                     <textarea id="postSummary" rows="3" class="form-control" required></textarea>
                 </div>
@@ -243,7 +256,9 @@
             document.getElementById('postSummary').value = post.summary;
             document.getElementById('postThumbnail').value = post.thumbnail || ''; // USA 'thumbnail' AQUI
             document.getElementById('postContent').value = post.content;
+            document.getElementById('postCategory').value = post.category || ''; // Assegura que o campo seja preenchido se a categoria existir no post// ...
             currentPostId = postId; // Armazena o ID do post que está sendo editado
+
 
         } catch (error) {
             console.error('Erro ao carregar post para edição:', error);
@@ -263,14 +278,16 @@
             return;
         }
 
-        const postData = {
-            title: document.getElementById('postTitle').value,
-            slug: document.getElementById('postSlug').value,
-            author: document.getElementById('postAuthor').value,
-            summary: document.getElementById('postSummary').value,
-            thumbnail: document.getElementById('postThumbnail').value, // USA 'thumbnail' AQUI
-            content: document.getElementById('postContent').value
-        };
+       // ... dentro do listener de submit do postForm ...
+const postData = {
+    title: document.getElementById('postTitle').value,
+    slug: document.getElementById('postSlug').value,
+    author: document.getElementById('postAuthor').value,
+    summary: document.getElementById('postSummary').value,
+    thumbnail: document.getElementById('postThumbnail').value,
+    content: document.getElementById('postContent').value,
+    category: document.getElementById('postCategory').value // Coleta o valor do campo de categoria
+};
 
         let url = `${BACKEND_BASE_URL}/api/posts`;
         let method = 'POST';
