@@ -337,3 +337,26 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'F12') e.preventDefault();
 });
 
+// --- NOVO: Lógica para o Botão Voltar ao Topo ---
+const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+// Função para mostrar/esconder o botão
+window.onscroll = function() {
+    // Mostra o botão se a rolagem for maior que 200px (ou outro valor de sua escolha)
+    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+        scrollToTopBtn.classList.add("show");
+    } else {
+        scrollToTopBtn.classList.remove("show");
+    }
+};
+
+// Adiciona evento de clique para rolar para o topo (suavemente)
+// O 'href="#home"' já faz uma rolagem padrão, mas esta é mais suave
+scrollToTopBtn.addEventListener("click", function(e) {
+    e.preventDefault(); // Impede o comportamento padrão do link
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth" // Rola suavemente
+    });
+});
+// --- Fim da Lógica do Botão Voltar ao Topo ---

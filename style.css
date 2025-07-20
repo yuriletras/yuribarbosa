@@ -2566,3 +2566,50 @@ body.light-theme .list-group-item {
     color: inherit; /* Herda a cor do botão */
     font-size: 1.2em; /* Tamanho do ícone */
 }
+
+/* --- NOVO/ATUALIZADO: Estilos para o Botão Voltar ao Topo --- */
+.scroll-to-top-btn {
+    position: fixed; /* Fixa o botão na tela */
+    bottom: 25px; /* Distância do fundo */
+    right: 25px; /* Distância da direita */
+    background-color: var(--main-color); /* Usa a cor primária do tema */
+    color: var(--text-color-dark); /* Cor do ícone/texto (geralmente branco para contraste com primária) */
+    width: 50px; /* Largura */
+    height: 50px; /* Altura */
+    border-radius: 50%; /* Faz um círculo */
+    display: flex; /* Para centralizar o ícone */
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    font-size: 2em; /* Tamanho do ícone */
+    box-shadow: var(--box-shadow-medium, 0 8px 25px rgba(0,0,0,0.5)); /* Sombra para destaque */
+    cursor: pointer; /* Indica que é clicável */
+    z-index: 1000; /* Garante que fique acima de outros elementos */
+    opacity: 0; /* Começa invisível */
+    visibility: hidden; /* Esconde completamente (não clicável quando invisível) */
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, transform 0.3s ease; /* Transições suaves */
+    transform: translateY(20px); /* Começa um pouco abaixo para efeito */
+    text-decoration: none; /* Remove sublinhado padrão do link */
+}
+
+.scroll-to-top-btn:hover {
+    background-color: var(--hover-color); /* Usa a cor primária de hover do tema */
+    transform: translateY(0) scale(1.05); /* Pequeno efeito de elevação e escala ao passar o mouse */
+}
+
+/* Classe para mostrar o botão quando necessário */
+.scroll-to-top-btn.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0); /* Sobe para a posição final */
+}
+
+/* Responsividade básica para o botão (ajusta a posição em telas menores, se necessário) */
+@media (max-width: 768px) {
+    .scroll-to-top-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.8em;
+        bottom: 20px;
+        right: 20px;
+    }
+}
