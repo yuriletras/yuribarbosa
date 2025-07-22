@@ -288,25 +288,59 @@ window.onscroll = () => {
     }
 };
 
-// --- Project Modal Logic ---
+// --- Project Modal Logic (ATUALIZADO) ---
 const portfolioBoxes = document.querySelectorAll('.portfolio-box');
 const projectModal = document.getElementById('projectModal');
-const projectModalCloseBtn = document.querySelector('.project-modal-close-btn');
+const projectModalCloseBtn = document.querySelector('.project-modal-close-btn'); // Cuidado com a classe, se mudou no HTML do modal
 const projectModalImage = document.getElementById('projectModalImage');
 const projectModalTitle = document.getElementById('projectModalTitle');
 const projectModalDescription = document.getElementById('projectModalDescription');
 const projectModalLink = document.getElementById('projectModalLink');
+const projectModalRepo = document.getElementById('projectModalRepo'); // NOVO: Elemento para o link do repositório
+const projectModalGallery = document.getElementById('projectModalGallery'); // NOVO: Container da galeria de imagens
+const projectModalDetailedReportText = document.getElementById('projectModalDetailedReportText'); // NOVO: Elemento para o relatório detalhado
 
 if (projectModal && projectModalCloseBtn) {
     portfolioBoxes.forEach(box => {
         box.addEventListener('click', () => {
+            // Preenche os campos existentes
             projectModalImage.src = box.dataset.projectImg;
             projectModalTitle.textContent = box.dataset.projectTitle;
             projectModalDescription.textContent = box.dataset.projectDescription;
             projectModalLink.href = box.dataset.projectLink;
-            projectModalLink.style.display = box.dataset.projectLink !== '#' ? 'inline-block' : 'none';
+            projectModalLink.style.display = box.dataset.projectLink && box.dataset.projectLink !== '#' ? 'inline-flex' : 'none'; // Usa 'inline-flex' para combinar com o CSS do botão
+
+            // NOVO: Preenche o link do repositório
+            const repoLink = box.dataset.projectRepo;
+            if (projectModalRepo) { // Verifica se o elemento existe no HTML do modal
+                projectModalRepo.href = repoLink;
+                projectModalRepo.style.display = repoLink && repoLink !== '#' ? 'inline-flex' : 'none';
+            }
+
+            // NOVO: Preenche as imagens adicionais (galeria)
+            if (projectModalGallery) {
+                projectModalGallery.innerHTML = ''; // Limpa as imagens anteriores
+                const images = [];
+                if (box.dataset.projectImg1) images.push(box.dataset.projectImg1);
+                if (box.dataset.projectImg2) images.push(box.dataset.projectImg2);
+                if (box.dataset.projectImg3) images.push(box.dataset.projectImg3);
+
+                images.forEach(imgSrc => {
+                    const imgElement = document.createElement('img');
+                    imgElement.src = imgSrc;
+                    imgElement.alt = `Detalhe do Projeto ${box.dataset.projectTitle}`;
+                    projectModalGallery.appendChild(imgElement);
+                });
+            }
+
+            // NOVO: Preenche o relatório detalhado
+            if (projectModalDetailedReportText) {
+                projectModalDetailedReportText.textContent = box.dataset.projectDetailedReport || 'Nenhum relatório detalhado disponível para este projeto.';
+            }
+
+            // Exibe o modal
             projectModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden'; // Impede a rolagem do body
         });
     });
 
