@@ -1390,57 +1390,253 @@ body.light-theme .project-modal-content {
     transform: scale(1.05);
 }
 
-/* Responsividade do Modal */
-@media (max-width: 768px) {
+/* Ajustes gerais para a imagem principal, título e descrição dentro do modal */
+.project-modal-content #projectModalImage {
+    width: 100%;
+    max-height: 400px; /* Altura máxima para a imagem principal */
+    object-fit: contain; /* Alterado de 'cover' para 'contain' para garantir que a imagem inteira seja visível se necessário */
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 0 1rem rgba(0,0,0,0.1);
+}
+
+.project-modal-content h3 {
+    font-size: 3.8rem; /* Tamanho do título do projeto no modal */
+    margin-bottom: 1.5rem;
+    text-align: center;
+    line-height: 1.2;
+    color: var(--main-color);
+}
+
+.project-modal-content p {
+    font-size: 1.7rem; /* Tamanho da fonte para a descrição */
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    text-align: justify;
+}
+
+/* --- NOVO: Galeria de Imagens Adicionais --- */
+.project-modal-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Colunas flexíveis */
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.project-modal-gallery img {
+    width: 100%;
+    height: 180px; /* Altura fixa para miniaturas da galeria */
+    object-fit: cover;
+    border-radius: 0.8rem;
+    box-shadow: 0 0 0.8rem rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.project-modal-gallery img:hover {
+    transform: scale(1.03);
+}
+
+/* --- NOVO: Seção de Relatório Detalhado --- */
+.project-modal-report {
+    margin-bottom: 3rem;
+}
+
+.project-modal-report h4 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--main-color);
+    text-align: center;
+    border-bottom: 2px solid var(--main-color);
+    padding-bottom: 0.5rem;
+}
+
+.project-modal-report p {
+    font-size: 1.6rem;
+    line-height: 1.7;
+    text-align: justify;
+}
+
+/* --- Botões de Ação no Modal (Acessar Projeto, Ver Repositório) --- */
+.project-modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.project-modal-buttons .portfolio-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1.2rem 2.5rem;
+    background-color: var(--main-color);
+    color: var(--text-color);
+    border-radius: 4rem;
+    text-decoration: none;
+    font-size: 1.7rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 0.8rem var(--main-color);
+    flex-shrink: 0;
+}
+
+.project-modal-buttons .portfolio-btn:hover {
+    background-color: var(--hover-color);
+    box-shadow: none;
+    color: var(--text-color);
+    transform: scale(1.05);
+}
+
+
+/* --- INÍCIO DAS REGRAS DE RESPONSIVIDADE PARA O MODAL --- */
+
+/* Para telas menores que 991px (típico para tablets em paisagem e celulares) */
+@media (max-width: 991px) {
     .project-modal-content {
-        width: 95%;
-        padding: 2rem;
+        width: 95%; /* Ocupa mais largura em telas menores */
+        padding: 2.5rem; /* Ajusta o padding */
+        max-width: 800px; /* Ajusta o max-width para telas médias */
     }
 
     .project-modal-content h3 {
-        font-size: 3rem;
+        font-size: 3.5rem;
     }
 
     .project-modal-content p {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
     }
 
     .project-modal-gallery {
-        grid-template-columns: 1fr; /* Em telas menores, uma imagem por linha */
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Imagens menores para caber mais */
+        gap: 1rem;
+    }
+
+    .project-modal-gallery img {
+        height: 150px; /* Altura ajustada */
+    }
+
+    .project-modal-report h4 {
+        font-size: 2.2rem;
+    }
+
+    .project-modal-report p {
+        font-size: 1.5rem;
     }
 
     .project-modal-buttons {
-        flex-direction: column; /* Botões em coluna em telas menores */
-        gap: 1.2rem;
+        gap: 1.5rem;
+        flex-wrap: wrap; /* Permite que os botões quebrem a linha se não couberem */
     }
 
     .project-modal-buttons .portfolio-btn {
-        width: 100%; /* Botões ocupam a largura total em telas pequenas */
-        max-width: none; /* Remove a largura máxima */
         padding: 1rem 2rem;
         font-size: 1.6rem;
     }
 }
 
-@media (max-width: 480px) {
+/* Para telas menores que 768px (típico para celulares e tablets em retrato) */
+@media (max-width: 768px) {
     .project-modal-content {
-        padding: 1.5rem;
+        width: 95%;
+        padding: 2rem; /* Reduz mais o padding */
+        border-radius: 1rem; /* Borda mais suave */
     }
 
     .project-modal-close-btn {
-        font-size: 3rem;
+        font-size: 3rem; /* Botão de fechar menor */
         top: 1rem;
-        right: 1rem;
+        right: 1.5rem;
+    }
+
+    .project-modal-content #projectModalImage {
+        max-height: 250px; /* Reduz a altura da imagem principal */
+        margin-bottom: 1.5rem;
     }
 
     .project-modal-content h3 {
-        font-size: 2.5rem;
+        font-size: 2.8rem; /* Título menor */
+        margin-bottom: 1rem;
+    }
+
+    .project-modal-content p {
+        font-size: 1.4rem; /* Texto menor */
+        margin-bottom: 1.5rem;
+    }
+
+    .project-modal-gallery {
+        grid-template-columns: 1fr; /* Uma imagem por linha na galeria */
+        gap: 1rem;
+        margin-bottom: 2rem;
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+    }
+
+    .project-modal-gallery img {
+        height: auto; /* Altura automática para que a imagem se ajuste à largura total */
+    }
+
+    .project-modal-report {
+        margin-bottom: 2rem;
     }
 
     .project-modal-report h4 {
         font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .project-modal-report p {
+        font-size: 1.3rem;
+    }
+
+    .project-modal-buttons {
+        flex-direction: column; /* Botões empilhados verticalmente */
+        gap: 1rem;
+        margin-top: 2rem;
+        padding-top: 1rem;
+    }
+
+    .project-modal-buttons .portfolio-btn {
+        width: 100%; /* Botões ocupam a largura total */
+        text-align: center;
+        padding: 1rem 1.5rem;
+        font-size: 1.5rem;
     }
 }
+
+/* Para telas muito pequenas, como iPhone SE ou similares (max-width: 480px) */
+@media (max-width: 480px) {
+    .project-modal-content {
+        padding: 1.5rem;
+        border-radius: 0.8rem;
+    }
+
+    .project-modal-close-btn {
+        font-size: 2.5rem;
+        top: 0.8rem;
+        right: 1rem;
+    }
+
+    .project-modal-content h3 {
+        font-size: 2.4rem;
+    }
+
+    .project-modal-content p {
+        font-size: 1.3rem;
+    }
+
+    .project-modal-report h4 {
+        font-size: 1.8rem;
+    }
+}
+
+/* --- FIM DAS REGRAS DE RESPONSIVIDADE PARA O MODAL --- */
 
 /* --- Estilos para o Blog --- */
 .blog-main {
