@@ -11,40 +11,40 @@
     --hover-color: #00eeff; /* Cor para hover de botões/links no tema escuro */
     --border-color: rgba(255, 255, 255, 0.1); /* Cor de borda suave para o tema escuro */
 
-    /* Cores para o tema claro */
-    --light-bg-color: #f0f2f5; /* Fundo claro principal */
-    --light-second-bg-color: #ffffff; /* Fundo claro secundário (para cards, seções) */
-    --light-text-color: #333; /* Texto escuro */
-    --light-main-color: #007bff; /* Azul vibrante para o tema claro */
-    --light-hover-color: #0056b3; /* Um tom mais escuro para hover no tema claro */
-    --light-border-color: rgba(0, 0, 0, 0.1); /* Cor de borda suave para o tema claro */
+    /* Cores para o tema claro - VAMOS ALTERAR AQUI */
+    --light-bg-color: #f0f2f5; /* Fundo claro principal - MANTEMOS ESTE */
+    --light-second-bg-color: #ffffff; /* Fundo claro secundário (para cards, seções) - MANTEMOS ESTE */
+
+    --light-text-color: #111111; /* TEXTO CINZA (ANTIGO #333) AGORA PRETO */
+    --light-main-color: #919191; /* AZUL (ANTIGO #007bff) AGORA CINZA */
+    --light-hover-color: #6a6a6a; /* Um tom mais escuro de cinza para hover (ex: #6a6a6a) */
+    --light-border-color: rgba(0, 0, 0, 0.2); /* Borda um pouco mais escura/definida para o tema claro */
 
     /* Variáveis para botões de admin (se diferentes das principais) */
-    --primary-color: #007bff; /* Cor primária para botões (ex: azul) */
-    --primary-hover-color: #0056b3; /* Cor de hover para botões primários */
-    --text-color-dark: #fff; /* Cor do texto para fundos escuros */
+    --primary-color: #007bff; /* MANTEMOS, se não for afetar o tema claro */
+    --primary-hover-color: #0056b3; /* MANTEMOS, se não for afetar o tema claro */
+    --text-color-dark: #fff; /* MANTEMOS (texto branco para fundos escuros) */
 }
 
 /* Estilos do Tema Claro - Sobrescreve as variáveis padrão */
 body.light-theme {
     --bg-color: var(--light-bg-color);
     --second-bg-color: var(--light-second-bg-color);
-    --text-color: var(--light-text-color);
-    --main-color: var(--light-main-color);
-    --hover-color: var(--light-hover-color);
-    --border-color: var(--light-border-color);
+    --text-color: var(--light-text-color); /* Agora será #111111 */
+    --main-color: var(--light-main-color); /* Agora será #919191 */
+    --hover-color: var(--light-hover-color); /* Agora será #6a6a6a */
+    --border-color: var(--light-border-color); /* Agora será rgba(0, 0, 0, 0.2) */
 
     /* Cores específicas para elementos do tema claro com fundo escuro (header, modals, etc.) */
     /* Estas são exceções à regra geral de var(--light-...) */
-    --header-bg-light-theme: #323946; /* Fundo do cabeçalho fixo no tema claro */
-    --header-sticky-bg-light-theme: #323946; /* Fundo do cabeçalho sticky no tema claro */
-    --modal-bg-light-theme: #323946; /* Fundo de modais no tema claro */
-    --modal-text-light-theme: #fff; /* Texto de modais no tema claro */
-    --card-bg-light-theme: #323946; /* Fundo de cards (portfolio, skills) no tema claro */
-    --card-text-light-theme: #fff; /* Texto de cards (portfolio, skills) no tema claro */
-    --icon-color-light-theme-on-dark-bg: #fff; /* Cor de ícones em fundo escuro no tema claro */
+    --header-bg-light-theme: #111111; /* Fundo do cabeçalho fixo no tema claro - AGORA PRETO */
+    --header-sticky-bg-light-theme: #111111; /* Fundo do cabeçalho sticky no tema claro - AGORA PRETO */
+    --modal-bg-light-theme: #111111; /* Fundo de modais no tema claro - AGORA PRETO */
+    --modal-text-light-theme: #fff; /* Texto de modais no tema claro - PERMANECE BRANCO */
+    --card-bg-light-theme: #111111; /* Fundo de cards (portfolio, skills) no tema claro - AGORA PRETO */
+    --card-text-light-theme: #fff; /* Texto de cards (portfolio, skills) no tema claro - PERMANECE BRANCO */
+    --icon-color-light-theme-on-dark-bg: #fff; /* Cor de ícones em fundo escuro no tema claro - PERMANECE BRANCO */
 }
-
 
 /* Reset CSS e estilos básicos */
 * {

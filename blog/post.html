@@ -124,23 +124,39 @@
         .comment-form textarea:focus {
             border-color: var(--primary-color, #007bff);
             outline: 0;
+            /* Atualizado para usar a variável primary-rgb para o box-shadow */
             box-shadow: 0 0 0 0.25rem rgba(var(--primary-rgb, 0,123,255), 0.25);
         }
+        
+        /* === INÍCIO DAS MUDANÇAS PARA O BOTÃO DO FORMULÁRIO DE COMENTÁRIOS === */
         .comment-form .btn {
             display: inline-block;
-            background-color: var(--primary-color, #007bff);
-            color: var(--text-color-dark, #fff);
+            background-color: var(--main-color); /* Usar a variável do tema principal */
+            color: var(--bg-color); /* Cor do texto padrão para botões no tema escuro */
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, color 0.3s ease; /* Adicionado color na transição */
             font-weight: bold;
-            text-decoration: none; /* Para garantir que .btn seja consistente */
+            text-decoration: none;
         }
         .comment-form .btn:hover {
-            background-color: var(--primary-hover-color, #0056b3);
+            background-color: var(--hover-color); /* Usar a variável de hover do tema principal */
+            color: var(--text-color); /* Cor do texto padrão no hover para botões */
         }
+
+        /* Estilos para o tema CLARO no botão de comentário */
+        body.light-theme .comment-form .btn {
+            background-color: var(--light-main-color); /* CINZA (#919191) */
+            color: #fff; /* BRANCO */
+        }
+        body.light-theme .comment-form .btn:hover {
+            background-color: var(--light-hover-color); /* CINZA mais escuro (#6a6a6a) */
+            color: #fff; /* BRANCO */
+        }
+        /* === FIM DAS MUDANÇAS PARA O BOTÃO DO FORMULÁRIO DE COMENTÁRIOS === */
+
     </style>
 </head>
 
