@@ -279,6 +279,16 @@ body.light-theme .home-image {
     box-shadow: none;
 }
 
+/* Estilos para o vídeo na seção home */
+/*.home-image video {
+    width: 100%;
+    height: 100%; /* Pode ajustar para uma altura fixa se preferir */
+ /*   object-fit: cover; /* Garante que o vídeo preencha o espaço sem distorcer */
+ /*   border-radius: 50%; /* Se você quer o vídeo em formato circular */
+ /*   box-shadow: 0 0 4rem var(--main-color); /* Para a sombra brilhante */
+    /* Adicione outras propriedades de transição ou animação se desejar */
+ 
+
 @keyframes floatImage {
     0% {
         transform: translateY(0);
