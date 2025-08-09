@@ -8,36 +8,79 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <style>
-        /* Estilos específicos para a página de login */
+        /* Estilos base do body, garantindo centralização e fundo */
         body {
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            justify-content: center; /* Centraliza verticalmente o conteúdo */
-            align-items: center; /* Centraliza horizontalmente o conteúdo */
-            background-color: var(--background-color, #1a1a2e); /* Cor de fundo do seu tema */
+            justify-content: center;
+            align-items: center;
+            background-color: var(--background-color, #1a1a2e);
             color: var(--text-color-light, #fff);
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
         }
 
+        /* Esconde cabeçalho e rodapé, se existirem */
         .header, .footer {
-            display: none; /* Esconde cabeçalho e rodapé na página de login para uma experiência focada */
+            display: none;
         }
 
-        .login-container {
+        /* Container principal com layout Flexbox para a logo e o formulário */
+        .login-page-container {
+            display: flex;
+            flex-direction: column; /* Padrão para mobile: colunas */
             background-color: var(--secondary-bg-color, #2a2a4a);
-            padding: 40px;
-            border-radius: 10px;
             box-shadow: var(--box-shadow, 0 0 20px rgba(0,0,0,0.5));
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-            box-sizing: border-box;
+            border-radius: 10px;
+            overflow: hidden;
+            width: 90%;
+            max-width: 900px;
         }
 
-        .login-container h1 {
+        /* Estilo para desktop, com a logo à esquerda e o formulário à direita */
+        @media (min-width: 768px) {
+            .login-page-container {
+                flex-direction: row; /* Layout em linha para telas maiores */
+                height: 500px;
+            }
+        }
+
+        /* Seção da logo */
+        .login-logo-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1; /* Ocupa metade do espaço em desktop */
+            background-color: var(--secondary-bg-color, #2a2a4a); /* Mantendo a cor de fundo */
+            padding: 20px;
+        }
+
+        .login-logo {
+            max-width: 80%;
+            height: auto;
+        }
+
+        /* Seção do formulário de login */
+        .login-form-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex: 1; /* Ocupa metade do espaço em desktop */
+            padding: 40px;
+            background-color: var(--secondary-bg-color, #2a2a4a); /* Mantendo a cor de fundo */
+        }
+        
+        .login-form-section h1 {
             font-size: 2.2em;
+            margin-bottom: 10px;
+            color: var(--primary-color, #00b894); /* Usando a cor primária */
+        }
+        
+        .login-form-section p {
             margin-bottom: 30px;
-            color: var(--primary-color, #00b894);
+            font-size: 1.1em;
+            color: var(--text-color-light, #eee); /* Usando a cor de texto clara */
         }
 
         .form-group {
@@ -49,7 +92,7 @@
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
-            color: var(--text-color-light, #eee);
+            color: var(--text-color-light, #eee); /* Usando a cor de texto clara */
         }
 
         .form-group input {
@@ -58,22 +101,22 @@
             border: 1px solid var(--input-border-color, #444);
             border-radius: 5px;
             background-color: var(--input-bg-color, #1e1e3b);
-            color: var(--text-color-light, #eee);
+            color: var(--text-color-light, #eee); /* Usando a cor de texto clara */
             font-size: 1em;
             box-sizing: border-box;
         }
 
         .form-group input:focus {
             outline: none;
-            border-color: var(--primary-color, #00b894);
+            border-color: var(--primary-color, #00b894); /* Usando a cor primária */
             box-shadow: 0 0 0 3px rgba(var(--primary-rgb, 0,184,148), 0.3);
         }
 
         .login-button {
             width: 100%;
             padding: 15px;
-            background-color: var(--primary-color, #00b894);
-            color: var(--text-color-dark, #fff);
+            background-color: var(--primary-color, #00b894); /* Usando a cor primária */
+            color: var(--text-color-dark, #fff); /* Usando a cor de texto escura para contraste */
             border: none;
             border-radius: 5px;
             font-size: 1.1em;
@@ -83,7 +126,7 @@
         }
 
         .login-button:hover {
-            background-color: var(--primary-hover-color, #008f7a);
+            background-color: var(--primary-hover-color, #008f7a); /* Usando a cor primária de hover */
         }
 
         .error-message {
@@ -91,30 +134,37 @@
             margin-top: 15px;
             font-size: 0.9em;
             display: none; /* Inicialmente escondida */
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h1>Login Administrativo</h1>
-        <form id="loginForm">
-            <div class="form-group">
-                <label for="username">Usuário:</label>
-                <input type="text" id="username" name="username" required autocomplete="username">
-            </div>
-            <div class="form-group">
-                <label for="password">Senha:</label>
-                <input type="password" id="password" name="password" required autocomplete="current-password">
-            </div>
-            <button type="submit" class="login-button">Entrar</button>
-            <p id="errorMessage" class="error-message">Usuário ou senha inválidos.</p>
-        </form>
+    <div class="login-page-container">
+        <div class="login-logo-section">
+            <img src="../img/ybarbosa.png" alt="Logo Yuri Barbosa" class="login-logo">
+        </div>
+        
+        <div class="login-form-section">
+            <h1>Login Administrativo</h1>
+            <p>Por favor, faça login para continuar.</p>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Usuário:</label>
+                    <input type="text" id="username" name="username" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha:</label>
+                    <input type="password" id="password" name="password" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="login-button">Entrar</button>
+                <p id="errorMessage" class="error-message">Usuário ou senha inválidos.</p>
+            </form>
+        </div>
     </div>
 
     <script>
-        // Substitua esta URL pela URL base do seu backend (ex: se está em localhost:5000)
-        // Se você já fez deploy, use a URL de deploy (ex: https://seubackend.herokuapp.com)
-        const BACKEND_BASE_URL = 'https://portfolio-blog-backend-z8mi.onrender.com'; // ALtere para a URL do seu backend!
+        // Substitua esta URL pela URL base do seu backend
+        const BACKEND_BASE_URL = 'https://portfolio-blog-backend-z8mi.onrender.com';
 
         document.getElementById('loginForm').addEventListener('submit', async function(event) {
             event.preventDefault();
@@ -141,7 +191,7 @@
                     window.location.href = 'admin.html'; // Redireciona para a página admin
                 } else {
                     // Erro do backend (ex: 400 Bad Request, 401 Unauthorized)
-                    errorMessage.textContent = data.msg || 'Erro ao fazer login.';
+                    errorMessage.textContent = data.msg || data.message || 'Erro ao fazer login.';
                     errorMessage.style.display = 'block';
                 }
             } catch (error) {
@@ -152,12 +202,7 @@
         });
 
         // Verifica se o usuário já está logado ao carregar a página
-        // Se houver um token, tenta redirecionar para admin.html (útil se o usuário fechar/abrir a aba)
-        // Uma verificação de token mais robusta seria fazer uma requisição para o backend
-        // para validar o token, mas para simplificar, verificamos apenas a existência.
         if (localStorage.getItem('adminToken')) {
-            // Poderíamos adicionar uma verificação de token com o backend aqui,
-            // mas por agora, apenas a existência é suficiente para o redirecionamento imediato.
             window.location.href = 'admin.html';
         }
     </script>

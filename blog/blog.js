@@ -1,307 +1,286 @@
 // portfolio/blog/blog.js
 
-document.addEventListener('DOMContentLoaded', async () => {
-    // URL base da sua API de blog (onde seu backend Node.js está rodando)
-    const API_BASE_URL = 'https://portfolio-blog-backend-z8mi.onrender.com'; // Correção já feita aqui!
+// Escopo global para a URL da API
+const API_BASE_URL = 'https://portfolio-blog-backend-z8mi.onrender.com';
 
-    const postsContainer = document.getElementById('postsContainer');
-    const blogPostContent = document.getElementById('blogPostContent');
-    const postTitleTag = document.getElementById('post-title-tag');
+// Função para adicionar um like
+window.likePost = async (postId) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/posts/${postId}/like`, {
+            method: 'PUT'
+        });
 
-    const commentsList = document.getElementById('commentsList');
-    const commentForm = document.getElementById('commentForm');
-    const commentAuthorInput = document.getElementById('commentAuthor');
-    const commentContentInput = document.getElementById('commentContent');
-
-    // --- Função para carregar a LISTA de posts (para blog/index.html) ---
-    const loadBlogPosts = async () => {
-        if (!postsContainer) return;
-
-        postsContainer.innerHTML = '<p>Carregando posts...</p>';
-
-        try {
-            const response = await fetch(`${API_BASE_URL}/api/posts`); // Correção já feita aqui!
-            if (!response.ok) {
-                throw new Error(`Erro HTTP! Status: ${response.status}`);
+        if (response.ok) {
+            const updatedPost = await response.json();
+            const likeCountElement = document.querySelector('.like-count');
+            if (likeCountElement) {
+                likeCountElement.textContent = updatedPost.likes;
             }
-            const posts = await response.json();
-
-            if (posts.length === 0) {
-                postsContainer.innerHTML = '<p>Nenhum post encontrado no momento.</p>';
-                return;
-            }
-
-            postsContainer.innerHTML = '';
-            posts.forEach(post => {
-                const postDate = new Date(post.publishedAt);
-                const formattedDate = postDate.toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' });
-
-                const postCard = `
-                    <div class="post-card" data-post-id="${post._id}">
-                        <img src="${post.thumbnail || '../images/blog/default-thumb.jpg'}" alt="${post.title}">
-                        <div class="post-card-content">
-                            <h3>${post.title}</h3>
-                            <p class="post-card-meta">Publicado em: ${formattedDate} por ${post.author}</p>
-                            <p>${post.summary}</p>
-                            <div class="post-card-actions">
-                                <button class="btn-like" data-post-id="${post._id}"><i class='bx bxs-heart'></i> <span class="like-display">${post.likes || 0}</span></button>
-                                <a href="post.html?id=${post._id}" class="btn">Ler Mais <i class='bx bx-right-arrow-alt'></i></a>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                postsContainer.innerHTML += postCard;
-            });
-
-            // NOVO: Adiciona listeners aos botões de curtir nos cards da lista
-            document.querySelectorAll('.post-card .btn-like').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    // Pega o ID do atributo data-post-id do próprio botão
-                    const postId = e.currentTarget.dataset.postId;
-                    if (postId) {
-                        handleLikePost(postId);
-                    }
-                });
-            });
-
-        } catch (error) {
-            console.error('Erro ao carregar posts:', error);
-            postsContainer.innerHTML = '<p>Não foi possível carregar os posts. Tente novamente mais tarde.</p>';
+        } else {
+            console.error('Erro ao dar like.', response.status);
+            alert('Não foi possível dar like. Verifique a conexão com o servidor.');
         }
-    };
+    } catch (error) {
+        console.error('Falha ao dar like:', error);
+    }
+};
 
-    // --- Função para carregar um post ESPECÍFICO (para blog/post.html) ---
-    const loadSinglePost = async () => {
-        if (!blogPostContent) return;
+// Função para carregar a LISTA de posts (para blog/index.html)
+const loadBlogPosts = async () => {
+    const postsContainer = document.getElementById('postsContainer');
+    if (!postsContainer) return;
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const postId = urlParams.get('id');
+    postsContainer.innerHTML = '<p>Carregando posts...</p>';
 
-        if (!postId) {
-            blogPostContent.innerHTML = '<p>Post não especificado.</p>';
-            if (postTitleTag) postTitleTag.textContent = 'Post Não Encontrado';
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/posts`);
+        if (!response.ok) {
+            throw new Error(`Erro HTTP! Status: ${response.status}`);
+        }
+        const posts = await response.json();
+
+        postsContainer.innerHTML = '';
+
+        if (posts.length === 0) {
+            postsContainer.innerHTML = '<p>Nenhum post encontrado no momento.</p>';
             return;
         }
-
-        blogPostContent.innerHTML = '<p>Carregando post...</p>';
-
-        try {
-            const response = await fetch(`${API_BASE_URL}/api/posts/${postId}`); // Correção já feita aqui!
-            if (!response.ok) {
-                if (response.status === 404) {
-                    blogPostContent.innerHTML = '<p>O post que você está procurando não foi encontrado.</p>';
-                    if (postTitleTag) postTitleTag.textContent = 'Post Não Encontrado';
-                    return;
-                }
-                if (response.status === 400) {
-                    blogPostContent.innerHTML = '<p>O ID do post é inválido. Por favor, verifique o link.</p>';
-                    if (postTitleTag) postTitleTag.textContent = 'ID Inválido';
-                    return;
-                }
-                throw new Error(`Erro HTTP! Status: ${response.status}`);
-            }
-            const post = await response.json();
-
-            if (postTitleTag) postTitleTag.textContent = `${post.title} - Meu Blog`;
-
+        
+        posts.forEach(post => {
             const postDate = new Date(post.publishedAt);
             const formattedDate = postDate.toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' });
+            
+            let thumbnailUrl = '';
+            if (post.thumbnail && !post.thumbnail.startsWith('http')) {
+                thumbnailUrl = `${API_BASE_URL}${post.thumbnail}`;
+            } else if (post.thumbnail) {
+                thumbnailUrl = post.thumbnail;
+            } else {
+                thumbnailUrl = '../images/blog/default-thumb.jpg';
+            }
 
-            blogPostContent.innerHTML = `
-                <article class="blog-post-article">
-                    <h1>${post.title}</h1>
-                    <p class="post-meta">
-                        Publicado em: <span>${formattedDate}</span> |
-                        Autor: ${post.author} |
-                        Visualizações: ${post.views || 0}
-                    </p>
-                    ${post.thumbnail ? `<img src="${post.thumbnail}" alt="${post.title}">` : ''}
-                    <div class="post-content-html">${post.content}</div>
-                    <div class="post-actions">
-                        <button class="like-button" data-post-id="${post._id}"><i class='bx bx-heart'></i> <span class="like-count">${post.likes || 0}</span> Curtidas</button>
-                        <button class="share-button" data-post-title="${post.title}" data-post-url="${window.location.href}">Compartilhar <i class='bx bx-share-alt'></i></button>
+            const postCard = `
+                <a href="post.html?id=${post._id}" class="blog-post-card">
+                    <img src="${thumbnailUrl}" alt="${post.title}">
+                    <div class="blog-post-card-content">
+                        <h3>${post.title}</h3>
+                        <p class="post-card-meta">Publicado em: ${formattedDate} por ${post.author}</p>
+                        <p>${post.summary}</p>
+                        <div class="blog-post-card-footer">
+                            <span class="read-more-btn">Ler Mais <i class='bx bx-right-arrow-alt'></i></span>
+                        </div>
                     </div>
-                </article>
+                </a>
             `;
+            postsContainer.innerHTML += postCard;
+        });
 
-            // Listener para o botão de curtir na página de post individual
-            const likeButton = blogPostContent.querySelector('.like-button');
-            if (likeButton) {
-                likeButton.addEventListener('click', () => handleLikePost(post._id));
-            }
+    } catch (error) {
+        console.error('Erro ao carregar posts:', error);
+        postsContainer.innerHTML = '<p>Não foi possível carregar os posts. Tente novamente mais tarde.</p>';
+    }
+};
 
-            const shareButton = blogPostContent.querySelector('.share-button');
-            if (shareButton) {
-                shareButton.addEventListener('click', () => handleSharePost(shareButton.dataset.postTitle, shareButton.dataset.postUrl));
-            }
+// Função para carregar um POST INDIVIDUAL (para blog/post.html)
+const loadSinglePost = async () => {
+    const postContentContainer = document.getElementById('postContent');
+    if (!postContentContainer) return;
 
-            await loadComments(postId);
+    const urlParams = new URLSearchParams(window.location.search);
+    const postId = urlParams.get('id');
 
-        } catch (error) {
-            console.error('Erro ao carregar post:', error);
-            blogPostContent.innerHTML = '<p>Ocorreu um erro ao carregar o post. Por favor, tente novamente mais tarde.</p>';
-            if (postTitleTag) postTitleTag.textContent = 'Erro ao Carregar Post';
+    if (!postId) {
+        postContentContainer.innerHTML = '<h1>Post não encontrado.</h1>';
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/posts/${postId}`);
+        if (!response.ok) {
+            throw new Error('Erro ao carregar o post.');
         }
-    };
+        const post = await response.json();
 
-    // --- Funções de Ação (Curtir e Compartilhar) ---
-    const handleLikePost = async (postId) => {
-        try {
-            // AQUI: A URL e o método já estão corretos
-            const response = await fetch(`${API_BASE_URL}/api/posts/${postId}/like`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({}) // Enviando um corpo vazio, conforme sua API espera
-            });
-
-            if (!response.ok) {
-                // Tenta ler o erro como JSON. Se falhar (ex: retornou HTML), cai no catch e usa a mensagem genérica.
-                const errorData = await response.json().catch(() => ({ msg: 'Resposta não é JSON ou erro desconhecido.' }));
-                throw new Error(`Falha ao curtir: ${errorData.msg || response.statusText}`);
-            }
-
-            const updatedData = await response.json(); // O backend deve retornar { msg: ..., likes: ... }
-            const newLikesCount = updatedData.likes; // Pega o número de likes do retorno do backend
-
-            // ATUALIZA O NÚMERO DE LIKES TANTO NO CARD QUANTO NA PÁGINA DO POST
-            // Para a lista de posts (index.html)
-            const likeDisplayOnCard = document.querySelector(`.post-card[data-post-id="${postId}"] .like-display`);
-            if (likeDisplayOnCard) {
-                likeDisplayOnCard.textContent = newLikesCount;
-            }
-
-            // Para a página de post individual (post.html)
-            const likeCountSpanOnSinglePost = document.querySelector(`.like-button[data-post-id="${postId}"] .like-count`);
-            if (likeCountSpanOnSinglePost) {
-                likeCountSpanOnSinglePost.textContent = newLikesCount;
-            }
-
-            alert(`Você curtiu o post! Total de curtidas: ${newLikesCount}`);
-
-        } catch (error) {
-            console.error('Erro ao curtir o post:', error);
-            alert(`Erro ao curtir: ${error.message}`);
-        }
-    };
-
-    const handleSharePost = (title, url) => {
-        if (navigator.share) {
-            navigator.share({
-                title: title,
-                url: url
-            }).then(() => {
-                console.log('Conteúdo compartilhado com sucesso!');
-            }).catch(error => {
-                console.error('Erro ao compartilhar:', error);
-            });
+        document.title = `${post.title} - Blog`;
+        
+        let thumbnailUrl = '';
+        if (post.thumbnail && !post.thumbnail.startsWith('http')) {
+            thumbnailUrl = `${API_BASE_URL}${post.thumbnail}`;
+        } else if (post.thumbnail) {
+            thumbnailUrl = post.thumbnail;
         } else {
-            navigator.clipboard.writeText(url)
-                .then(() => {
-                    alert(`Link copiado para a área de transferência: ${url}\nCompartilhe "${title}"`);
-                })
-                .catch(err => {
-                    console.error('Falha ao copiar o link:', err);
-                    alert('Não foi possível copiar o link. Por favor, copie manualmente: ' + url);
-                });
+            thumbnailUrl = '../images/blog/default-thumb.jpg';
         }
-    };
 
-    // --- Função para renderizar os comentários ---
-    const renderComments = (comments) => {
-        if (!commentsList) return;
+        const postDate = new Date(post.publishedAt);
+        const formattedPostDate = postDate.toLocaleDateString('pt-BR');
 
-        commentsList.innerHTML = '';
+        const postHtml = `
+            <img src="${thumbnailUrl}" alt="${post.title}" class="post-main-image">
+            <h1>${post.title}</h1>
+            <p class="post-meta">Por ${post.author} em ${formattedPostDate}</p>
+            <div class="post-content-html">${post.content}</div>
+            <div class="post-actions">
+                <button class="like-button" data-post-id="${post._id}"><i class='bx bx-like'></i><span class="like-count">${post.likes}</span> Likes</button>
+            </div>
+        `;
+        postContentContainer.innerHTML = postHtml;
+        
+        const likeButton = document.querySelector('.like-button');
+        if (likeButton) {
+            likeButton.addEventListener('click', () => {
+                likePost(likeButton.dataset.postId);
+            });
+        }
+
+        loadComments(postId);
+
+    } catch (error) {
+        console.error("Falha ao carregar o post:", error);
+        postContentContainer.innerHTML = '<p>Erro ao carregar o post. Tente novamente mais tarde.</p>';
+    }
+};
+
+// Função para carregar comentários (seção de comentários)
+const loadComments = async (postId) => {
+    const commentsSection = document.getElementById('commentsSection');
+    if (!commentsSection) return;
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/posts/${postId}/comments`);
+        if (!response.ok) {
+            throw new Error(`Erro ao carregar comentários: ${response.status}`);
+        }
+        let comments = await response.json();
+
+        // Ordenar comentários do mais recente ao mais antigo
+        comments.sort((a, b) => {
+            const dateA = new Date(a.publishedAt || a.createdAt);
+            const dateB = new Date(b.publishedAt || b.createdAt);
+            return dateB - dateA;
+        });
+
+        // Gerar o HTML do formulário primeiro
+        let commentsHtml = `
+            <div class="comment-form-container">
+                <h3>Deixe um comentário</h3>
+                <form id="commentForm">
+                    <input type="hidden" id="postId" value="${postId}">
+                    <input type="text" id="commentAuthor" placeholder="Seu nome" required>
+                    <textarea id="commentContent" placeholder="Seu comentário..." required></textarea>
+                    <button type="submit" class="btn">Enviar Comentário</button>
+                </form>
+            </div>
+            
+            <div class="comments-section">
+                <h3>Comentários (${comments.length})</h3>
+                <div class="comments-list">
+        `;
 
         if (comments.length === 0) {
-            commentsList.innerHTML = '<p>Nenhum comentário ainda. Seja o primeiro a comentar!</p>';
-            return;
-        }
-
-        comments.forEach(comment => {
-            const commentDate = new Date(comment.publishedAt);
-            const formattedDate = commentDate.toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' });
-
-            const commentElement = `
-                <div class="comment-item">
-                    <p class="comment-author">${comment.author}</p>
-                    <p class="comment-content">${comment.content}</p>
-                    <p class="comment-date">Comentado em: ${formattedDate}</p>
-                </div>
-            `;
-            commentsList.innerHTML += commentElement;
-        });
-    };
-
-    // --- Função para carregar comentários de um post ---
-    const loadComments = async (postId) => {
-        if (!commentsList) return;
-
-        try {
-            const response = await fetch(`${API_BASE_URL}/api/posts/${postId}/comments`); // Correção já feita aqui!
-            if (!response.ok) {
-                throw new Error(`Erro HTTP ao carregar comentários! Status: ${response.status}`);
-            }
-            const comments = await response.json();
-            renderComments(comments);
-        } catch (error) {
-            console.error('Erro ao carregar comentários:', error);
-            commentsList.innerHTML = '<p>Não foi possível carregar os comentários.</p>';
-        }
-    };
-
-    // --- Função para enviar um novo comentário ---
-    const submitComment = async (event) => {
-        event.preventDefault();
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const postId = urlParams.get('id');
-
-        const author = commentAuthorInput.value.trim();
-        const content = commentContentInput.value.trim();
-
-        if (!postId || !author || !content) {
-            alert('Por favor, preencha todos os campos do comentário e verifique se o post está carregado.');
-            return;
-        }
-
-        try {
-            const response = await fetch(`${API_BASE_URL}/api/posts/${postId}/comments`, { // Correção já feita aqui!
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ author, content })
+            commentsHtml += '<p>Nenhum comentário ainda. Seja o primeiro a comentar!</p>';
+        } else {
+            comments.forEach(comment => {
+                const commentDate = new Date(comment.publishedAt || comment.createdAt).toLocaleDateString('pt-BR');
+                commentsHtml += `
+                    <div class="comment-item">
+                        <div class="comment-header">
+                            <span class="comment-author">${comment.author}</span>
+                            <span class="comment-date">em ${commentDate}</span>
+                        </div>
+                        <p class="comment-content">${comment.content}</p>
+                    </div>
+                `;
             });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(`Falha ao enviar comentário: ${errorData.msg || response.statusText}`);
-            }
-
-            const newComment = await response.json();
-            alert('Comentário enviado com sucesso!');
-
-            commentAuthorInput.value = '';
-            commentContentInput.value = '';
-
-            loadComments(postId); // Recarrega os comentários para exibir o novo
-
-        } catch (error) {
-            console.error('Erro ao enviar comentário:', error);
-            alert(`Erro ao enviar comentário: ${error.message}`);
         }
-    };
+        
+        commentsHtml += `
+                </div>
+            </div>
+        `;
 
-    // Inicialização baseada na URL
-    if (window.location.pathname.includes('/blog/index.html') || window.location.pathname.endsWith('/blog/')) {
+        commentsSection.innerHTML = commentsHtml;
+
+        document.getElementById('commentForm').addEventListener('submit', handleCommentSubmit);
+
+    } catch (error) {
+        console.error('Erro ao carregar comentários:', error);
+        commentsSection.innerHTML = `
+            <h2>Comentários</h2>
+            <p>Não foi possível carregar os comentários. Tente novamente mais tarde.</p>
+        `;
+    }
+};
+
+// Função para lidar com o envio do formulário de comentários
+const handleCommentSubmit = async (event) => {
+    event.preventDefault();
+    
+    const form = event.target;
+    const postId = form.elements.postId.value;
+    const author = form.elements.commentAuthor.value;
+    const content = form.elements.commentContent.value;
+    
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/posts/${postId}/comments`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ author, content })
+        });
+        
+        if (response.ok) {
+            form.reset();
+            loadComments(postId);
+        } else {
+            console.error('Erro ao enviar comentário.', response.status);
+            alert('Não foi possível enviar o comentário. Tente novamente.');
+        }
+    } catch (error) {
+        console.error('Falha ao enviar comentário:', error);
+        alert('Falha na conexão. Tente novamente.');
+    }
+};
+
+
+// ----------------------------------------
+// NOVA FUNÇÃO PARA O BOTÃO "IR PARA O TOPO"
+// ----------------------------------------
+const setupScrollToTopButton = () => {
+    const scrollBtn = document.querySelector('.scroll-to-top-btn');
+
+    if (scrollBtn) {
+        // Mostra/esconde o botão com base na posição da rolagem
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) { // Mostra o botão após rolar 300px
+                scrollBtn.classList.add('show');
+            } else {
+                scrollBtn.classList.remove('show');
+            }
+        });
+
+        // Adiciona a funcionalidade de rolagem suave ao clicar no botão
+        scrollBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+};
+
+
+// Lógica de inicialização: Verifica a URL e chama as funções apropriadas
+document.addEventListener('DOMContentLoaded', () => {
+    const currentPath = window.location.pathname;
+
+    if (currentPath.includes('/blog/index.html') || currentPath.endsWith('/blog/')) {
         loadBlogPosts();
-    } else if (window.location.pathname.includes('/blog/post.html')) {
+    } else if (currentPath.includes('/blog/post.html')) {
         loadSinglePost();
     }
 
-    if (commentForm) {
-        commentForm.addEventListener('submit', submitComment);
-    }
+    // Chamada para inicializar o botão "ir para o topo"
+    setupScrollToTopButton();
 });

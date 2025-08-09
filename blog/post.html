@@ -3,238 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="post-title-tag">Carregando Post...</title>
+    <title>Título do Post - Blog</title>
     <link rel="stylesheet" href="../style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <style>
-        /* ESTILO ADICIONADO/AJUSTADO AQUI para o conteúdo principal não ser cortado */
-        .blog-main {
-            padding-top: 80px; /* Ajuste este valor se o menu for mais alto. Comece com 80px. */
-            padding-bottom: 50px; /* Adiciona um espaço antes do footer, ajuste se necessário */
-        }
-        /* Estilos específicos para a seção de detalhe do post */
-        .blog-post-detail {
-            max-width: 900px; /* Largura ideal para conteúdo de leitura */
-            margin: 0 auto;
-            padding: 20px;
-            background-color: var(--secondary-bg-color, #333); /* Cor de fundo do seu tema */
-            border-radius: 8px;
-            box-shadow: var(--box-shadow, 0 0 10px rgba(0,0,0,0.3));
-            color: var(--text-color-light, #eee); /* Cor do texto do seu tema */
-            margin-top: 30px; /* Margem superior para separar do header mesmo com padding */
-        }
-
-        /* Estilos para o conteúdo do post, caso o JavaScript não os adicione */
-        .blog-post-content h1 {
-            font-size: 2.8em; /* Título do post */
-            margin-bottom: 15px;
-            color: var(--primary-color, #007bff); /* Cor principal do seu tema */
-            text-align: center;
-        }
-        .blog-post-content .post-meta {
-            font-size: 0.9em;
-            color: var(--text-color-muted, #aaa);
-            margin-bottom: 25px;
-            text-align: center;
-        }
-        .blog-post-content img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            display: block;
-            margin: 20px auto;
-        }
-        .blog-post-content p {
-            margin-bottom: 1em;
-            line-height: 1.6;
-        }
-        .blog-post-content h2, .blog-post-content h3 {
-            color: var(--primary-color, #007bff);
-            margin-top: 2em;
-            margin-bottom: 1em;
-        }
-        .blog-post-content ul, .blog-post-content ol {
-            margin-bottom: 1em;
-            padding-left: 20px;
-        }
-        .blog-post-content li {
-            margin-bottom: 0.5em;
-        }
-
-        /* Estilos para a seção de comentários */
-        .comments-section {
-            margin-top: 50px;
-            border-top: 1px solid var(--border-color, #444);
-            padding-top: 30px;
-        }
-        .comments-section h2, .comments-section h3 {
-            color: var(--primary-color, #007bff);
-            margin-bottom: 20px;
-        }
-        .comments-list {
-            margin-bottom: 30px;
-        }
-        .comment-item {
-            background-color: var(--tertiary-bg-color, #444); /* Um fundo ligeiramente diferente para comentários */
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        .comment-author {
-            font-weight: bold;
-            color: var(--text-color-light, #eee);
-            margin-bottom: 5px;
-        }
-        .comment-date {
-            font-size: 0.8em;
-            color: var(--text-color-muted, #ccc);
-            margin-bottom: 10px;
-            display: block;
-        }
-        .comment-content {
-            font-size: 0.95em;
-            line-height: 1.5;
-            color: var(--text-color-light, #ddd);
-        }
-
-        /* Estilos para o formulário de comentário */
-        .comment-form .form-group {
-            margin-bottom: 1rem;
-        }
-        .comment-form label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: bold;
-            color: var(--text-color-light, #eee);
-        }
-        .comment-form input[type="text"],
-        .comment-form textarea {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            font-size: 1rem;
-            color: var(--text-color-dark, #333);
-            background-color: var(--input-bg-color, #fff);
-            border: 1px solid var(--input-border-color, #ced4da);
-            border-radius: 0.25rem;
-            box-sizing: border-box;
-        }
-        .comment-form input[type="text"]:focus,
-        .comment-form textarea:focus {
-            border-color: var(--primary-color, #007bff);
-            outline: 0;
-            /* Atualizado para usar a variável primary-rgb para o box-shadow */
-            box-shadow: 0 0 0 0.25rem rgba(var(--primary-rgb, 0,123,255), 0.25);
-        }
-        
-        /* === INÍCIO DAS MUDANÇAS PARA O BOTÃO DO FORMULÁRIO DE COMENTÁRIOS === */
-        .comment-form .btn {
-            display: inline-block;
-            background-color: var(--main-color); /* Usar a variável do tema principal */
-            color: var(--bg-color); /* Cor do texto padrão para botões no tema escuro */
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease; /* Adicionado color na transição */
-            font-weight: bold;
-            text-decoration: none;
-        }
-        .comment-form .btn:hover {
-            background-color: var(--hover-color); /* Usar a variável de hover do tema principal */
-            color: var(--text-color); /* Cor do texto padrão no hover para botões */
-        }
-
-        /* Estilos para o tema CLARO no botão de comentário */
-        body.light-theme .comment-form .btn {
-            background-color: var(--light-main-color); /* CINZA (#919191) */
-            color: #fff; /* BRANCO */
-        }
-        body.light-theme .comment-form .btn:hover {
-            background-color: var(--light-hover-color); /* CINZA mais escuro (#6a6a6a) */
-            color: #fff; /* BRANCO */
-        }
-        /* === FIM DAS MUDANÇAS PARA O BOTÃO DO FORMULÁRIO DE COMENTÁRIOS === */
-
-    </style>
 </head>
-
-<body class="dark-theme">
+<body class="dark-theme blog-page">
     <header class="header">
         <i class='bx bx-menu' id="menu-icon"></i>
-
         <a href="../index.html" class="logo">
             <img src="../img/marca dagua 2 copia logo.png" alt="Logo Yuri Barbosa" class="main-logo">
         </a>
-        
         <nav class="navbar">
             <a href="../index.html#home">Início</a>
             <a href="../index.html#about">Sobre Mim</a>
             <a href="../index.html#skills">Habilidades</a>
             <a href="../index.html#portfolio">Portfólio</a>
             <a href="../index.html#contact">Contato</a>
-            <a href="index.html" class="navbar-link">Blog</a>
+            <a href="index.html" class="navbar-link active">Blog</a>
         </nav>
-        <div id="theme-toggle" class="bx bx-moon"></div>
     </header>
-
-    <main class="blog-main">
-        <section class="blog-post-detail" id="blog-post-detail">
-            <div class="blog-post-content" id="blogPostContent">
-                <p>Carregando conteúdo do post...</p>
-            </div>
-
-            <section class="comments-section">
-                <h2>Comentários</h2>
-                <div id="commentsList" class="comments-list">
-                    <p>Nenhum comentário ainda. Seja o primeiro a comentar!</p>
+    <main class="post-main">
+        <div class="page-content">
+            <div class="post-content-container">
+                <article id="postContent" class="blog-post-article">
+                    <p>Carregando conteúdo do post...</p>
+                </article>
+                <section id="commentsSection" class="comments-section">
+                </section>
+                
+                <div class="back-button-container">
+                    <button onclick="history.back()" class="btn back-btn">
+                        <i class='bx bx-left-arrow-alt'></i> Voltar
+                    </button>
                 </div>
-
-                <h3>Deixe seu Comentário</h3>
-                <form id="commentForm" class="comment-form">
-                    <div class="form-group">
-                        <label for="commentAuthor">Seu Nome:</label>
-                        <input type="text" id="commentAuthor" name="author" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="commentContent">Comentário:</label>
-                        <textarea id="commentContent" name="content" rows="5" required></textarea>
-                    </div>
-                    <button type="submit" class="btn">Enviar Comentário</button>
-                </form>
-            </section>
-        </section>
+            </div>
+        </div>
     </main>
-
     <footer class="footer">
         <div class="footer-content-wrapper">
             <div class="footer-left-content">
                 <img src="../img/ybarbosa.png" alt="Seu Logo ou Foto no Footer" class="footer-logo-img">
                 <p class="footer-slogan">Vivendo, aprendendo e evoluindo um dia de cada vez.</p>
             </div>
-
             <div class="footer-right-content">
                 <h3 class="footer-social-heading">SOCIAL</h3>
                 <div class="footer-social-links">
-                    <a href="http://www.linkedin.com/in/yuri-basi" target="_blank"><i class='bx bxl-linkedin'></i></a>
-                    <a href="https://github.com/yuriletras/yuriletras" target="_blank"><i class='bx bxl-github'></i></a>
-                    <a href="URL_DO_SEU_YOUTUBE" target="_blank"><i class='bx bxl-youtube'></i></a> <a href="URL_DO_SEU_INSTAGRAM" target="_blank"><i class='bx bxl-instagram'></i></a>
+                    <a href="http://www.linkedin.com/in/yuri-basi" target="_blank" rel="noopener noreferrer"><i class='bx bxl-linkedin'></i></a>
+                    <a href="https://github.com/yuriletras/yuriletras" target="_blank" rel="noopener noreferrer"><i class='bx bxl-github'></i></a>
+                    <a href="URL_DO_SEU_YOUTUBE" target="_blank"><i class='bx bxl-youtube'></i></a>
+                    <a href="URL_DO_SEU_INSTAGRAM" target="_blank"><i class='bx bxl-instagram'></i></a>
                 </div>
             </div>
         </div>
-
         <hr class="footer-divider">
-
         <a href="#home" id="scrollToTopBtn" class="scroll-to-top-btn" title="Voltar ao Topo">
             <i class='bx bx-arrow-to-top'></i>
         </a>
-
         <div class="footer-copyright">
             <p>Copyright &copy; 2025 by Yuri Barbosa | All Rights Reserved.</p>
         </div>
     </footer>
-
-    <script src="../script.js"></script> <script src="blog.js"></script>
+    <script src="../script.js"></script>
+    <script src="blog.js"></script>
 </body>
 </html>
