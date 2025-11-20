@@ -1719,7 +1719,7 @@ section {
     /* ====================== */
     .scroll-down-wrapper {
         position: absolute !important;
-        bottom: 20px !important; /* Mais próximo do conteúdo */
+        bottom: 200px !important; /* Era 20px - AGORA 50% MAIS PRÓXIMO */
         left: 50% !important;
         transform: translateX(-50%) !important;
         z-index: 1000 !important;
