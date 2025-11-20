@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="/img/logo_blog.png">
+    <!-- ✅ CORRIGIDO: volta 1 nível para acessar img na raiz -->
+    <link rel="icon" type="image/png" href="../img/logo_blog.png">
     <title>Yuri | Blog & Portfólio</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     
+    <!-- ✅ MANTÉM APENAS O CSS DO BLOG (dentro da pasta blog) -->
     <link rel="stylesheet" href="blog.css">
 </head>
 <body class="blog">
@@ -17,12 +19,14 @@
     <header class="header">
         <div class="header-left">
             <i class='bx bx-menu' id="menu-icon"></i>
-            <a href="./index.html" class="logo">
-                <img src="/img/logo_blog.png" alt="Yuri Barbosa" class="main-logo">
+            <!-- ✅ CORRIGIDO: volta para index na raiz -->
+            <a href="../index.html" class="logo">
+                <img src="../img/logo_blog.png" alt="Yuri Barbosa" class="main-logo">
             </a>
             <div class="menu-text" id="menuText">MENU</div>
         </div>
-        <a href="/contato.html" class="contact-link">
+        <!-- ✅ CORRIGIDO: volta para contato na raiz -->
+        <a href="../contato.html" class="contact-link">
             <span class="contact-text">Entre em contato</span>
             <i class='bx bx-envelope contact-icon'></i>
         </a>
@@ -33,11 +37,12 @@
         <div class="menu-content">
             <i class='bx bx-x close-menu-btn' id="closeMenuBtn"></i>
             <nav class="full-navbar">
-                <a href="/index.html" class="menu-item">Início</a>
-                <a href="/sobremim.html" class="menu-item">Sobre Mim</a>
+                <!-- ✅ TODOS CORRIGIDOS: voltam para raiz -->
+                <a href="../index.html" class="menu-item">Início</a>
+                <a href="../sobremim.html" class="menu-item">Sobre Mim</a>
                 <a href="blog.html" class="menu-item active">Blog</a>
-                <a href="/contato.html" class="menu-item">Contato</a>
-                <a href="/admin/admin.html" class="menu-item admin-link"><i class='bx bx-cog'></i> Admin</a>
+                <a href="../contato.html" class="menu-item">Contato</a>
+                <a href="../admin/admin.html" class="menu-item admin-link"><i class='bx bx-cog'></i> Admin</a>
             </nav>
         </div>
     </div>
@@ -68,7 +73,8 @@
 
                     <!-- IMAGEM COM EFEITO PULSAÇÃO -->
                     <div class="blog-image-container">
-                        <img src="/img/img_blog.png" alt="Ilustração do Blog" class="blog-intro-img">
+                        <!-- ✅ CORRIGIDO: volta para img na raiz -->
+                        <img src="../img/img_blog.png" alt="Ilustração do Blog" class="blog-intro-img">
                     </div>
                 </div>
 
@@ -94,7 +100,8 @@
 
                 <!-- CTA FINAL -->
                 <div class="cta-inline-container">
-                    <a href="/contato.html" class="cta-inline-btn">
+                    <!-- ✅ CORRIGIDO: volta para contato na raiz -->
+                    <a href="../contato.html" class="cta-inline-btn">
                         Vamos conversar sobre seu projeto?
                         <i class='bx bx-right-arrow-alt cta-arrow'></i>
                     </a>
@@ -113,6 +120,7 @@
         <i class='bx bx-up-arrow-alt'></i>
     </a>
 
+    <!-- ✅ MANTÉM APENAS O JS DO BLOG (dentro da pasta blog) -->
     <script src="blog.js"></script>
 </body>
 </html>
