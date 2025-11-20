@@ -109,7 +109,7 @@
         .form-group input:focus {
             outline: none;
             border-color: var(--primary-color, #00b894); /* Usando a cor primária */
-            box-shadow: 0 0 0 3px rgba(var(--primary-rgb, 0,184,148), 0.3);
+            box-shadow: 0 0 0 3px rgba(0, 184, 148, 0.3);
         }
 
         .login-button {
@@ -135,6 +135,60 @@
             font-size: 0.9em;
             display: none; /* Inicialmente escondida */
             text-align: center;
+        }
+
+        /* Estados do botão */
+        .login-button:disabled {
+            background-color: var(--button-disabled-color, #666);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .login-button.loading {
+            position: relative;
+            color: transparent;
+        }
+
+        .login-button.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Melhorar acessibilidade */
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color, #00b894);
+            box-shadow: 0 0 0 3px rgba(0, 184, 148, 0.3);
+        }
+
+        /* Feedback visual para campos inválidos */
+        .form-group input:invalid {
+            border-color: #ff6b6b;
+        }
+
+        /* Responsividade adicional */
+        @media (max-width: 480px) {
+            .login-form-section {
+                padding: 20px;
+            }
+            
+            .login-form-section h1 {
+                font-size: 1.8em;
+            }
         }
     </style>
 </head>
@@ -163,8 +217,25 @@
     </div>
 
     <script>
-        // Substitua esta URL pela URL base do seu backend
+        // URL do seu backend - MANTIDA A MESMA
         const BACKEND_BASE_URL = 'https://portfolio-blog-backend-z8mi.onrender.com';
+
+        // Função para validação básica no frontend
+        function validateForm(username, password) {
+            const errors = [];
+            
+            if (!username.trim()) {
+                errors.push('Usuário é obrigatório');
+            }
+            
+            if (!password.trim()) {
+                errors.push('Senha é obrigatória');
+            } else if (password.length < 3) {
+                errors.push('Senha muito curta');
+            }
+            
+            return errors;
+        }
 
         document.getElementById('loginForm').addEventListener('submit', async function(event) {
             event.preventDefault();
@@ -172,8 +243,21 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             const errorMessage = document.getElementById('errorMessage');
+            const submitButton = this.querySelector('.login-button');
+            const originalText = submitButton.textContent;
 
-            errorMessage.style.display = 'none'; // Esconde a mensagem de erro anterior
+            // Validação frontend
+            const validationErrors = validateForm(username, password);
+            if (validationErrors.length > 0) {
+                errorMessage.textContent = validationErrors.join(', ');
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            // Loading state
+            submitButton.textContent = 'Entrando...';
+            submitButton.disabled = true;
+            errorMessage.style.display = 'none';
 
             try {
                 const response = await fetch(`${BACKEND_BASE_URL}/api/auth/login`, {
@@ -186,24 +270,49 @@
 
                 const data = await response.json();
 
-                if (response.ok) { // Se a resposta foi bem-sucedida (status 200)
-                    localStorage.setItem('adminToken', data.token); // Armazena o token JWT
-                    window.location.href = 'admin.html'; // Redireciona para a página admin
+                if (response.ok) {
+                    localStorage.setItem('adminToken', data.token);
+                    submitButton.textContent = 'Sucesso! Redirecionando...';
+                    setTimeout(() => {
+                        window.location.href = 'admin.html';
+                    }, 1000);
                 } else {
-                    // Erro do backend (ex: 400 Bad Request, 401 Unauthorized)
                     errorMessage.textContent = data.msg || data.message || 'Erro ao fazer login.';
                     errorMessage.style.display = 'block';
+                    submitButton.textContent = originalText;
+                    submitButton.disabled = false;
                 }
             } catch (error) {
                 console.error('Erro de rede ou servidor:', error);
                 errorMessage.textContent = 'Não foi possível conectar ao servidor. Tente novamente.';
                 errorMessage.style.display = 'block';
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
             }
         });
 
         // Verifica se o usuário já está logado ao carregar a página
         if (localStorage.getItem('adminToken')) {
             window.location.href = 'admin.html';
+        }
+
+        // Limpar token se a página for acessada com token inválido (segurança adicional)
+        const token = localStorage.getItem('adminToken');
+        if (token) {
+            // Verificar se o token é válido fazendo uma requisição teste
+            fetch(`${BACKEND_BASE_URL}/api/auth/verify`, {
+                headers: {
+                    'x-auth-token': token
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    localStorage.removeItem('adminToken');
+                }
+            })
+            .catch(() => {
+                localStorage.removeItem('adminToken');
+            });
         }
     </script>
 </body>

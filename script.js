@@ -1,261 +1,425 @@
-// Ativar o menu mobile
-let menuIcon = document.querySelector('#menu-icon');
-let navbar = document.querySelector('.navbar');
+document.addEventListener('DOMContentLoaded', () => {
 
-menuIcon.onclick = () => {
-    menuIcon.classList.toggle('bx-x');
-    navbar.classList.toggle('active');
-};
+    /**
+     * ====================================
+     * FORÇA ROLAGEM PARA O TOPO
+     * ====================================
+     */
+    window.addEventListener('load', () => {
+        window.scrollTo(0, 0);
+    });
 
-// Fechar o menu ao clicar em um link
-document.querySelectorAll('.navbar a').forEach(link => {
-    link.onclick = () => {
-        menuIcon.classList.remove('bx-x');
-        navbar.classList.remove('active');
-    };
-});
+    /**
+     * ====================================
+     * VARIÁVEIS DO MENU OVERLAY
+     * ====================================
+     */
+    const menuOverlay = document.getElementById('fullMenuOverlay');
+    const menuText = document.getElementById('menuText');
+    const closeMenuBtn = document.getElementById('closeMenuBtn');
+    const menuIcon = document.querySelector('.bx-menu');
+    const menuLinks = document.querySelectorAll('.full-navbar a');
 
-// Efeito de escrita na Home
-const typed = new Typed('.text-animation', {
-    strings: ['Desenvolvedor', 'Full-Stack', 'Inovador'],
-    typeSpeed: 100,
-    backSpeed: 100,
-    backDelay: 1000,
-    loop: true,
-});
+    // Função para gerenciar o destaque ativo no menu overlay
+    const setActiveMenuOverlay = (targetHref) => {
+        menuLinks.forEach(link => {
+            link.classList.remove('active');
+        });
+        
+        const activeLink = document.querySelector(`.full-navbar a[href="${targetHref}"]`);
+        if (activeLink) {
+            activeLink.classList.add('active');
+            console.log(`✅ Link ativo definido: ${targetHref}`);
+        } else {
+            console.log(`❌ Link não encontrado para: ${targetHref}`);
+        }
+    };
 
-// Lógica de animação na rolagem usando Intersection Observer
-const pageContents = document.querySelectorAll('.page-content');
+    /**
+     * ====================================
+     * LÓGICA DO MENU OVERLAY
+     * ====================================
+     */
+    const openMenu = () => {
+        if (menuOverlay) {
+            menuOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; 
+            
+            if (window.location.hash === '#home' || window.location.hash === '') {
+                setActiveMenuOverlay('#home');
+            }
+        }
+    };
 
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('show-animate');
-        } else {
-            entry.target.classList.remove('show-animate');
-        }
-    });
-}, {
-    rootMargin: '0px',
-    threshold: 0.1
-});
+    const closeMenu = () => {
+        if (menuOverlay) {
+            menuOverlay.classList.remove('active');
+            document.body.style.overflow = ''; 
+        }
+    };
 
-pageContents.forEach(element => {
-    observer.observe(element);
-});
+    menuText?.addEventListener('click', openMenu);
+    closeMenuBtn?.addEventListener('click', closeMenu);
+    menuIcon?.addEventListener('click', openMenu);
 
-// Ativar link da navbar na rolagem e sticky header
-let sections = document.querySelectorAll('section');
-let navLinks = document.querySelectorAll('header nav a');
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && menuOverlay && menuOverlay.classList.contains('active')) {
+            closeMenu();
+        }
+    });
 
-window.onscroll = () => {
-    sections.forEach(sec => {
-        let top = window.scrollY;
-        let offset = sec.offsetTop - 150;
-        let height = sec.offsetHeight;
-        let id = sec.getAttribute('id');
+    menuLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            const targetHref = link.getAttribute('href');
+            setActiveMenuOverlay(targetHref);
+            closeMenu();
+        });
+    });
 
-        if (top >= offset && top < offset + height) {
-            navLinks.forEach(links => {
-                links.classList.remove('active');
-                document.querySelector('header nav a[href*=' + id + ']').classList.add('active');
-            });
-        }
-    });
+    /**
+     * ====================================
+     * ANIMAÇÃO DE IMAGENS COM SCROLL
+     * ====================================
+     */
+    function initImageAnimations() {
+        const images = document.querySelectorAll('.scroll-image');
+        
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    imageObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.3,
+            rootMargin: '0px 0px -50px 0px'
+        });
 
-    // Sticky header
-    let header = document.querySelector('.header');
-    header.classList.toggle('sticky', window.scrollY > 100);
-};
+        images.forEach(image => {
+            imageObserver.observe(image);
+        });
+    }
 
-// Modal de Habilidades
-const skillModal = document.getElementById('skillModal');
-const closeSkillModal = document.querySelector('.skill-modal-close-btn');
-const skillItems = document.querySelectorAll('.skill-item');
+    /**
+     * ====================================
+     * ANIMAÇÃO DA LOGO - ENHANCEMENT
+     * ====================================
+     */
+    function initLogoAnimation() {
+        const logo = document.querySelector('.header .logo');
+        const logoImg = document.querySelector('.header .logo img');
+        
+        if (!logo || !logoImg) return;
+        
+        // Adicionar feedback tátil no mobile
+        logo.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.95)';
+        });
+        
+        logo.addEventListener('touchend', function() {
+            this.style.transform = 'scale(1)';
+        });
+        
+        // Prevenir comportamento padrão de arrastar a imagem
+        logoImg.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+        });
+    }
 
-skillItems.forEach(item => {
-    item.addEventListener('click', (event) => {
-        const skillId = event.currentTarget.dataset.skillId;
-        const skillDetails = getSkillDetails(skillId);
-        document.getElementById('skillModalTitle').innerText = skillDetails.title;
-        document.getElementById('skillModalDescription').innerText = skillDetails.description;
-        skillModal.classList.add('show');
-    });
-});
+    /**
+     * ====================================
+     * SCROLL REVEAL – ANIMAÇÃO DE ENTRADA
+     * ====================================
+     */
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('show-element');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { 
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
 
-closeSkillModal.onclick = () => {
-    skillModal.classList.remove('show');
-};
+    // Observar todos os elementos com animação
+    document.querySelectorAll('.scroll-element').forEach(el => {
+        observer.observe(el);
+    });
 
-skillModal.onclick = (e) => {
-    if (e.target.classList.contains('skill-modal')) {
-        skillModal.classList.remove('show');
-    }
-};
+    /**
+     * ====================================
+     * SCROLL TO TOP + HEADER STICKY
+     * ====================================
+     */
+    const scrollToTopBtn = document.querySelector('.scroll-to-top-btn');
+    const header = document.querySelector('.header');
 
-function getSkillDetails(skillId) {
-    const details = {
-        html: {
-            title: 'HTML',
-            description: 'Conhecimento aprofundado em HTML5 para estruturar páginas web de forma semântica e acessível.'
-        },
-        css: {
-            title: 'CSS',
-            description: 'Experiência em CSS3 e pré-processadores como SASS, criando layouts modernos e responsivos.'
-        },
-        javascript: {
-            title: 'JavaScript',
-            description: 'Domínio em JavaScript puro (ES6+) para construir funcionalidades dinâmicas e interativas.'
-        },
-        react: {
-            title: 'React',
-            description: 'Habilidade na biblioteca React para criar interfaces de usuário reutilizáveis e escaláveis.'
-        },
-        bootstrap: {
-            title: 'Bootstrap',
-            description: 'Utilização do framework Bootstrap para agilizar o desenvolvimento de designs responsivos.'
-        },
-        figma: {
-            title: 'Figma',
-            description: 'Criação de protótipos e designs de interface de usuário (UI) e experiência de usuário (UX) utilizando Figma.'
-        },
-        nodejs: {
-            title: 'Node.js',
-            description: 'Desenvolvimento de aplicações e APIs de backend com Node.js e o framework Express.js.'
-        },
-        java: {
-            title: 'Java',
-            description: 'Experiência com a linguagem Java para desenvolvimento de aplicações desktop e backend robustas.'
-        },
-        git: {
-            title: 'Git',
-            description: 'Utilização de Git para controle de versão, colaboração em equipe e gestão de código-fonte.'
-        },
-        github: {
-            title: 'GitHub',
-            description: 'Colaboração em projetos, hospedagem de repositórios e gestão de issues no GitHub.'
-        },
-        vercel: {
-            title: 'Vercel',
-            description: 'Hospedagem e deploy de aplicações web de forma contínua e eficiente utilizando a plataforma Vercel.'
-        }
-    };
-    return details[skillId] || { title: 'Habilidade', description: 'Descrição da habilidade.' };
-}
+    window.addEventListener('scroll', () => {
+        header?.classList.toggle('sticky', window.scrollY > 100);
+        scrollToTopBtn?.classList.toggle('show', window.scrollY > 300);
+    });
 
-// Botões de categorias de habilidades
-const categoryButtons = document.querySelectorAll('.category-btn');
-const skillsGrids = document.querySelectorAll('.skills-grid');
+    scrollToTopBtn?.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setActiveMenuOverlay('#home');
+    });
 
-categoryButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        const category = button.dataset.category;
-        categoryButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-        skillsGrids.forEach(grid => {
-            if (grid.id.includes(category)) {
-                grid.classList.add('active-skills-grid');
-            } else {
-                grid.classList.remove('active-skills-grid');
-            }
-        });
-    });
-});
+    /**
+     * ====================================
+     * BOTÃO "ROLE PARA BAIXO" - CORRIGIDO
+     * ====================================
+     */
+    function initScrollDownButtons() {
+        const scrollDownBtn = document.querySelector('.home .scroll-down-btn');
+        const introSection = document.querySelector('.intro-trabalho');
+        
+        if (!scrollDownBtn || !introSection) {
+            console.log('❌ Elementos da seta não encontrados');
+            return;
+        }
+        
+        console.log('✅ Seta scroll-down encontrada, inicializando...');
+        
+        // Clique na seta
+        scrollDownBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('🎯 Clicou na seta, rolando para intro-trabalho...');
+            introSection.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        });
 
-// Modal de Projetos
-const projectModal = document.getElementById('projectModal');
-const closeProjectModal = document.querySelector('.project-modal-close-btn');
-const portfolioBoxes = document.querySelectorAll('.portfolio-box');
-const projectModalTitle = document.getElementById('projectModalTitle');
-const projectModalDescription = document.getElementById('projectModalDescription');
-const projectModalImage = document.getElementById('projectModalImage');
-const projectModalLink = document.getElementById('projectModalLink');
-const projectModalRepo = document.getElementById('projectModalRepo');
-const projectModalDetailedReportText = document.getElementById('projectModalDetailedReportText');
-const projectModalGallery = document.getElementById('projectModalGallery');
+        // Controle de visibilidade da seta - FUNCIONANDO IGUAL CONTATO
+        function updateScrollButtonVisibility() {
+            const introRect = introSection.getBoundingClientRect();
+            
+            // Se a seção intro estiver visível na tela (70% da altura da viewport)
+            if (introRect.top <= window.innerHeight * 0.7) {
+                scrollDownBtn.classList.add('hidden');
+                scrollDownBtn.classList.remove('visible');
+            } else {
+                scrollDownBtn.classList.add('visible');
+                scrollDownBtn.classList.remove('hidden');
+            }
+        }
 
-portfolioBoxes.forEach(box => {
-    box.addEventListener('click', (event) => {
-        const project = event.currentTarget;
-        projectModalTitle.innerText = project.dataset.projectTitle;
-        projectModalDescription.innerText = project.dataset.projectDescription;
-        projectModalImage.src = project.dataset.projectImg;
-        projectModalLink.href = project.dataset.projectLink;
-        projectModalRepo.href = project.dataset.projectRepo;
-        projectModalDetailedReportText.innerText = project.dataset.projectDetailedReport;
+        // Atualizar na rolagem com throttling
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(updateScrollButtonVisibility, 10);
+        });
+        
+        // Atualizar no resize
+        window.addEventListener('resize', updateScrollButtonVisibility);
+        
+        // Atualizar inicial
+        updateScrollButtonVisibility();
+        
+        console.log('🎯 Controle da seta scroll-down inicializado com sucesso!');
+    }
 
-        projectModalGallery.innerHTML = '';
-        ['projectImg1', 'projectImg2', 'projectImg3'].forEach(imgData => {
-            if (project.dataset[imgData]) {
-                const img = document.createElement('img');
-                img.src = project.dataset[imgData];
-                img.alt = `Gallery image for ${project.dataset.projectTitle}`;
-                img.classList.add('gallery-thumbnail');
-                projectModalGallery.appendChild(img);
-            }
-        });
+    /**
+     * ====================================
+     * NAVEGAÇÃO POR TECLAS (KEYBOARD NAVIGATION)
+     * ====================================
+     */
+    function initKeyboardNavigation() {
+        document.addEventListener('keydown', (e) => {
+            // Navegação por teclado apenas quando o menu não está aberto
+            if (menuOverlay && menuOverlay.classList.contains('active')) return;
+            
+            switch(e.key) {
+                case 'ArrowDown':
+                case 'PageDown':
+                    e.preventDefault();
+                    document.querySelector('.intro-trabalho')?.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    break;
+                case 'ArrowUp':
+                case 'PageUp':
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    break;
+                case 'Home':
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    break;
+                case 'End':
+                    e.preventDefault();
+                    window.scrollTo({ 
+                        top: document.documentElement.scrollHeight, 
+                        behavior: 'smooth' 
+                    });
+                    break;
+            }
+        });
+    }
 
-        projectModal.classList.add('show');
-    });
-});
+    /**
+     * ====================================
+     * OTIMIZAÇÃO DE PERFORMANCE - SCROLL
+     * ====================================
+     */
+    let globalScrollTimeout;
+    let isScrolling = false;
 
-closeProjectModal.onclick = () => {
-    projectModal.classList.remove('show');
-};
+    function initScrollOptimizations() {
+        window.addEventListener('scroll', () => {
+            if (!isScrolling) {
+                isScrolling = true;
+                setTimeout(() => {
+                    isScrolling = false;
+                }, 100);
+            }
 
-projectModal.onclick = (e) => {
-    if (e.target.classList.contains('project-modal-overlay')) {
-        projectModal.classList.remove('show');
-    }
-};
+            clearTimeout(globalScrollTimeout);
+            globalScrollTimeout = setTimeout(() => {
+                // Código que roda após o scroll parar
+                // Pode ser usado para lazy loading ou outras otimizações
+            }, 100);
+        });
+    }
 
-// Lidar com a troca de imagem no modal de projeto
-projectModalGallery.addEventListener('click', (e) => {
-    if (e.target.tagName === 'IMG') {
-        projectModalImage.src = e.target.src;
-    }
-});
+    /**
+     * ====================================
+     * PREVENIR COMPORTAMENTOS INDESEJADOS
+     * ====================================
+     */
+    function initPreventDefaultBehaviors() {
+        // Prevenir zoom com Ctrl + Scroll
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && (e.key === '+' || e.key === '-' || e.key === '0')) {
+                e.preventDefault();
+            }
+        });
 
-// Scroll to Top button
-const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        // Prevenir arrastar imagens
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('dragstart', (e) => {
+                e.preventDefault();
+            });
+        });
+    }
 
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 300) {
-        scrollToTopBtn.classList.add('show');
-    } else {
-        scrollToTopBtn.classList.remove('show');
-    }
-});
+    /**
+     * ====================================
+     * COMPATIBILIDADE MOBILE
+     * ====================================
+     */
+    function initMobileCompatibility() {
+        // Touch events passivos para melhor performance
+        document.addEventListener('touchstart', function() {}, { passive: true });
+        document.addEventListener('touchmove', function() {}, { passive: true });
+        
+        // Prevenir bounce no iOS quando menu aberto
+        document.body.addEventListener('touchmove', function(e) {
+            if (menuOverlay && menuOverlay.classList.contains('active')) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+    }
 
-scrollToTopBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
-});
+    /**
+     * ====================================
+     * CARREGAMENTO DE IMAGENS OTIMIZADO
+     * ====================================
+     */
+    function initImageLoading() {
+        window.addEventListener('load', () => {
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                if (img.complete) {
+                    img.classList.add('loaded');
+                } else {
+                    img.addEventListener('load', function() {
+                        this.classList.add('loaded');
+                    });
+                    
+                    // Fallback para erro de carregamento
+                    img.addEventListener('error', function() {
+                        console.warn('Erro ao carregar imagem:', this.src);
+                        this.classList.add('load-error');
+                    });
+                }
+            });
+        });
+    }
 
-// Lógica de formulário de contato
-const contactForm = document.getElementById('contactForm');
-contactForm.addEventListener('submit', function(event) {
-    event.preventDefault();
-    const formData = new FormData(contactForm);
-    const data = Object.fromEntries(formData.entries());
+    /**
+     * ====================================
+     * DETECÇÃO DE RECURSOS DO NAVEGADOR
+     * ====================================
+     */
+    function initFeatureDetection() {
+        // Verificar suporte a backdrop-filter (para efeitos de vidro)
+        if (!CSS.supports('backdrop-filter', 'blur(10px)') && 
+            !CSS.supports('-webkit-backdrop-filter', 'blur(10px)')) {
+            document.body.classList.add('no-backdrop-filter');
+        }
 
-    fetch(contactForm.action, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(result => {
-        alert(result.message);
-        contactForm.reset();
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Ocorreu um erro ao enviar a mensagem.');
-    });
+        // Verificar suporte a Intersection Observer
+        if (!('IntersectionObserver' in window)) {
+            console.warn('IntersectionObserver não suportado - animações desativadas');
+            document.querySelectorAll('.scroll-element, .scroll-image').forEach(el => {
+                el.classList.add('show-element', 'visible');
+            });
+        }
+    }
+
+    /**
+     * ====================================
+     * INICIALIZAÇÃO DE TODOS OS MÓDULOS
+     * ====================================
+     */
+    function initAllModules() {
+        initImageAnimations();
+        initLogoAnimation();
+        initScrollDownButtons();
+        initKeyboardNavigation();
+        initScrollOptimizations();
+        initPreventDefaultBehaviors();
+        initMobileCompatibility();
+        initImageLoading();
+        initFeatureDetection();
+        
+        console.log('🎯 Todos os módulos JavaScript inicializados com sucesso!');
+    }
+
+    // Inicializar quando o DOM estiver pronto
+    initAllModules();
+    
+    // ⬇️ ATIVAÇÃO INICIAL AO CARREGAR
+    setActiveMenuOverlay(window.location.hash || '#home');
+
+    /**
+     * ====================================
+     * TRATAMENTO DE ERROS GLOBAL
+     * ====================================
+     */
+    window.addEventListener('error', (e) => {
+        console.error('Erro global capturado:', e.error);
+    });
+
+    /**
+     * ====================================
+     * DEBUG HELPER (apenas desenvolvimento)
+     * ====================================
+     */
+    if (window.location.search.includes('debug=true')) {
+        console.log('🔧 Modo debug ativado');
+        
+        // Log de performance inicial
+        window.addEventListener('load', () => {
+            const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+            console.log(`⏱️ Tempo de carregamento: ${loadTime}ms`);
+        });
+    }
 });

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="img/logo_contato.png">
+    <title>Yuri | Contato</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="contato.css">
+</head>
+<body class="contact">
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-left">
+            <i class='bx bx-menu' id="menu-icon"></i>
+            <a href="index.html" class="logo">
+                <img src="img/logo_contato.png" alt="Yuri Barbosa" class="main-logo">
+            </a>
+            <div class="menu-text" id="menuText">MENU</div>
+        </div>
+        <a href="contato.html" class="contact-link">
+            <span class="contact-text">Entre em contato</span>
+            <i class='bx bx-envelope contact-icon'></i>
+        </a>
+    </header>
+
+    <!-- MENU OVERLAY -->
+    <div class="full-menu-overlay" id="fullMenuOverlay">
+        <div class="menu-content">
+            <i class='bx bx-x close-menu-btn' id="closeMenuBtn"></i>
+            <nav class="full-navbar">
+                <a href="index.html" class="menu-item">Início</a>
+                <a href="sobremim.html" class="menu-item">Sobre Mim</a>
+                <a href="blog/blog.html" class="menu-item">Blog</a>
+                <a href="contato.html" class="menu-item active">Contato</a>
+                <a href="admin/admin.html" class="menu-item admin-link"><i class='bx bx-cog'></i> Admin</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <section id="contact-page">
+        <div class="page-content">
+
+            <!-- INTRO: caixa nuvem + foto -->
+            <div class="contact-intro-content">
+                <!-- Caixa de texto -->
+                <div class="text-cloud-card">
+                    <h1 class="contact-title">Vamos <span>Conversar</span>?</h1>
+                    <div class="heading-line-minimal"></div>
+                    <p class="contact-subtitle">
+                        Estou sempre aberto a discutir novos projetos<span class="highlight-box">criativos</span>,
+                        oportunidades de parceria e ideias inovadoras. Se você tem um projeto em mente ou
+                        quer transformar suas ideias em realidade, adoraria fazer parte dessa jornada!
+                    </p>
+                    
+                </div>
+
+                <!-- Foto -->
+                <div class="contact-image-container">
+                    <img src="img/imagemcontato.PNG" alt="Yuri Barbosa" class="contact-intro-img">
+                </div>
+            </div>
+
+            <!-- SETA ROLE PARA BAIXO (agora no centro entre intro e formulário) -->
+            <div class="scroll-down-wrapper">
+                <a href="#contact-form" class="scroll-down-btn">
+                    <i class='bx bx-down-arrow-alt scroll-icon'></i>
+                </a>
+            </div>
+
+            <!-- FORMULÁRIO + IMAGEM + REDES SOCIAIS -->
+            <div class="contact-form-section" id="contact-form">
+                <!-- IMAGEM NO LADO ESQUERDO -->
+                <div class="contact-form-image">
+                    <img src="img/contato.png" alt="Entre em contato" class="contact-side-img">
+                </div>
+                
+                <!-- FORMULÁRIO MENOR NO LADO DIREITO -->
+                <div class="contact-form-box">
+                    <h2 class="form-title">Envie sua Mensagem</h2>
+                    <p class="form-subtitle">Preencha o formulário abaixo e entrarei em contato o mais breve possível</p>
+
+                    <form id="contactForm" action="https://yuri-contact-api.onrender.com/send-email" method="POST">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="nome">Nome Completo</label>
+                                <input type="text" id="nome" name="nome" class="form-input" placeholder="Seu nome completo" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="email">E-mail</label>
+                                <input type="email" id="email" name="email" class="form-input" placeholder="seu@email.com" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="telefone">Telefone</label>
+                                <input type="text" id="telefone" name="telefone" class="form-input" placeholder="(11) 99999-9999">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="assunto">Assunto</label>
+                                <input type="text" id="assunto" name="assunto" class="form-input" placeholder="Qual o assunto?">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="mensagem">Mensagem</label>
+                            <textarea id="mensagem" name="mensagem" class="form-textarea" placeholder="Conte-me mais sobre seu projeto..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="form-submit-btn">
+                            <span>Enviar Mensagem</span>
+                        </button>
+                    </form>
+
+                    <!-- ÍCONES DE REDES SOCIAIS COM WHATSAPP -->
+                    <div class="social-links">
+                        <a href="https://github.com/yuriletras" target="_blank" class="social-link" aria-label="GitHub">
+                            <i class='bx bxl-github'></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/yuri-basi" target="_blank" class="social-link" aria-label="LinkedIn">
+                            <i class='bx bxl-linkedin'></i>
+                        </a>
+                        <a href="https://wa.me/5511999999999" target="_blank" class="social-link whatsapp" aria-label="WhatsApp">
+                            <i class='bx bxl-whatsapp'></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer-minimal">
+        <span class="footer-divider"></span> Copyright © 2025 by Yuri Barbosa | All Rights Reserved.
+    </footer>
+
+    <!-- SCROLL TO TOP -->
+    <a href="#contact-page" class="scroll-to-top-btn" id="scroll-to-top-btn" aria-label="Voltar ao topo">
+        <i class='bx bx-up-arrow-alt'></i>
+    </a>
+
+    <!-- SCRIPT COMPLETO E ATUALIZADO -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // ====================================
+        // MENU OVERLAY
+        // ====================================
+        const menuOverlay = document.getElementById('fullMenuOverlay');
+        const menuText = document.getElementById('menuText');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+        const menuIcon = document.getElementById('menu-icon');
+        const scrollToTopBtn = document.getElementById('scroll-to-top-btn');
+
+        const toggleMenu = () => {
+            menuOverlay.classList.toggle('active');
+            document.body.style.overflow = menuOverlay.classList.contains('active') ? 'hidden' : '';
+        };
+
+        if(menuText) menuText.addEventListener('click', toggleMenu);
+        if(closeMenuBtn) closeMenuBtn.addEventListener('click', toggleMenu);
+        if(menuIcon) menuIcon.addEventListener('click', toggleMenu);
+
+        // ====================================
+        // SCROLL TO TOP
+        // ====================================
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollToTopBtn.classList.add('show');
+            } else {
+                scrollToTopBtn.classList.remove('show');
+            }
+        });
+
+        scrollToTopBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ====================================
+        // FORM SUBMIT
+        // ====================================
+        const form = document.getElementById('contactForm');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const btn = this.querySelector('.form-submit-btn span');
+                const original = btn.innerText;
+                btn.innerText = 'Enviando...';
+                this.classList.add('form-submitting');
+
+                fetch(this.action, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(Object.fromEntries(new FormData(this)))
+                })
+                .then(r => r.json())
+                .then(res => {
+                    alert(res.message || 'Mensagem enviada com sucesso!');
+                    this.reset();
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Erro ao enviar. Tente novamente.');
+                })
+                .finally(() => {
+                    btn.innerText = original;
+                    this.classList.remove('form-submitting');
+                });
+            });
+        }
+
+        // ====================================
+        // ANIMAÇÃO DA LOGO - IDÊNTICA AO SOBREMIM
+        // ====================================
+        function initLogoAnimation() {
+            const logo = document.querySelector('.header .logo');
+            const logoImg = document.querySelector('.header .logo img');
+            
+            if (!logo || !logoImg) return;
+            
+            // Adicionar feedback tátil no mobile
+            logo.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.95)';
+            });
+            
+            logo.addEventListener('touchend', function() {
+                this.style.transform = 'scale(1)';
+            });
+            
+            // Prevenir comportamento padrão de arrastar a imagem
+            logoImg.addEventListener('dragstart', function(e) {
+                e.preventDefault();
+            });
+        }
+
+        // ====================================
+        // ANIMAÇÃO DE IMAGENS COM SCROLL
+        // ====================================
+        function initImageAnimations() {
+            const images = document.querySelectorAll('.contact-side-img, .contact-intro-img');
+            
+            const imageObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0) scale(1)';
+                        imageObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.3,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            images.forEach(image => {
+                image.style.opacity = '0';
+                image.style.transform = 'translateY(30px) scale(0.95)';
+                image.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                imageObserver.observe(image);
+            });
+        }
+
+        // ====================================
+        // BOTÃO "ROLE PARA BAIXO" - CORRIGIDO
+        // ====================================
+        function initScrollDownButtons() {
+            document.querySelectorAll('.scroll-down-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = btn.getAttribute('href');
+                    if (targetId && targetId !== '#') {
+                        const targetSection = document.querySelector(targetId);
+                        if (targetSection) {
+                            targetSection.scrollIntoView({ 
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    }
+                });
+            });
+
+            // Esconde o botão quando a seção do formulário está visível
+            window.addEventListener('scroll', () => {
+                const formSection = document.querySelector('#contact-form');
+                const scrollBtn = document.querySelector('.scroll-down-btn');
+                
+                if (!formSection || !scrollBtn) return;
+                
+                const rect = formSection.getBoundingClientRect();
+                
+                if (rect.top <= window.innerHeight * 0.8) {
+                    scrollBtn.style.opacity = '0';
+                    scrollBtn.style.pointerEvents = 'none';
+                } else {
+                    scrollBtn.style.opacity = '1';
+                    scrollBtn.style.pointerEvents = 'auto';
+                }
+            });
+        }
+
+        // ====================================
+        // INICIALIZAR TODAS AS ANIMAÇÕES
+        // ====================================
+        initLogoAnimation();
+        initImageAnimations();
+        initScrollDownButtons();
+
+        // ====================================
+        // CONFIGURAÇÃO DO WHATSAPP
+        // ====================================
+        // Substitua pelo seu número real do WhatsApp (apenas números)
+        const whatsappLink = document.querySelector('.social-link.whatsapp');
+        if (whatsappLink) {
+            // Formato: 5511999999999 (código país + DDD + número)
+            whatsappLink.href = 'https://wa.me/5511999999999'; // ← COLOQUE SEU NÚMERO AQUI
+        }
+
+        // ====================================
+        // COMPATIBILIDADE MOBILE
+        // ====================================
+        document.addEventListener('touchstart', function() {}, { passive: true });
+
+        // ====================================
+        // PREVENIR COMPORTAMENTOS INDESEJADOS
+        // ====================================
+        document.addEventListener('keydown', (e) => {
+            // Prevenir zoom com Ctrl + Scroll
+            if (e.ctrlKey) {
+                e.preventDefault();
+            }
+        });
+    });
+
+    // ====================================
+    // SCROLL SNAP COMPATIBILIDADE
+    // ====================================
+    let isScrolling = false;
+    window.addEventListener('scroll', () => {
+        if (!isScrolling) {
+            isScrolling = true;
+            setTimeout(() => {
+                isScrolling = false;
+            }, 100);
+        }
+    });
+
+    // ====================================
+    // OTIMIZAÇÃO DE PERFORMANCE
+    // ====================================
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            // Código que roda após o scroll parar
+        }, 100);
+    });
+
+    // ====================================
+    // CARREGAMENTO DE IMAGENS
+    // ====================================
+    window.addEventListener('load', () => {
+        // Garante que todas as imagens carregaram
+        const images = document.querySelectorAll('img');
+        images.forEach(img => {
+            if (img.complete) {
+                img.classList.add('loaded');
+            } else {
+                img.addEventListener('load', function() {
+                    this.classList.add('loaded');
+                });
+            }
+        });
+    });
+    </script>
+</body>
+</html>

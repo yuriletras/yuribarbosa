@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/img/logo_blog.png">
+    <title>Yuri | Blog & Portfólio</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
+    <link rel="stylesheet" href="blog.css">
+</head>
+<body class="blog">
+
+    <!-- HEADER CORRIGIDO -->
+    <header class="header">
+        <div class="header-left">
+            <i class='bx bx-menu' id="menu-icon"></i>
+            <a href="./index.html" class="logo">
+                <img src="/img/logo_blog.png" alt="Yuri Barbosa" class="main-logo">
+            </a>
+            <div class="menu-text" id="menuText">MENU</div>
+        </div>
+        <a href="/contato.html" class="contact-link">
+            <span class="contact-text">Entre em contato</span>
+            <i class='bx bx-envelope contact-icon'></i>
+        </a>
+    </header>
+
+    <!-- MENU OVERLAY -->
+    <div class="full-menu-overlay" id="fullMenuOverlay">
+        <div class="menu-content">
+            <i class='bx bx-x close-menu-btn' id="closeMenuBtn"></i>
+            <nav class="full-navbar">
+                <a href="/index.html" class="menu-item">Início</a>
+                <a href="/sobremim.html" class="menu-item">Sobre Mim</a>
+                <a href="blog.html" class="menu-item active">Blog</a>
+                <a href="/contato.html" class="menu-item">Contato</a>
+                <a href="/admin/admin.html" class="menu-item admin-link"><i class='bx bx-cog'></i> Admin</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- SEÇÃO PRINCIPAL -->
+    <section id="blog">
+        <div class="page-content">
+
+            <!-- INTRO (100vh) -->
+            <div class="blog-intro-section">
+                <div class="blog-intro-content">
+                    <!-- TEXTO DENTRO DA CAIXA NUVEM -->
+                    <div class="blog-header-content">
+                        <div class="text-cloud-card">
+                            <h1 class="blog-title">Blog & <span class="highlight-name">Portfólio</span></h1>
+                            <div class="heading-line-minimal"></div>
+                            <p class="blog-subtitle">
+                                Explore meus <span class="highlight-box">projetos de desenvolvimento</span> e 
+                                artigos sobre tecnologia. Aqui você encontra 
+                                desde trabalhos práticos do meu portfólio até conteúdos sobre 
+                                programação web, design criativo e 
+                                experiências do dia a dia como desenvolvedor. 
+                                Uma mistura de prática e conhecimento para inspirar sua próxima ideia.
+                            </p>
+                            
+                        </div>
+                    </div>
+
+                    <!-- IMAGEM COM EFEITO PULSAÇÃO -->
+                    <div class="blog-image-container">
+                        <img src="/img/img_blog.png" alt="Ilustração do Blog" class="blog-intro-img">
+                    </div>
+                </div>
+
+                <!-- BOTÃO ROLE PARA BAIXO -->
+                <div class="scroll-down-wrapper">
+                    <a class="scroll-down-btn" data-next="#blog-content">
+                        <i class='bx bx-down-arrow-alt scroll-icon'></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- CONTEÚDO (PRÓXIMA PÁGINA) -->
+            <div class="blog-content-section" id="blog-content">
+                <div class="blog-filters">
+                    <button class="filter-btn active" data-filter="all">Todos</button>
+                    <button class="filter-btn" data-filter="articles">Artigos</button>
+                    <button class="filter-btn" data-filter="projects">Trabalhos</button>
+                </div>
+
+                <div class="posts-grid" id="posts-grid-container">
+                    <p style="text-align: center;">Carregando publicações...</p>
+                </div>
+
+                <!-- CTA FINAL -->
+                <div class="cta-inline-container">
+                    <a href="/contato.html" class="cta-inline-btn">
+                        Vamos conversar sobre seu projeto?
+                        <i class='bx bx-right-arrow-alt cta-arrow'></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer-minimal">
+        <span class="footer-divider"></span> Copyright © 2025 by Yuri Barbosa | All Rights Reserved.
+    </footer>
+
+    <!-- SCROLL TO TOP -->
+    <a href="#blog" class="scroll-to-top-btn">
+        <i class='bx bx-up-arrow-alt'></i>
+    </a>
+
+    <script src="blog.js"></script>
+</body>
+</html>

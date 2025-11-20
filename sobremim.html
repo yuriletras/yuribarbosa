@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="img/logo_sobremim.png">
+    <title>Yuri | Sobre Mim</title>
+    
+    <!-- FONTES E ÍCONES -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="sobremim.css">
+</head>
+<body>
+
+    <!-- HEADER COMPLETAMENTE ATUALIZADO -->
+    <header class="header">
+        <div class="header-left">
+            <i class='bx bx-menu' id="menu-icon"></i>
+            <a href="index.html" class="logo">
+                <img src="img/logo_sobremim.png" alt="Yuri Barbosa" class="main-logo">
+            </a>
+            <div class="menu-text" id="menuText">MENU</div>
+        </div>
+        <a href="contato.html" class="contact-link">
+            <span class="contact-text">Entre em contato</span>
+            <i class='bx bx-envelope contact-icon'></i>
+        </a>
+    </header>
+
+    <!-- MENU OVERLAY -->
+    <div class="full-menu-overlay" id="fullMenuOverlay">
+        <div class="menu-content">
+            <i class='bx bx-x close-menu-btn' id="closeMenuBtn"></i>
+            <nav class="full-navbar">
+                <a href="index.html" class="menu-item">Início</a>
+                <a href="sobremim.html" class="menu-item active">Sobre Mim</a>
+                <a href="/blog/blog.html" class="menu-item">Blog</a>
+                <a href="contato.html" class="menu-item">Contato</a>
+                <a href="admin/admin.html" class="menu-item admin-link"><i class='bx bx-cog'></i> Admin</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- SEÇÃO 1 - COM CAIXA NUVEM -->
+    <section class="about-section intro-section" id="intro-about">
+        <div class="page-content">
+            <div class="container-grid">
+                <div class="about-intro-content">
+                    <div class="about-intro-text">
+                        <div class="text-cloud-card">
+                            <h2 class="intro-heading">Sobre <span class="highlight-name">Mim</span></h2>
+                            <h3 class="about-subheading">Quem sou <span class="highlight-name">eu?</span></h3>
+                            <div class="heading-line-minimal"></div>
+                            <p class="intro-paragraph">
+                                Sou um <span class="highlight-box">Desenvolvedor Full Stack</span> com formação em Análise e Desenvolvimento de Sistemas, 
+                                apaixonado por construir soluções digitais completas. Minha atuação foca na comunicação 
+                                clara e eficaz, buscando sempre a melhor solução para o cliente, do conceito à implementação.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="about-image">
+                        <img src="img/paragrafo1.png" alt="Desenvolvedor Full Stack Programador" class="about-paragraph-img">
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOTÃO SCROLL DOWN ATUALIZADO -->
+            <a href="#paragrafo2-section" class="scroll-down-btn">
+                <span class="scroll-icon">↓</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- SEÇÃO 2 - COM CAIXA NUVEM -->
+    <section class="about-section" id="paragrafo2-section">
+        <div class="page-content">
+            <div class="container-grid">
+                <div class="about-item image-left-text-right">
+                    <div class="about-image">
+                        <img src="img/paragrafo2.png" alt="Habilidades Front-end e Back-end" class="about-paragraph-img">
+                    </div>
+                    <div class="about-text-content">
+                        <div class="text-cloud-card">
+                            <p class="intro-paragraph">
+                                Possuo sólidas <span class="highlight-box">habilidades</span> em desenvolvimento front-end com HTML, CSS e JavaScript, 
+                                criando interfaces de usuário intuitivas e responsivas. 
+                                No back-end, trabalho com Node.js para desenvolver APIs robustas e gerenciar a lógica de servidor.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOTÃO SCROLL DOWN ATUALIZADO -->
+            <a href="#paragrafo3-section" class="scroll-down-btn">
+                <span class="scroll-icon">↓</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- SEÇÃO 3 - COM CAIXA NUVEM -->
+    <section class="about-section" id="paragrafo3-section">
+        <div class="page-content">
+            <div class="container-grid">
+                <div class="about-item text-left-image-right">
+                    <div class="about-text-content">
+                        <div class="text-cloud-card">
+                            <p class="intro-paragraph">
+                                Minha experiência anterior em liderança e suporte em empresas de telecomunicações e <span class="highlight-box">tecnologia</span>
+                                me proporcionou um amplo conhecimento em gestão de equipes, 
+                                resolução de problemas e desenvolvimento de projetos, competências que aplico para otimizar o ciclo de vida do desenvolvimento de software.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="about-image">
+                        <img src="img/paragrafo3.png" alt="Liderança e Gerenciamento de Projetos" class="about-paragraph-img">
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOTÃO SCROLL DOWN ATUALIZADO -->
+            <a href="#paragrafo4-section" class="scroll-down-btn">
+                <span class="scroll-icon">↓</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- SEÇÃO 4: FINAL - COM CAIXA NUVEM -->
+    <section class="about-section final-section" id="paragrafo4-section">
+        <div class="page-content">
+            <div class="container-grid">
+                <div class="about-item image-left-text-right">
+                    <div class="about-image">
+                        <img src="img/paragrafo4.png" alt="Aprimoramento Contínuo e Inovação" class="about-paragraph-img">
+                    </div>
+                    <div class="about-text-content">
+                        <div class="text-cloud-card">
+                            <p class="intro-paragraph">
+                                Estou sempre buscando aprimorar minhas habilidades e conhecimentos, acompanhando as últimas 
+                                tendências do mercado para oferecer um serviço de alta<span class="highlight-box">qualidade</span> 
+                                e contribuir significativamente para o sucesso dos projetos.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA ATUALIZADO -->
+                <div class="cta-inline-container">
+                    <a href="./blog/blog.html" class="cta-inline-btn">
+                        <span class="cta-text">Ver Projetos no Blog</span>
+                        <span class="cta-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer-minimal">
+        <span class="footer-divider"></span> Copyright © 2025 by Yuri Barbosa | All Rights Reserved.
+    </footer>
+
+    <!-- SCROLL TO TOP -->
+    <a href="#" class="scroll-to-top-btn">
+        <i class='bx bx-up-arrow-alt'></i>
+    </a>
+
+    <!-- JS -->
+    <script src="sobremim.js"></script>
+</body>
+</html>

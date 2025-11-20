@@ -8,10 +8,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <style>
-        /* ESTILO ADICIONADO/AJUSTADO AQUI */
         .main-content {
             padding-top: 80px;
-            min-height: calc(100vh - 160px); /* Garante que o main-content ocupe a altura restante */
+            min-height: calc(100vh - 160px);
         }
 
         .admin-container {
@@ -62,7 +61,7 @@
             background-color: var(--primary-hover-color, #0056b3);
         }
         .btn-danger {
-            background-color: #dc3545; /* Cor vermelha para deletar */
+            background-color: #dc3545;
             color: #fff;
         }
         .btn-danger:hover {
@@ -82,7 +81,6 @@
         .text-center { text-align: center; }
         .py-5 { padding-top: 3rem; padding-bottom: 3rem; }
 
-        /* Estilo para o botão de Logout no Header */
         .logout-button {
             background: none;
             border: none;
@@ -93,16 +91,21 @@
             padding: 8px 12px;
             border-radius: 5px;
             transition: background-color 0.3s ease;
-            font-family: 'Montserrat', sans-serif; /* Para combinar com as outras fontes */
-            text-decoration: none; /* Garante que pareça um link */
+            font-family: 'Montserrat', sans-serif;
+            text-decoration: none;
         }
         .logout-button:hover {
-            background-color: var(--primary-color, #007bff); /* Ou uma cor de destaque ao passar o mouse */
+            background-color: var(--primary-color, #007bff);
         }
         .header .navbar {
             display: flex;
-            align-items: center; /* Alinha o logout-button com os links da navbar */
+            align-items: center;
         }
+
+        /* Estados de loading e erro */
+        .loading { color: var(--text-color-light, #eee); }
+        .error { color: #dc3545; }
+        .no-posts { color: var(--text-color-muted, #888); }
     </style>
 </head>
 <body>
@@ -136,7 +139,7 @@
             </div>
 
             <ul id="adminPostsList" class="list-group">
-                <p class="text-center">Carregando posts...</p>
+                <p class="text-center loading">Carregando posts...</p>
             </ul>
         </div>
     </main>
@@ -164,152 +167,7 @@
         </div>
     </footer>
 
-    <script>
-        // Substitua esta URL pela URL base do seu backend
-        const BACKEND_BASE_URL = 'https://portfolio-blog-backend-z8mi.onrender.com'; // ALtere para a URL do seu backend!
-
-        // --- Função de Verificação de Autenticação ---
-        function checkAuthAndRedirect() {
-            const token = localStorage.getItem('adminToken');
-            if (!token) {
-                // Se não há token, redireciona para a página de login
-                window.location.href = 'login.html';
-                return false; // Indica que não está autenticado
-            }
-            // Você pode adicionar uma validação de token mais robusta com o backend aqui
-            // Por simplicidade, vamos considerar que a existência do token é suficiente
-            // para mostrar o conteúdo, mas as requisições para a API ainda falharão
-            // se o token for inválido/expirado, o que é o comportamento desejado.
-            return true; // Indica que está autenticado
-        }
-
-        // --- Função de Logout ---
-        document.getElementById('logoutBtn').addEventListener('click', function() {
-            localStorage.removeItem('adminToken'); // Remove o token
-            window.location.href = 'login.html'; // Redireciona para o login
-        });
-
-        // --- Carrega Posts (com autenticação para ações de edição/deleção) ---
-        async function fetchAdminPosts() {
-            const token = localStorage.getItem('adminToken');
-            if (!token) { // Redireciona se o token for removido após o carregamento da página
-                checkAuthAndRedirect();
-                return;
-            }
-
-            const postsContainer = document.getElementById('adminPostsList');
-            postsContainer.innerHTML = '<p class="text-center">Carregando posts...</p>'; // Mensagem de carregamento
-
-            try {
-                // Esta requisição GET é pública, mas manteremos o token para consistência
-                // Se a API permitir GET sem token, ele será ignorado.
-                const response = await fetch(`${BACKEND_BASE_URL}/api/posts`, {
-                    method: 'GET',
-                    headers: {
-                        'x-auth-token': token // Envia o token para autenticação
-                    }
-                });
-
-                if (!response.ok) {
-                    if (response.status === 401 || response.status === 403) {
-                        // Token inválido/expirado ou não autorizado
-                        localStorage.removeItem('adminToken'); // Remove token inválido
-                        checkAuthAndRedirect(); // Redireciona
-                        return;
-                    }
-                    throw new Error(`Erro ao carregar posts: ${response.statusText}`);
-                }
-
-                const posts = await response.json();
-                postsContainer.innerHTML = ''; // Limpa a mensagem de carregamento
-
-                if (posts.length === 0) {
-                    postsContainer.innerHTML = '<p class="text-center">Nenhum post encontrado.</p>';
-                    return;
-                }
-
-                posts.forEach(post => {
-                    const listItem = document.createElement('li');
-                    listItem.className = 'list-group-item';
-                    listItem.innerHTML = `
-                        <span class="post-admin-title">${post.title}</span>
-                        <div class="post-admin-actions">
-                            <button class="btn btn-primary edit-post-btn" data-id="${post._id}">Editar</button>
-                            <button class="btn btn-danger delete-post-btn" data-id="${post._id}">Excluir</button>
-                        </div>
-                    `;
-                    postsContainer.appendChild(listItem);
-                });
-
-                // Adiciona listeners para os botões de editar e excluir
-                document.querySelectorAll('.edit-post-btn').forEach(button => {
-                    button.addEventListener('click', function() {
-                        const postId = this.dataset.id;
-                        // Redireciona para new-post.html com o ID do post para edição
-                        window.location.href = `new-post.html?id=${postId}`;
-                    });
-                });
-
-                document.querySelectorAll('.delete-post-btn').forEach(button => {
-                    button.addEventListener('click', async function() {
-                        const postId = this.dataset.id;
-                        if (confirm('Tem certeza que deseja excluir este post?')) {
-                            await deletePost(postId);
-                        }
-                    });
-                });
-
-            } catch (error) {
-                console.error('Erro ao buscar posts:', error);
-                postsContainer.innerHTML = `<p class="text-center text-danger">Erro ao carregar posts: ${error.message}</p>`;
-            }
-        }
-
-        // --- Função de Excluir Post ---
-        async function deletePost(postId) {
-            const token = localStorage.getItem('adminToken');
-            if (!token) {
-                checkAuthAndRedirect();
-                return;
-            }
-
-            try {
-                const response = await fetch(`${BACKEND_BASE_URL}/api/posts/${postId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'x-auth-token': token // Envia o token
-                    }
-                });
-
-                if (!response.ok) {
-                    if (response.status === 401 || response.status === 403) {
-                        localStorage.removeItem('adminToken');
-                        checkAuthAndRedirect();
-                        return;
-                    }
-                    throw new Error(`Erro ao excluir post: ${response.statusText}`);
-                }
-
-                alert('Post excluído com sucesso!');
-                fetchAdminPosts(); // Recarrega a lista de posts
-            } catch (error) {
-                console.error('Erro ao excluir post:', error);
-                alert(`Erro ao excluir post: ${error.message}`);
-            }
-        }
-
-        // --- Listener para o botão "Criar Novo Post" ---
-        document.getElementById('createPostBtn').addEventListener('click', function() {
-            window.location.href = 'new-post.html'; // Redireciona para a página de criação
-        });
-
-        // --- Inicialização da página ---
-        document.addEventListener('DOMContentLoaded', () => {
-            if (checkAuthAndRedirect()) { // Verifica a autenticação ao carregar
-                fetchAdminPosts(); // Se autenticado, busca os posts
-            }
-        });
-    </script>
-    <script src="../script.js"></script> <script src="admin.js"></script> </body>
+    <!-- APENAS UM SCRIPT - use o admin.js corrigido que eu te enviei anteriormente -->
+    <script src="admin.js"></script>
 </body>
 </html>

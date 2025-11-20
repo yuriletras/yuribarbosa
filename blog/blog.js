@@ -1,10 +1,288 @@
 // portfolio/blog/blog.js
 
-// Escopo global para a URL da API
+// ==========================================================
+// 1. CONFIGURAÇÃO DA API E VARIÁVEIS DE PAGINAÇÃO
+// ==========================================================
 const API_BASE_URL = 'https://portfolio-blog-backend-z8mi.onrender.com';
 
-// Função para adicionar um like
-window.likePost = async (postId) => {
+// Configuração de paginação
+const PAGINATION_CONFIG = {
+    postsPerPage: 6, // 6 posts por página (2 linhas de 3 no desktop)
+    initialLoad: 6,  // Carrega 6 posts inicialmente
+    loadMoreIncrement: 6 // Carrega mais 6 posts cada vez
+};
+
+// Estado da paginação
+let currentPage = 1;
+let allPosts = [];
+let displayedPosts = 0;
+let isLoading = false;
+
+// ==========================================================
+// 2. MOCK DATA PARA TRABALHOS (PORTFÓLIO - VIA CÓDIGO)
+// ==========================================================
+
+const MOCK_PROJECTS = [
+    {
+        _id: 'proj1',
+        title: 'Estúdio Bloss - Website Institucional',
+        summary: 'Imagine criar um site que precisa falar duas línguas fluentemente! Esse foi o desafio do Estúdio Bloss: desenvolver uma plataforma que transitasse perfeitamente entre português e inglês.',
+        thumbnail: '/img/ProjetoGaby.PNG',
+        publishedAt: new Date('2024-03-15').toISOString(),
+        author: 'Yuri Developer',
+        category: 'projects',
+        link: 'https://github.com/yuriletras/estudiobloss',
+        technologies: ['HTML5', 'CSS3', 'JavaScript']
+    },
+    {
+        _id: 'proj2',
+        title: 'Meu Portfólio - Uma Janela do Meu Mundo',
+        summary: 'Como contar sua história profissional sem parecer um currículo? Essa foi minha missão ao criar este portfólio. Queria que cada visitante sentisse que estava conversando comigo.',
+        thumbnail: '/img/site_yuri.PNG',
+        publishedAt: new Date('2024-06-10').toISOString(),
+        author: 'Yuri Developer',
+        category: 'projects',
+        link: 'https://github.com/yuriletras/yuribarbosa',
+        technologies: ['HTML5', 'CSS3', 'JavaScript', 'UI/UX Design']
+    },
+    {
+        _id: 'proj3',
+        title: 'YB Tasks - O Organizador que Respeita seu Tempo',
+        summary: 'Já imaginou ter um assistente pessoal para suas tarefas? O YB Tasks nasceu dessa vontade: criar um sistema que não apenas lista afazeres, mas entende a importância de cada um.',
+        thumbnail: '/img/ytas.PNG',
+        publishedAt: new Date('2024-09-20').toISOString(),
+        author: 'Yuri Developer',
+        category: 'projects',
+        link: 'https://github.com/yuriletras/projeto-backend-tasks',
+        technologies: ['Node.js', 'Express.js', 'MongoDB', 'HTML5', 'CSS3', 'JavaScript']
+    },
+    {
+        _id: 'proj4',
+        title: 'MB Arte - O Nascimento de Uma Identidade Digital',
+        summary: 'Alguns projetos são especiais desde o primeiro esboço. O MB Arte é um deles - uma jornada de criação onde cada pixel conta uma história.',
+        thumbnail: 'https://placehold.co/800x400/8e44ad/ffffff?text=MB+Arte+🎨',
+        publishedAt: new Date('2025-01-15').toISOString(),
+        author: 'Yuri Developer',
+        category: 'projects',
+        link: '#',
+        technologies: ['HTML5', 'CSS3', 'JavaScript', 'Design Responsivo'],
+        status: 'em-andamento'
+    },
+    // Adicione mais projetos aqui para testar a paginação...
+    // Para teste, você pode duplicar os projetos existentes
+];
+
+// ==========================================================
+// 3. LÓGICA DO MENU OVERLAY
+// ==========================================================
+const setupMenuOverlay = () => {
+    const menuText = document.getElementById('menuText');
+    const fullMenuOverlay = document.getElementById('fullMenuOverlay');
+    const closeMenuBtn = document.getElementById('closeMenuBtn');
+    const menuIcon = document.getElementById('menu-icon');
+
+    const openMenu = () => {
+        if (fullMenuOverlay) fullMenuOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden'; 
+    };
+
+    const closeMenu = () => {
+        if (fullMenuOverlay) fullMenuOverlay.classList.remove('active');
+        document.body.style.overflow = ''; 
+    };
+
+    if (menuText) menuText.addEventListener('click', openMenu);
+    if (menuIcon) menuIcon.addEventListener('click', openMenu); 
+    if (closeMenuBtn) closeMenuBtn.addEventListener('click', closeMenu);
+    
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && fullMenuOverlay && fullMenuOverlay.classList.contains('active')) {
+            closeMenu();
+        }
+    });
+};
+
+// ==========================================================
+// 4. SISTEMA DE PAGINAÇÃO PROFISSIONAL
+// ==========================================================
+
+/**
+ * Cria o botão "Carregar Mais" com estilo profissional
+ */
+const createLoadMoreButton = () => {
+    const loadMoreContainer = document.createElement('div');
+    loadMoreContainer.className = 'load-more-container';
+    loadMoreContainer.innerHTML = `
+        <button class="load-more-btn standard-btn">
+            <span class="btn-text">Carregar Mais Projetos</span>
+            <span class="btn-loading" style="display: none;">
+                <i class='bx bx-loader-alt bx-spin'></i> Carregando...
+            </span>
+            <span class="btn-arrow">↓</span>
+        </button>
+    `;
+    
+    return loadMoreContainer;
+};
+
+/**
+ * Mostra/oculta o botão "Carregar Mais" baseado na quantidade de posts
+ */
+const toggleLoadMoreButton = (totalPosts, displayedPosts) => {
+    let loadMoreContainer = document.querySelector('.load-more-container');
+    
+    // Se ainda tem posts para carregar e não existe o botão, cria
+    if (displayedPosts < totalPosts && !loadMoreContainer) {
+        loadMoreContainer = createLoadMoreButton();
+        const postsGrid = document.getElementById('posts-grid-container');
+        if (postsGrid) {
+            postsGrid.parentNode.insertBefore(loadMoreContainer, postsGrid.nextSibling);
+            
+            // Adiciona evento de clique
+            const loadMoreBtn = loadMoreContainer.querySelector('.load-more-btn');
+            loadMoreBtn.addEventListener('click', loadMorePosts);
+        }
+    }
+    // Se não tem mais posts para carregar, remove o botão
+    else if (displayedPosts >= totalPosts && loadMoreContainer) {
+        loadMoreContainer.remove();
+    }
+};
+
+/**
+ * Atualiza o estado do botão "Carregar Mais"
+ */
+const updateLoadMoreButton = (isLoading) => {
+    const loadMoreBtn = document.querySelector('.load-more-btn');
+    if (!loadMoreBtn) return;
+    
+    const btnText = loadMoreBtn.querySelector('.btn-text');
+    const btnLoading = loadMoreBtn.querySelector('.btn-loading');
+    const btnArrow = loadMoreBtn.querySelector('.btn-arrow');
+    
+    if (isLoading) {
+        loadMoreBtn.disabled = true;
+        btnText.style.display = 'none';
+        btnLoading.style.display = 'inline';
+        btnArrow.style.display = 'none';
+    } else {
+        loadMoreBtn.disabled = false;
+        btnText.style.display = 'inline';
+        btnLoading.style.display = 'none';
+        btnArrow.style.display = 'inline';
+    }
+};
+
+/**
+ * Carrega mais posts quando o botão é clicado
+ */
+const loadMorePosts = async () => {
+    if (isLoading) return;
+    
+    isLoading = true;
+    updateLoadMoreButton(true);
+    
+    // Simula um delay de carregamento para melhor UX
+    await new Promise(resolve => setTimeout(resolve, 800));
+    
+    currentPage++;
+    const startIndex = displayedPosts;
+    const endIndex = startIndex + PAGINATION_CONFIG.loadMoreIncrement;
+    const postsToShow = allPosts.slice(startIndex, endIndex);
+    
+    // Renderiza os novos posts
+    renderPostsBatch(postsToShow);
+    
+    displayedPosts += postsToShow.length;
+    
+    // Atualiza o botão
+    isLoading = false;
+    updateLoadMoreButton(false);
+    
+    // Verifica se ainda tem posts para carregar
+    toggleLoadMoreButton(allPosts.length, displayedPosts);
+    
+    // Animações para os novos posts
+    setTimeout(initImageAnimations, 100);
+};
+
+/**
+ * Renderiza um lote de posts
+ */
+const renderPostsBatch = (posts) => {
+    const postsGridContainer = document.getElementById('posts-grid-container');
+    if (!postsGridContainer) return;
+    
+    posts.forEach(post => {
+        const postCard = createPostCard(post);
+        postsGridContainer.appendChild(postCard);
+    });
+};
+
+/**
+ * Cria o card de post individual
+ */
+const createPostCard = (post) => {
+    const postDate = new Date(post.publishedAt);
+    const formattedDate = postDate.toLocaleDateString('pt-BR', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    });
+    
+    let thumbnailUrl = post.thumbnail;
+    if (post.thumbnail && !post.thumbnail.startsWith('http') && post.category === 'articles') {
+        thumbnailUrl = `${API_BASE_URL}${post.thumbnail}`;
+    } else if (!post.thumbnail) {
+        thumbnailUrl = 'https://placehold.co/800x400/ffdaa5/333333?text=Imagem+Padrao';
+    }
+
+    const postCard = document.createElement('a');
+    postCard.className = 'post-card';
+    postCard.setAttribute('data-category', post.category);
+    
+    if (post.category === 'articles') {
+        postCard.href = `post.html?id=${post._id}`;
+    } else if (post.category === 'projects') {
+        postCard.href = `post.html?project=${post._id}`;
+    }
+    
+    const tagText = post.category === 'articles' ? 'Artigo' : 'Trabalho';
+    
+    postCard.innerHTML = `
+        <div class="post-image-container">
+            <img src="${thumbnailUrl}" alt="${post.title}" class="post-image" loading="lazy">
+        </div>
+        <div class="post-info">
+            <span class="post-tag">${tagText}</span>
+            <h3 class="post-title-card">${post.title}</h3>
+            <p class="post-excerpt">${post.summary}</p>
+            <div class="post-meta">
+                <span>${formattedDate}</span>
+                <span>por ${post.author || 'Autor Desconhecido'}</span>
+            </div>
+        </div>
+    `;
+    
+    return postCard;
+};
+
+// ==========================================================
+// 5. FUNÇÕES DE INTERAÇÃO COM O BACKEND E UI (EXISTENTES)
+// ==========================================================
+
+const updateLikeCountUI = (likes) => {
+    const likeCountElement = document.querySelector('.post-interactions .like-count');
+    if (likeCountElement) {
+        likeCountElement.textContent = `(${likes})`;
+    }
+};
+
+const likePost = async (postId) => {
+    const likeBtn = document.querySelector('.like-btn');
+    if (!likeBtn) return;
+    likeBtn.disabled = true;
+
     try {
         const response = await fetch(`${API_BASE_URL}/api/posts/${postId}/like`, {
             method: 'PUT'
@@ -12,221 +290,89 @@ window.likePost = async (postId) => {
 
         if (response.ok) {
             const updatedPost = await response.json();
-            const likeCountElement = document.querySelector('.like-count');
-            if (likeCountElement) {
-                likeCountElement.textContent = updatedPost.likes;
-            }
+            updateLikeCountUI(updatedPost.likes);
+            likeBtn.classList.add('liked');
         } else {
             console.error('Erro ao dar like.', response.status);
-            alert('Não foi possível dar like. Verifique a conexão com o servidor.');
         }
     } catch (error) {
         console.error('Falha ao dar like:', error);
+    } finally {
+        likeBtn.disabled = false;
     }
 };
 
-// Função para carregar a LISTA de posts (para blog/index.html)
-const loadBlogPosts = async () => {
-    const postsContainer = document.getElementById('postsContainer');
-    if (!postsContainer) return;
+const renderComments = (comments) => {
+    const commentsList = document.querySelector('.comments-list');
+    const commentsTitle = document.querySelector('.post-comments-section h2');
 
-    postsContainer.innerHTML = '<p>Carregando posts...</p>';
+    if (!commentsList || !commentsTitle) return;
 
-    try {
-        const response = await fetch(`${API_BASE_URL}/api/posts`);
-        if (!response.ok) {
-            throw new Error(`Erro HTTP! Status: ${response.status}`);
-        }
-        const posts = await response.json();
+    commentsTitle.textContent = `Comentários (${comments.length})`;
+    commentsList.innerHTML = '';
+    
+    comments.sort((a, b) => new Date(b.publishedAt || b.createdAt) - new Date(a.publishedAt || a.createdAt));
 
-        postsContainer.innerHTML = '';
-
-        if (posts.length === 0) {
-            postsContainer.innerHTML = '<p>Nenhum post encontrado no momento.</p>';
-            return;
-        }
-        
-        posts.forEach(post => {
-            const postDate = new Date(post.publishedAt);
-            const formattedDate = postDate.toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' });
-            
-            let thumbnailUrl = '';
-            if (post.thumbnail && !post.thumbnail.startsWith('http')) {
-                thumbnailUrl = `${API_BASE_URL}${post.thumbnail}`;
-            } else if (post.thumbnail) {
-                thumbnailUrl = post.thumbnail;
-            } else {
-                thumbnailUrl = '../images/blog/default-thumb.jpg';
-            }
-
-            const postCard = `
-                <a href="post.html?id=${post._id}" class="blog-post-card">
-                    <img src="${thumbnailUrl}" alt="${post.title}">
-                    <div class="blog-post-card-content">
-                        <h3>${post.title}</h3>
-                        <p class="post-card-meta">Publicado em: ${formattedDate} por ${post.author}</p>
-                        <p>${post.summary}</p>
-                        <div class="blog-post-card-footer">
-                            <span class="read-more-btn">Ler Mais <i class='bx bx-right-arrow-alt'></i></span>
-                        </div>
-                    </div>
-                </a>
-            `;
-            postsContainer.innerHTML += postCard;
-        });
-
-    } catch (error) {
-        console.error('Erro ao carregar posts:', error);
-        postsContainer.innerHTML = '<p>Não foi possível carregar os posts. Tente novamente mais tarde.</p>';
-    }
-};
-
-// Função para carregar um POST INDIVIDUAL (para blog/post.html)
-const loadSinglePost = async () => {
-    const postContentContainer = document.getElementById('postContent');
-    if (!postContentContainer) return;
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const postId = urlParams.get('id');
-
-    if (!postId) {
-        postContentContainer.innerHTML = '<h1>Post não encontrado.</h1>';
+    if (comments.length === 0) {
+        commentsList.innerHTML = '<p class="comment-text">Nenhum comentário ainda. Seja o primeiro a comentar!</p>';
         return;
     }
-
-    try {
-        const response = await fetch(`${API_BASE_URL}/api/posts/${postId}`);
-        if (!response.ok) {
-            throw new Error('Erro ao carregar o post.');
-        }
-        const post = await response.json();
-
-        document.title = `${post.title} - Blog`;
+    
+    comments.forEach(comment => {
+        const commentDate = new Date(comment.publishedAt || comment.createdAt).toLocaleDateString('pt-BR');
         
-        let thumbnailUrl = '';
-        if (post.thumbnail && !post.thumbnail.startsWith('http')) {
-            thumbnailUrl = `${API_BASE_URL}${post.thumbnail}`;
-        } else if (post.thumbnail) {
-            thumbnailUrl = post.thumbnail;
-        } else {
-            thumbnailUrl = '../images/blog/default-thumb.jpg';
-        }
-
-        const postDate = new Date(post.publishedAt);
-        const formattedPostDate = postDate.toLocaleDateString('pt-BR');
-
-        const postHtml = `
-            <img src="${thumbnailUrl}" alt="${post.title}" class="post-main-image">
-            <h1>${post.title}</h1>
-            <p class="post-meta">Por ${post.author} em ${formattedPostDate}</p>
-            <div class="post-content-html">${post.content}</div>
-            <div class="post-actions">
-                <button class="like-button" data-post-id="${post._id}"><i class='bx bx-like'></i><span class="like-count">${post.likes}</span> Likes</button>
-            </div>
+        const commentItem = document.createElement('div');
+        commentItem.className = 'comment-item';
+        commentItem.innerHTML = `
+            <div class="comment-author">${comment.author || 'Anônimo'} <span class="comment-date">em ${commentDate}</span></div>
+            <p class="comment-text">${comment.content}</p>
         `;
-        postContentContainer.innerHTML = postHtml;
-        
-        const likeButton = document.querySelector('.like-button');
-        if (likeButton) {
-            likeButton.addEventListener('click', () => {
-                likePost(likeButton.dataset.postId);
-            });
-        }
-
-        loadComments(postId);
-
-    } catch (error) {
-        console.error("Falha ao carregar o post:", error);
-        postContentContainer.innerHTML = '<p>Erro ao carregar o post. Tente novamente mais tarde.</p>';
-    }
+        commentsList.appendChild(commentItem);
+    });
 };
 
-// Função para carregar comentários (seção de comentários)
 const loadComments = async (postId) => {
-    const commentsSection = document.getElementById('commentsSection');
-    if (!commentsSection) return;
+    const commentsList = document.querySelector('.comments-list');
+    if (!commentsList) return;
+
+    commentsList.innerHTML = '<p class="comment-text">Carregando comentários...</p>';
 
     try {
         const response = await fetch(`${API_BASE_URL}/api/posts/${postId}/comments`);
         if (!response.ok) {
             throw new Error(`Erro ao carregar comentários: ${response.status}`);
         }
-        let comments = await response.json();
-
-        // Ordenar comentários do mais recente ao mais antigo
-        comments.sort((a, b) => {
-            const dateA = new Date(a.publishedAt || a.createdAt);
-            const dateB = new Date(b.publishedAt || b.createdAt);
-            return dateB - dateA;
-        });
-
-        // Gerar o HTML do formulário primeiro
-        let commentsHtml = `
-            <div class="comment-form-container">
-                <h3>Deixe um comentário</h3>
-                <form id="commentForm">
-                    <input type="hidden" id="postId" value="${postId}">
-                    <input type="text" id="commentAuthor" placeholder="Seu nome" required>
-                    <textarea id="commentContent" placeholder="Seu comentário..." required></textarea>
-                    <button type="submit" class="btn">Enviar Comentário</button>
-                </form>
-            </div>
-            
-            <div class="comments-section">
-                <h3>Comentários (${comments.length})</h3>
-                <div class="comments-list">
-        `;
-
-        if (comments.length === 0) {
-            commentsHtml += '<p>Nenhum comentário ainda. Seja o primeiro a comentar!</p>';
-        } else {
-            comments.forEach(comment => {
-                const commentDate = new Date(comment.publishedAt || comment.createdAt).toLocaleDateString('pt-BR');
-                commentsHtml += `
-                    <div class="comment-item">
-                        <div class="comment-header">
-                            <span class="comment-author">${comment.author}</span>
-                            <span class="comment-date">em ${commentDate}</span>
-                        </div>
-                        <p class="comment-content">${comment.content}</p>
-                    </div>
-                `;
-            });
-        }
+        const comments = await response.json();
         
-        commentsHtml += `
-                </div>
-            </div>
-        `;
-
-        commentsSection.innerHTML = commentsHtml;
-
-        document.getElementById('commentForm').addEventListener('submit', handleCommentSubmit);
+        renderComments(comments);
 
     } catch (error) {
         console.error('Erro ao carregar comentários:', error);
-        commentsSection.innerHTML = `
-            <h2>Comentários</h2>
-            <p>Não foi possível carregar os comentários. Tente novamente mais tarde.</p>
-        `;
+        document.querySelector('.post-comments-section h2').textContent = 'Comentários';
+        commentsList.innerHTML = `<p class="comment-text">Não foi possível carregar os comentários. Tente novamente mais tarde.</p>`;
     }
 };
 
-// Função para lidar com o envio do formulário de comentários
-const handleCommentSubmit = async (event) => {
+const handleCommentSubmit = async (event, postId) => {
     event.preventDefault();
     
     const form = event.target;
-    const postId = form.elements.postId.value;
-    const author = form.elements.commentAuthor.value;
-    const content = form.elements.commentContent.value;
+    const authorInput = form.querySelector('input[type="text"]');
+    const contentTextarea = form.querySelector('textarea');
     
+    const author = authorInput ? authorInput.value : 'Anônimo';
+    const content = contentTextarea ? contentTextarea.value : '';
+
+    if (!content.trim()) return;
+    
+    const submitBtn = form.querySelector('.submit-comment-btn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Enviando...';
+
     try {
         const response = await fetch(`${API_BASE_URL}/api/posts/${postId}/comments`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ author, content })
         });
         
@@ -235,52 +381,388 @@ const handleCommentSubmit = async (event) => {
             loadComments(postId);
         } else {
             console.error('Erro ao enviar comentário.', response.status);
-            alert('Não foi possível enviar o comentário. Tente novamente.');
         }
     } catch (error) {
         console.error('Falha ao enviar comentário:', error);
-        alert('Falha na conexão. Tente novamente.');
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Enviar Comentário';
     }
 };
 
+const handleShareClick = () => {
+    const postUrl = window.location.href;
+    
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(postUrl)
+            .then(() => {
+                const shareBtn = document.querySelector('.share-btn');
+                const originalText = shareBtn.innerHTML;
+                shareBtn.innerHTML = "<i class='bx bx-check-circle'></i> Link Copiado!";
+                setTimeout(() => {
+                    shareBtn.innerHTML = originalText;
+                }, 2000);
+            })
+            .catch(err => {
+                console.error('Erro ao copiar URL:', err);
+                prompt("Copie o URL do post:", postUrl);
+            });
+    } else {
+        prompt("Copie o URL do post:", postUrl);
+    }
+};
 
-// ----------------------------------------
-// NOVA FUNÇÃO PARA O BOTÃO "IR PARA O TOPO"
-// ----------------------------------------
-const setupScrollToTopButton = () => {
+// ==========================================================
+// 6. FUNÇÃO PARA SCROLL DOWN
+// ==========================================================
+
+const setupScrollDownButton = () => {
+    const scrollDownBtn = document.querySelector('.scroll-down-btn');
+    
+    if (scrollDownBtn) {
+        scrollDownBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = scrollDownBtn.getAttribute('data-next');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                targetElement.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    }
+};
+
+// ==========================================================
+// 7. ANIMAÇÕES DE SCROLL REVEAL
+// ==========================================================
+
+const initScrollAnimations = () => {
+    const elementsToAnimate = document.querySelectorAll('.blog-title, .blog-subtitle, .heading-line-minimal');
+    
+    const scrollObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('show-element');
+                scrollObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    elementsToAnimate.forEach(el => scrollObserver.observe(el));
+};
+
+// ==========================================================
+// 8. ANIMAÇÃO DE IMAGEM COM CARREGAMENTO
+// ==========================================================
+
+const initImageAnimations = () => {
+    const blogImage = document.querySelector('.blog-intro-img');
+    
+    if (blogImage) {
+        if (blogImage.complete) {
+            blogImage.classList.add('loaded');
+        } else {
+            blogImage.addEventListener('load', function() {
+                this.classList.add('loaded');
+            });
+        }
+    }
+
+    // Observer para imagens dos posts
+    const postImages = document.querySelectorAll('.post-image');
+    const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'scale(1)';
+                imageObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    postImages.forEach(img => {
+        img.style.opacity = '0';
+        img.style.transform = 'scale(0.95)';
+        img.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        imageObserver.observe(img);
+    });
+};
+
+// ==========================================================
+// 9. LÓGICA DE RENDERIZAÇÃO DA PÁGINA COM PAGINAÇÃO
+// ==========================================================
+
+const fetchArticles = async () => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/posts`);
+        if (!response.ok) {
+            console.error(`Erro HTTP ao buscar Artigos: ${response.status}`);
+            return [];
+        }
+        const posts = await response.json();
+        return posts.map(post => ({ ...post, category: 'articles' })); 
+    } catch (error) {
+        console.error('Falha ao carregar artigos do backend:', error);
+        return [];
+    }
+};
+
+const loadBlogPosts = async (filter = 'all') => {
+    const postsGridContainer = document.getElementById('posts-grid-container');
+    if (!postsGridContainer) return;
+
+    // Remove botão "Carregar Mais" anterior se existir
+    const existingLoadMore = document.querySelector('.load-more-container');
+    if (existingLoadMore) {
+        existingLoadMore.remove();
+    }
+
+    postsGridContainer.innerHTML = '<p style="text-align: center; color: var(--text-color);">Carregando conteúdo...</p>';
+
+    try {
+        // Reseta o estado da paginação
+        currentPage = 1;
+        displayedPosts = 0;
+        isLoading = false;
+
+        // Carrega artigos e projetos
+        const articles = await fetchArticles();
+        const projects = MOCK_PROJECTS;
+
+        // Combina e filtra
+        let combinedPosts = [...articles, ...projects];
+        
+        const filteredPosts = combinedPosts.filter(post => {
+            if (filter === 'all') return true;
+            return post.category && post.category.toLowerCase() === filter;
+        });
+
+        // Ordena por data
+        filteredPosts.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+        
+        // Atualiza posts globais
+        allPosts = filteredPosts;
+
+        postsGridContainer.innerHTML = '';
+
+        if (filteredPosts.length === 0) {
+            postsGridContainer.innerHTML = '<p style="text-align: center; color: var(--text-color);">Nenhum post encontrado para este filtro.</p>';
+            return;
+        }
+        
+        // Carrega posts iniciais
+        const initialPosts = filteredPosts.slice(0, PAGINATION_CONFIG.initialLoad);
+        renderPostsBatch(initialPosts);
+        
+        displayedPosts = initialPosts.length;
+
+        // Mostra/oculta botão "Carregar Mais"
+        toggleLoadMoreButton(filteredPosts.length, displayedPosts);
+
+        // Inicializa animações
+        setTimeout(initImageAnimations, 100);
+
+    } catch (error) {
+        console.error('Erro ao carregar posts:', error);
+        postsGridContainer.innerHTML = '<p style="text-align: center; color: var(--text-color);">Erro ao carregar os posts. Tente novamente mais tarde.</p>';
+    }
+};
+
+// ==========================================================
+// 10. LÓGICA DE RENDERIZAÇÃO DO POST INDIVIDUAL (post.html)
+// ==========================================================
+
+const setupPostInteractions = (postId, initialLikes) => {
+    const likeBtn = document.querySelector('.like-btn');
+    if (likeBtn) {
+        likeBtn.addEventListener('click', () => likePost(postId));
+        updateLikeCountUI(initialLikes);
+    }
+
+    const shareBtn = document.querySelector('.share-btn');
+    if (shareBtn) {
+        shareBtn.addEventListener('click', handleShareClick);
+    }
+    
+    const commentForm = document.getElementById('comment-form');
+    if (commentForm) {
+        commentForm.addEventListener('submit', (e) => handleCommentSubmit(e, postId));
+    }
+
+    loadComments(postId);
+};
+
+const loadSinglePost = async () => {
+    const postContentContainer = document.getElementById('post-content-container');
+    if (!postContentContainer) return;
+
+    postContentContainer.innerHTML = '<p style="text-align: center; color: var(--text-color);">Carregando conteúdo...</p>';
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const postId = urlParams.get('id');
+    const projectId = urlParams.get('project');
+
+    if (!postId && !projectId) {
+        postContentContainer.innerHTML = '<h1>Post não encontrado.</h1>';
+        return;
+    }
+
+    try {
+        let post;
+        let isProject = false;
+        
+        if (projectId) {
+            post = MOCK_PROJECTS.find(proj => proj._id === projectId);
+            if (!post) {
+                throw new Error('Projeto não encontrado.');
+            }
+            isProject = true;
+        } else {
+            const response = await fetch(`${API_BASE_URL}/api/posts/${postId}`);
+            if (!response.ok) {
+                throw new Error('Erro ao carregar o post.');
+            }
+            post = await response.json();
+            isProject = false;
+        }
+
+        document.title = `${post.title} | Yuri Portfólio`;
+        
+        let thumbnailUrl = post.thumbnail;
+        if (post.thumbnail && !post.thumbnail.startsWith('http') && !isProject) {
+            thumbnailUrl = `${API_BASE_URL}${post.thumbnail}`;
+        } else if (!post.thumbnail) {
+            thumbnailUrl = 'https://placehold.co/1200x400/ffdaa5/333333?text=Imagem+Padrao';
+        }
+
+        const postDate = new Date(post.publishedAt);
+        const formattedPostDate = postDate.toLocaleDateString('pt-BR');
+
+        let postContent = '';
+        if (isProject) {
+            postContent = `
+                <div class="project-content">
+                    <p><strong>Resumo:</strong> ${post.summary}</p>
+                    <p><strong>Link do Projeto:</strong> <a href="${post.link}" target="_blank">${post.link}</a></p>
+                    <div class="project-actions">
+                        <a href="${post.link}" target="_blank" class="action-btn">
+                            <i class='bx bx-link-external'></i> Ver Projeto
+                        </a>
+                        <a href="blog.html" class="action-btn">
+                            <i class='bx bx-left-arrow-alt'></i> Voltar ao Portfólio
+                        </a>
+                    </div>
+                </div>
+            `;
+        } else {
+            postContent = post.content || '<p>Conteúdo não disponível.</p>';
+        }
+
+        const postHtml = `
+            <img src="${thumbnailUrl}" alt="${post.title}" class="post-header-image">
+            <h1 class="post-full-title">${post.title}</h1>
+            <p class="post-full-meta">Por ${post.author || 'Autor Desconhecido'} em ${formattedPostDate}</p>
+            
+            <div class="post-full-content">
+                ${postContent}
+            </div>
+            
+            <div class="back-button-container">
+                <a href="blog.html" class="action-btn">
+                    <i class='bx bx-left-arrow-alt'></i> Voltar para Todas as Publicações
+                </a>
+            </div>
+        `;
+        postContentContainer.innerHTML = postHtml;
+        
+        if (isProject) {
+            const postInteractions = document.querySelector('.post-interactions');
+            const postComments = document.querySelector('.post-comments-section');
+            
+            if (postInteractions) postInteractions.style.display = 'none';
+            if (postComments) postComments.style.display = 'none';
+        } else {
+            setupPostInteractions(postId, post.likes || 0);
+        }
+
+        setTimeout(initImageAnimations, 100);
+
+    } catch (error) {
+        console.error("Falha ao carregar o post:", error);
+        postContentContainer.innerHTML = '<p>Erro ao carregar o post. Tente novamente mais tarde.</p>';
+    }
+};
+
+// ==========================================================
+// 11. INICIALIZAÇÃO E LÓGICA DE FILTRO (ATUALIZADA)
+// ==========================================================
+document.addEventListener('DOMContentLoaded', () => {
+    
+    setupMenuOverlay();
+    setupScrollDownButton();
+    initScrollAnimations();
+    initImageAnimations();
+    
+    // Lógica para o botão Scroll-to-Top
     const scrollBtn = document.querySelector('.scroll-to-top-btn');
-
     if (scrollBtn) {
-        // Mostra/esconde o botão com base na posição da rolagem
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) { // Mostra o botão após rolar 300px
+            if (window.scrollY > 300) {
                 scrollBtn.classList.add('show');
             } else {
                 scrollBtn.classList.remove('show');
             }
         });
 
-        // Adiciona a funcionalidade de rolagem suave ao clicar no botão
-        scrollBtn.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+        scrollBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
-};
 
-
-// Lógica de inicialização: Verifica a URL e chama as funções apropriadas
-document.addEventListener('DOMContentLoaded', () => {
     const currentPath = window.location.pathname;
 
-    if (currentPath.includes('/blog/index.html') || currentPath.endsWith('/blog/')) {
-        loadBlogPosts();
-    } else if (currentPath.includes('/blog/post.html')) {
+    // Se a página é a de listagem (blog.html)
+    if (currentPath.includes('blog.html')) {
+        
+        const blogContentSection = document.querySelector('.blog-content-section');
+        
+        let postsGridContainer = document.getElementById('posts-grid-container');
+        if (!postsGridContainer && blogContentSection) {
+            postsGridContainer = document.createElement('div');
+            postsGridContainer.id = 'posts-grid-container';
+            postsGridContainer.className = 'posts-grid';
+            
+            const blogFilters = document.querySelector('.blog-filters');
+            if (blogFilters) {
+                blogFilters.insertAdjacentElement('afterend', postsGridContainer);
+            } else {
+                blogContentSection.appendChild(postsGridContainer);
+            }
+        }
+
+        const filterButtons = document.querySelectorAll('.filter-btn');
+
+        // Adiciona eventos aos botões de filtro
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                const filterValue = button.getAttribute('data-filter');
+                loadBlogPosts(filterValue);
+            });
+        });
+
+        // Chamada inicial para carregar TODOS os posts
+        loadBlogPosts('all');
+
+    } 
+    // Se a página é a de post individual (post.html)
+    else if (currentPath.includes('post.html')) {
         loadSinglePost();
     }
-
-    // Chamada para inicializar o botão "ir para o topo"
-    setupScrollToTopButton();
 });

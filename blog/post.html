@@ -3,67 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Título do Post - Blog</title>
-    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" type="image/png" href="/img/logo_blog.png">
+    
+    <title>A carregar... | Yuri Portfólio</title>
+    
+    <link rel="stylesheet" href="blog.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
-<body class="dark-theme blog-page">
+<body class="post-detail">
+
+    <!-- HEADER CORRIGIDO -->
     <header class="header">
-        <i class='bx bx-menu' id="menu-icon"></i>
-        <a href="../index.html" class="logo">
-            <img src="../img/marca dagua 2 copia logo.png" alt="Logo Yuri Barbosa" class="main-logo">
+        <div class="header-left">
+            <i class='bx bx-menu' id="menu-icon"></i> <!-- Ícone do menu PRIMEIRO -->
+            <a href="/index.html" class="logo">
+                <img src="/img/logo_blog.png" alt="Yuri Barbosa" class="main-logo">
+            </a>
+            <div class="menu-text" id="menuText">MENU</div>
+        </div>
+        <a href="/contato.html" class="contact-link">
+            <span class="contact-text">Entre em contato</span>
+            <i class='bx bx-envelope contact-icon'></i> <!-- Ícone do contato -->
         </a>
-        <nav class="navbar">
-            <a href="../index.html#home">Início</a>
-            <a href="../index.html#about">Sobre Mim</a>
-            <a href="../index.html#skills">Habilidades</a>
-            <a href="../index.html#portfolio">Portfólio</a>
-            <a href="../index.html#contact">Contato</a>
-            <a href="index.html" class="navbar-link active">Blog</a>
-        </nav>
     </header>
-    <main class="post-main">
-        <div class="page-content">
-            <div class="post-content-container">
-                <article id="postContent" class="blog-post-article">
-                    <p>Carregando conteúdo do post...</p>
-                </article>
-                <section id="commentsSection" class="comments-section">
-                </section>
-                
-                <div class="back-button-container">
-                    <button onclick="history.back()" class="btn back-btn">
-                        <i class='bx bx-left-arrow-alt'></i> Voltar
+
+    <div class="full-menu-overlay" id="fullMenuOverlay">
+        <div class="menu-content">
+            <i class='bx bx-x close-menu-btn' id="closeMenuBtn"></i>
+            <nav class="full-navbar">
+                <a href="/index.html" class="menu-item">Início</a>
+                <a href="/sobremim.html" class="menu-item">Sobre Mim</a>
+                <a href="blog.html" class="menu-item active">Blog</a>
+                <a href="/contato.html" class="menu-item">Contato</a>
+                <a href="/admin/admin.html" class="menu-item admin-link"><i class='bx bx-cog'></i> Admin</a>
+            </nav>
+        </div>
+    </div>
+    
+    <section id="post-detail">
+        <div class="page-content"> 
+            
+            <div class="post-content-container" id="post-content-container">
+                <p>A carregar conteúdo...</p>
+            </div>
+
+            <hr class="post-divider">
+
+            <div class="post-interactions">
+                <div class="interaction-buttons">
+                    <button class="action-btn like-btn">
+                        <i class='bx bx-heart'></i> 
+                        Curtir 
+                        <span class="like-count">(142)</span>
+                    </button>
+                    <button class="action-btn share-btn">
+                        <i class='bx bx-share-alt'></i> 
+                        Compartilhar
+                    </button>
+                    <button class="action-btn save-btn">
+                        <i class='bx bx-bookmark'></i> 
+                        Salvar
                     </button>
                 </div>
             </div>
-        </div>
-    </main>
-    <footer class="footer">
-        <div class="footer-content-wrapper">
-            <div class="footer-left-content">
-                <img src="../img/ybarbosa.png" alt="Seu Logo ou Foto no Footer" class="footer-logo-img">
-                <p class="footer-slogan">Vivendo, aprendendo e evoluindo um dia de cada vez.</p>
-            </div>
-            <div class="footer-right-content">
-                <h3 class="footer-social-heading">SOCIAL</h3>
-                <div class="footer-social-links">
-                    <a href="http://www.linkedin.com/in/yuri-basi" target="_blank" rel="noopener noreferrer"><i class='bx bxl-linkedin'></i></a>
-                    <a href="https://github.com/yuriletras/yuriletras" target="_blank" rel="noopener noreferrer"><i class='bx bxl-github'></i></a>
-                    <a href="URL_DO_SEU_YOUTUBE" target="_blank"><i class='bx bxl-youtube'></i></a>
-                    <a href="URL_DO_SEU_INSTAGRAM" target="_blank"><i class='bx bxl-instagram'></i></a>
+
+            <div class="post-comments-section">
+                <h2>Comentários (3)</h2>
+                
+                <form id="comment-form" class="comment-form">
+                    <input type="text" placeholder="Seu nome" required>
+                    <textarea placeholder="Deixe seu comentário..." rows="4" required></textarea>
+                    <button type="submit" class="action-btn submit-comment-btn">Enviar Comentário</button>
+                </form>
+
+                <div class="comments-list">
+                    <div class="comment-item">
+                        <div class="comment-author">Ana Silva <span class="comment-date">em 10/05/2025</span></div>
+                        <p class="comment-text">Ótimo artigo! A parte sobre o design responsivo foi muito útil. Parabéns pelo trabalho!</p>
+                    </div>
+                    <div class="comment-item">
+                        <div class="comment-author">Rui Santos <span class="comment-date">em 11/05/2025</span></div>
+                        <p class="comment-text">Concordo plenamente! É essencial manter-se atualizado com as tendências.</p>
+                    </div>
                 </div>
             </div>
         </div>
-        <hr class="footer-divider">
-        <a href="#home" id="scrollToTopBtn" class="scroll-to-top-btn" title="Voltar ao Topo">
-            <i class='bx bx-arrow-to-top'></i>
-        </a>
-        <div class="footer-copyright">
-            <p>Copyright &copy; 2025 by Yuri Barbosa | All Rights Reserved.</p>
-        </div>
+    </section>
+    
+    <footer class="footer-minimal">
+        <span class="footer-divider"></span> Copyright © 2025 by Yuri Barbosa | All Rights Reserved.
     </footer>
-    <script src="../script.js"></script>
+
+    <a href="#post-detail" class="scroll-to-top-btn">
+        <i class='bx bx-up-arrow-alt'></i>
+    </a>
+    
     <script src="blog.js"></script>
 </body>
 </html>
