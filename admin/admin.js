@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const postThumbnailInput = document.getElementById('postThumbnail');
     const postContentInput = document.getElementById('postContent');
     const cancelBtn = document.getElementById('cancelBtn');
+    
+    // 👉 ADIÇÃO 1: Referência ao campo de Categoria
+    const postCategoryInput = document.getElementById('postCategory'); 
 
     // --- Funções Principais ---
 
@@ -140,6 +143,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             postSummaryInput.value = post.summary;
             postThumbnailInput.value = post.thumbnail || '';
             postContentInput.value = post.content;
+            
+            // Define o valor da categoria para edição
+            if (postCategoryInput) {
+                postCategoryInput.value = post.category || ''; // Preenche o campo de categoria
+            }
 
             // Armazena o ID do post globalmente para uso no PUT
             currentPostId = postId;
@@ -169,7 +177,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             author: postAuthorInput.value,
             summary: postSummaryInput.value,
             thumbnail: postThumbnailInput.value,
-            content: postContentInput.value
+            content: postContentInput.value,
+            
+            // 👉 ADIÇÃO 2: Inclui o valor da Categoria
+            category: postCategoryInput ? postCategoryInput.value : undefined // Pega o valor do <select>, se existir
         };
 
         let url = `${API_BASE_URL}/posts`;
