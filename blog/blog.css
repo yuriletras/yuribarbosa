@@ -1438,7 +1438,7 @@ section {
 }
 
 /* ====================== */
-/* MOBILE BLOG.CSS - VERSÃO COMPACTA */
+/* MOBILE BLOG.CSS - CORREÇÃO DO ESPAÇO ENTRE CAIXA E SETA */
 /* ====================== */
 
 @media (max-width: 767px) {
@@ -1446,7 +1446,7 @@ section {
     html { 
         font-size: 90%; 
         scroll-behavior: smooth;
-    } 
+    }
     
     body, .page-content, section, #blog, .blog-content-section { 
         overflow-x: hidden !important; 
@@ -1593,12 +1593,12 @@ section {
     }
 
     /* ====================== */
-    /* CORREÇÕES DE LAYOUT GERAL - MAIS PRÓXIMO DO HEADER */
+    /* CORREÇÕES DE LAYOUT GERAL */
     /* ====================== */
     .page-content,
     #blog .page-content,
     .blog-content-section .page-content {
-        padding: 60px 16px 40px 16px !important; /* Reduzido padding-top de 80px para 60px */
+        padding: 60px 16px 40px 16px !important;
         max-width: 100% !important;
         margin: 0 auto !important;
         align-items: center !important;
@@ -1608,34 +1608,36 @@ section {
     }
 
     /* ====================== */
-    /* BLOG INTRO SECTION - MAIS COMPACTA E PRÓXIMA DO HEADER */
+    /* BLOG INTRO SECTION - ESPAÇO REDUZIDO ENTRE CAIXA E SETA */
     /* ====================== */
     .blog-intro-section {
         padding: 0 !important;
         min-height: 100vh !important;
         display: flex !important;
         flex-direction: column !important;
-        justify-content: flex-start !important; /* Alinha conteúdo no topo */
+        justify-content: space-between !important; /* ← MUDADO: Distribui espaço entre conteúdo e seta */
         position: relative !important;
         overflow: hidden !important;
         background: transparent !important;
-        padding-top: 20px !important; /* Adiciona pequeno espaçamento do header */
+        padding-top: 20px !important;
     }
 
     .blog-intro-content {
         grid-template-columns: 1fr !important;
-        gap: 25px !important; /* Reduzido gap entre imagem e texto */
+        gap: 20px !important; /* Gap reduzido */
         text-align: center !important;
         width: 100% !important;
         margin: 0 auto !important; 
         display: flex !important;
         flex-direction: column !important;
+        flex-grow: 1 !important; /* ← ADICIONADO: Ocupa espaço disponível */
+        justify-content: center !important; /* ← ADICIONADO: Centraliza verticalmente */
     }
 
-    /* IMAGEM - MAIS PRÓXIMA DO HEADER */
+    /* IMAGEM */
     .blog-image-container {
         order: -1 !important;
-        margin: 0 auto 15px auto !important; /* Reduzida margem inferior */
+        margin: 0 auto 10px auto !important; /* Margem reduzida */
         width: 100% !important;
         display: flex !important;
         justify-content: center !important;
@@ -1644,7 +1646,7 @@ section {
     }
 
     .blog-intro-img {
-        max-width: 60% !important; /* Imagem um pouco menor */
+        max-width: 60% !important;
         width: auto !important;
         height: auto !important;
         margin: 0 auto !important;
@@ -1657,7 +1659,7 @@ section {
         filter: none !important;
     }
 
-    /* TEXTO - CAIXA NUVEM MENOR E TEXTO REDUZIDO */
+    /* TEXTO - CAIXA NUVEM */
     .blog-header-content {
         order: 1 !important;
         margin: 0 auto !important;
@@ -1666,47 +1668,47 @@ section {
     }
 
     .blog-header-content .text-cloud-card {
-        padding: 20px 16px !important; /* Reduzido padding */
-        border-radius: 16px !important; /* Bordas menos arredondadas */
+        padding: 20px 16px !important;
+        border-radius: 16px !important;
         margin: 0 auto !important;
         max-width: 100% !important;
-        background: rgba(255, 255, 255, 0.9) !important; /* Menos transparente */
+        background: rgba(255, 255, 255, 0.9) !important;
         backdrop-filter: blur(10px) !important;
         border: 1px solid rgba(255, 218, 165, 0.4) !important;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08) !important; /* Sombra mais suave */
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08) !important;
     }
 
-    /* TEXTO REDUZIDO */
+    /* TEXTO */
     .blog-title {
-        font-size: 1.8rem !important; /* Reduzido de 2.1rem */
+        font-size: 1.8rem !important;
         line-height: 1.1 !important;
-        margin-bottom: 12px !important; /* Reduzido */
+        margin-bottom: 12px !important;
         color: var(--heading-color) !important;
     }
 
     .blog-subtitle {
-        font-size: 1.1rem !important; /* Reduzido de 1.35rem */
-        margin-bottom: 16px !important; /* Reduzido */
-        line-height: 1.4 !important; /* Mais compacto */
+        font-size: 1.1rem !important;
+        margin-bottom: 16px !important;
+        line-height: 1.4 !important;
         color: var(--text-color) !important;
     }
 
     .heading-line-minimal {
-        width: 50px !important; /* Mais curto */
-        margin: 0 auto 18px auto !important; /* Reduzido */
-        height: 3px !important; /* Mais fino */
+        width: 50px !important;
+        margin: 0 auto 18px auto !important;
+        height: 3px !important;
         background: var(--primary-color) !important;
         border-radius: 2px !important;
     }
 
-    /* HIGHLIGHT STYLES - TAMANHO REDUZIDO */
+    /* HIGHLIGHT STYLES */
     .highlight-box {
         background: var(--primary-color) !important;
         color: var(--heading-color) !important;
-        padding: 2px 6px !important; /* Reduzido */
+        padding: 2px 6px !important;
         border-radius: 4px !important;
         font-weight: 700 !important;
-        font-size: 0.95em !important; /* Texto menor dentro do highlight */
+        font-size: 0.95em !important;
     }
     
     .highlight-name {
@@ -1715,20 +1717,24 @@ section {
     }
 
     /* ====================== */
-    /* BOTÃO SCROLL DOWN - MAIS PRÓXIMO DO CONTEÚDO */
+    /* BOTÃO SCROLL DOWN - AGORA BEM PRÓXIMO DA CAIXA NUVEM */
     /* ====================== */
     .scroll-down-wrapper {
-        position: absolute !important;
-        bottom: 200px !important; /* Era 20px - AGORA 50% MAIS PRÓXIMO */
-        left: 50% !important;
-        transform: translateX(-50%) !important;
+        position: relative !important; /* ← MUDADO: De absolute para relative */
+        bottom: auto !important; /* ← REMOVIDO */
+        left: auto !important; /* ← REMOVIDO */
+        transform: none !important; /* ← REMOVIDO */
         z-index: 1000 !important;
+        margin-top: 20px !important; /* ← ADICIONADO: Pequeno espaço acima da seta */
+        margin-bottom: 30px !important; /* ← ADICIONADO: Espaço abaixo da seta */
+        text-align: center !important;
+        width: 100% !important;
     }
 
     .scroll-down-btn { 
-        display: flex !important;
-        width: 38px !important; /* Menor */
-        height: 38px !important; /* Menor */
+        display: inline-flex !important; /* ← MUDADO: Para inline-flex */
+        width: 38px !important;
+        height: 38px !important;
         background: rgba(255, 255, 255, 0.3) !important;
         border-radius: 50% !important;
         align-items: center !important;
@@ -1739,7 +1745,7 @@ section {
     }
 
     .scroll-down-btn .scroll-icon {
-        font-size: 1.2rem !important; /* Menor */
+        font-size: 1.2rem !important;
         color: var(--heading-color) !important;
     }
     
@@ -1749,10 +1755,10 @@ section {
     }
 
     /* ====================== */
-    /* BLOG CONTENT SECTION - MAIS COMPACTO */
+    /* BLOG CONTENT SECTION */
     /* ====================== */
     .blog-content-section {
-        padding: 40px 0 30px 0 !important; /* Reduzido padding */
+        padding: 40px 0 30px 0 !important;
         background: transparent !important;
     }
 
@@ -1761,17 +1767,17 @@ section {
         flex-direction: row !important;
         flex-wrap: wrap !important;
         justify-content: center !important;
-        gap: 8px !important; /* Menor gap */
-        margin-bottom: 30px !important; /* Reduzido */
+        gap: 8px !important;
+        margin-bottom: 30px !important;
         padding: 0 16px !important;
     }
 
     .filter-btn {
-        padding: 8px 16px !important; /* Menor */
-        font-size: 0.8rem !important; /* Texto menor */
+        padding: 8px 16px !important;
+        font-size: 0.8rem !important;
         background: rgba(255, 255, 255, 0.9) !important;
         border: 1px solid rgba(255, 218, 165, 0.3) !important;
-        border-radius: 20px !important; /* Menos arredondado */
+        border-radius: 20px !important;
         color: var(--text-color) !important;
         transition: all 0.3s ease !important;
         font-weight: 600 !important;
@@ -1785,36 +1791,36 @@ section {
     }
 
     /* ====================== */
-    /* GRID DE POSTS - MAIS COMPACTO */
+    /* GRID DE POSTS */
     /* ====================== */
     .posts-grid {
         display: grid !important;
         grid-template-columns: repeat(2, 1fr) !important;
-        gap: 16px !important; /* Menor gap */
-        margin-bottom: 30px !important; /* Reduzido */
+        gap: 16px !important;
+        margin-bottom: 30px !important;
         padding: 0 16px !important;
     }
 
     .post-card {
         background: rgba(255, 255, 255, 0.95) !important;
         border: 1px solid rgba(255, 218, 165, 0.2) !important;
-        border-radius: 14px !important; /* Menos arredondado */
+        border-radius: 14px !important;
         overflow: hidden !important;
         transition: all 0.3s ease !important;
-        box-shadow: 0 3px 10px var(--shadow-color) !important; /* Sombra menor */
+        box-shadow: 0 3px 10px var(--shadow-color) !important;
         display: flex !important;
         flex-direction: column !important;
         height: 100% !important;
-        min-height: 250px !important; /* Mais compacto */
+        min-height: 250px !important;
     }
 
     .post-card:hover {
-        transform: translateY(-3px) !important; /* Elevação menor */
+        transform: translateY(-3px) !important;
         border-color: var(--primary-color) !important;
     }
 
     .post-info {
-        padding: 16px !important; /* Menor padding */
+        padding: 16px !important;
         flex-grow: 1 !important;
         display: flex !important;
         flex-direction: column !important;
@@ -1823,20 +1829,20 @@ section {
 
     .post-category {
         display: inline-block !important;
-        padding: 3px 8px !important; /* Menor */
+        padding: 3px 8px !important;
         background: var(--primary-color) !important;
         color: var(--heading-color) !important;
-        border-radius: 10px !important; /* Menos arredondado */
-        font-size: 0.65rem !important; /* Menor */
+        border-radius: 10px !important;
+        font-size: 0.65rem !important;
         font-weight: 700 !important;
-        margin-bottom: 10px !important; /* Reduzido */
+        margin-bottom: 10px !important;
         text-transform: uppercase !important;
     }
 
     .post-title-card {
-        font-size: 1.0rem !important; /* Menor */
+        font-size: 1.0rem !important;
         line-height: 1.3 !important;
-        margin-bottom: 10px !important; /* Reduzido */
+        margin-bottom: 10px !important;
         color: var(--heading-color) !important;
         font-weight: 700 !important;
         display: -webkit-box !important;
@@ -1847,10 +1853,10 @@ section {
     }
 
     .post-excerpt {
-        font-size: 0.8rem !important; /* Menor */
-        line-height: 1.4 !important; /* Mais compacto */
+        font-size: 0.8rem !important;
+        line-height: 1.4 !important;
         color: var(--text-color) !important;
-        margin-bottom: 12px !important; /* Reduzido */
+        margin-bottom: 12px !important;
         display: -webkit-box !important;
         -webkit-line-clamp: 3 !important;
         line-clamp: 3 !important;
@@ -1860,7 +1866,7 @@ section {
     }
 
     .post-meta {
-        font-size: 0.7rem !important; /* Menor */
+        font-size: 0.7rem !important;
         color: var(--text-color) !important;
         opacity: 0.8 !important;
         display: flex !important;
@@ -1875,25 +1881,25 @@ section {
     }
 
     /* ====================== */
-    /* CTA FINAL - MAIS COMPACTO */
+    /* CTA FINAL */
     /* ====================== */
     .cta-inline-container {
         justify-content: center !important;
-        margin-top: 30px !important; /* Reduzido */
+        margin-top: 30px !important;
         width: 100% !important;
         padding: 0 16px !important;
         display: flex !important;
     }
 
     .cta-inline-btn {
-        font-size: 0.85rem !important; /* Menor */
-        padding: 10px 20px !important; /* Menor */
-        gap: 8px !important; /* Menor gap */
+        font-size: 0.85rem !important;
+        padding: 10px 20px !important;
+        gap: 8px !important;
         white-space: nowrap !important;
         margin: 0 auto !important;
         background: var(--primary-color) !important;
         color: var(--heading-color) !important;
-        border-radius: 20px !important; /* Menos arredondado */
+        border-radius: 20px !important;
         text-decoration: none !important;
         display: inline-flex !important;
         align-items: center !important;
@@ -1909,12 +1915,12 @@ section {
     }
 
     /* ====================== */
-    /* COMPONENTES GERAIS - MAIS COMPACTOS */
+    /* COMPONENTES GERAIS */
     /* ====================== */
     .scroll-to-top-btn {
-        width: 38px !important; /* Menor */
-        height: 38px !important; /* Menor */
-        font-size: 1.2rem !important; /* Menor */
+        width: 38px !important;
+        height: 38px !important;
+        font-size: 1.2rem !important;
         bottom: 14px !important;
         right: 14px !important;
         background: var(--primary-color) !important;
@@ -1933,15 +1939,15 @@ section {
     }
 
     /* ====================== */
-    /* FOOTER MOBILE - MAIS COMPACTO */
+    /* FOOTER MOBILE */
     /* ====================== */
     .footer-minimal {
         position: relative !important;
         transform: none !important;
-        margin: 15px auto 8px !important; /* Reduzido */
+        margin: 15px auto 8px !important;
         text-align: center !important;
         white-space: normal !important;
-        font-size: 0.68rem !important; /* Menor */
+        font-size: 0.68rem !important;
         padding: 0 16px !important;
         left: auto !important;
         bottom: auto !important;
@@ -1951,7 +1957,7 @@ section {
         color: var(--text-color) !important;
         display: flex !important;
         align-items: center !important;
-        gap: 6px !important; /* Menor gap */
+        gap: 6px !important;
     }
     
     .footer-divider { 
@@ -1962,43 +1968,55 @@ section {
 /* TABLET PEQUENO (576px) */
 @media (max-width: 576px) {
     .blog-title { 
-        font-size: 1.6rem !important; /* Ainda menor */
+        font-size: 1.6rem !important;
     }
     
     .blog-subtitle { 
-        font-size: 1.0rem !important; /* Ainda menor */
+        font-size: 1.0rem !important;
     }
     
     .blog-intro-img {
-        max-width: 55% !important; /* Imagem menor */
+        max-width: 55% !important;
     }
     
     .posts-grid {
         grid-template-columns: repeat(2, 1fr) !important;
-        gap: 14px !important; /* Gap menor */
+        gap: 14px !important;
+    }
+    
+    /* AINDA MAIS PRÓXIMO EM TELAS MENORES */
+    .scroll-down-wrapper {
+        margin-top: 15px !important;
+        margin-bottom: 25px !important;
     }
 }
 
 /* MOBILE MUITO PEQUENO (380px) */
 @media (max-width: 380px) {
     .blog-title { 
-        font-size: 1.4rem !important; /* Mínimo */
+        font-size: 1.4rem !important;
     }
     
     .blog-subtitle { 
-        font-size: 0.95rem !important; /* Mínimo */
+        font-size: 0.95rem !important;
     }
     
     .blog-intro-img {
-        max-width: 50% !important; /* Imagem mínima */
+        max-width: 50% !important;
     }
     
     .posts-grid {
         grid-template-columns: repeat(2, 1fr) !important;
-        gap: 12px !important; /* Gap mínimo */
+        gap: 12px !important;
     }
     
     .blog-intro-section {
-        padding-top: 15px !important; /* Ainda mais próximo do header */
+        padding-top: 15px !important;
+    }
+    
+    /* MÍNIMO ESPAÇO EM TELAS MUITO PEQUENAS */
+    .scroll-down-wrapper {
+        margin-top: 10px !important;
+        margin-bottom: 20px !important;
     }
 }

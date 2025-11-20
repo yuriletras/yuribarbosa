@@ -20,7 +20,6 @@
     --text-shadow-heavy: 2px 2px 3px rgba(255, 255, 255, 0.9);
     --header-height: 80px;
     --menu-hover-color-home: #6c63ff;
-    --menu-hover-color-sobremim: #9bdabe;
 }
 
 /* ====================== */
@@ -249,6 +248,9 @@ section {
     }
 }
 
+/* ====================== */
+/* MENU DESKTOP - PADRONIZADO COM SOBRE MIM */
+/* ====================== */
 .menu-text, .contact-link {
     font-size: 1.1rem;
     color: var(--text-color);
@@ -256,7 +258,7 @@ section {
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.7); 
     cursor: pointer;
     letter-spacing: 0;
-    transition: letter-spacing 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
+    transition: letter-spacing 0.3s ease, color 0.3s ease;
 }
 .menu-text:hover,
 .contact-link:hover {
@@ -288,7 +290,9 @@ section {
     color: var(--heading-color);
 }
 
-/* FULL MENU OVERLAY */
+/* ====================== */
+/* FULL MENU OVERLAY - PADRONIZADO COM SOBRE MIM */
+/* ====================== */
 .full-menu-overlay {
     position: fixed;
     top: 0;
@@ -303,8 +307,7 @@ section {
     visibility: hidden;
     opacity: 0;
     transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
-    padding: 80px 20px 40px;
-    overflow-y: auto;
+    overflow: hidden;
 }
 .full-menu-overlay.active {
     visibility: visible;
@@ -335,11 +338,10 @@ section {
     gap: 20px;
 }
 
-/* ANIMAÇÃO E ESTILOS BASE */
+/* ANIMAÇÃO E ESTILOS BASE - PADRONIZADO */
 .full-navbar .menu-item {
     font-size: 3rem;
     font-weight: 700;
-    /* A cor base é definida aqui */
     color: var(--heading-color); 
     text-transform: uppercase;
     transition: color 0.3s ease, letter-spacing 0.3s ease, transform 0.3s ease;
@@ -356,11 +358,9 @@ section {
 .full-navbar .menu-item:nth-child(4) { transition-delay: 0.5s; }
 .full-navbar .menu-item:nth-child(5) { transition-delay: 0.6s; }
 
-/* 🚀 DESTAQUE ATIVO (Usando a classe .menu-item.active para alta especificidade) */
-/* Também inclui o :hover na mesma cor para garantir a cor de destaque ao passar o mouse */
+/* HOVER E ESTADO ATIVO - PADRONIZADO */
 .full-navbar .menu-item.active,
 .full-navbar .menu-item:hover {
-    /* Força a cor de destaque, resolvendo o problema de precedência */
     color: var(--primary-color) !important; 
     letter-spacing: 0.2em;
     transform: scale(1.05);
@@ -372,7 +372,6 @@ section {
     transform: scale(1.03);
     text-shadow: 0 0 10px rgba(108, 99, 255, 0.4); 
 }
-
 
 /* OUTROS LINKS */
 .full-navbar .admin-link {
@@ -855,7 +854,7 @@ section {
 }
 
 /* ====================== */
-/* OTIMIZAÇÕES MOBILE - VERSÃO COMPLETA */
+/* MOBILE INDEX.CSS - VERSÃO COMPLETA PADRONIZADA COM SOBRE MIM */
 /* ====================== */
 
 @media (max-width: 767px) {
@@ -886,7 +885,7 @@ section {
     }
 
     /* ====================== */
-    /* HEADER MOBILE - CORREÇÕES COMPLETAS */
+    /* HEADER MOBILE - PADRONIZADO COM SOBRE MIM */
     /* ====================== */
     .header {
         padding: 12px 16px !important;
@@ -901,8 +900,9 @@ section {
         width: 100% !important;
         background: var(--bg-color) !important;
         z-index: 1000 !important;
-        box-shadow: 0 2px 15px rgba(0,0,0,0.1) !important;
+        box-shadow: 0 2px 15px rgba(15, 27, 97, 0.1) !important;
         backdrop-filter: blur(10px) !important;
+        border-bottom: 1px solid var(--primary-color) !important;
     }
     
     /* CONTÊINER ESQUERDO */
@@ -942,6 +942,7 @@ section {
         max-width: none !important;
         object-fit: contain !important;
         transition: all 0.3s ease !important;
+        filter: drop-shadow(0 2px 4px rgba(15, 27, 97, 0.2)) !important;
     }
     
     /* TEXTO MENU - ESCONDIDO */
@@ -990,7 +991,7 @@ section {
     }
 
     /* ====================== */
-    /* MENU OVERLAY MOBILE */
+    /* MENU OVERLAY MOBILE - PADRONIZADO */
     /* ====================== */
     .full-menu-overlay {
         position: fixed !important;
@@ -1030,6 +1031,10 @@ section {
         text-decoration: none !important;
         transition: all 0.3s ease !important;
     }
+    
+    .menu-item.active {
+        color: var(--primary-color) !important;
+    }
 
     /* ====================== */
     /* CORREÇÕES DE LAYOUT GERAL */
@@ -1037,7 +1042,7 @@ section {
     .page-content,
     .home .page-content,
     .intro-trabalho .page-content {
-        padding: 80px 16px 50px 16px !important; 
+        padding: 80px 16px 50px 16px !important;
         max-width: 100% !important;
         margin: 0 auto !important;
         align-items: center !important;
@@ -1057,6 +1062,7 @@ section {
         justify-content: center !important;
         position: relative !important;
         overflow: hidden !important;
+        background: linear-gradient(135deg, var(--chess-color1) 0%, var(--chess-color2) 100%) !important;
     }
 
     /* Diminuindo o padding inferior da HOME */
@@ -1134,6 +1140,12 @@ section {
     .home .scroll-down-btn .scroll-icon {
         font-size: 1.4rem !important;
         color: var(--heading-color) !important;
+        font-weight: bold !important;
+    }
+    
+    .home .scroll-down-btn:hover {
+        background: var(--primary-color) !important;
+        transform: translateX(-50%) scale(1.05) !important;
     }
 
     /* ====================== */
@@ -1231,11 +1243,19 @@ section {
         display: inline-flex !important;
         align-items: center !important;
         transition: all 0.3s ease !important;
+        font-weight: 600 !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
     }
     
     .cta-arrow {
         font-size: 1.05rem !important; 
         transition: transform 0.3s ease !important;
+    }
+    
+    .cta-inline-btn:hover {
+        background: var(--heading-color) !important;
+        color: var(--primary-color) !important;
+        transform: translateY(-2px) !important;
     }
     
     .cta-inline-btn:hover .cta-arrow {
@@ -1259,6 +1279,12 @@ section {
         justify-content: center !important;
         text-decoration: none !important;
         z-index: 999 !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    }
+    
+    .scroll-to-top-btn:hover {
+        background: var(--heading-color) !important;
+        color: var(--primary-color) !important;
     }
     
     .text-cloud-card {
@@ -1292,6 +1318,9 @@ section {
         max-width: 100% !important;
         justify-content: center !important; 
         color: var(--text-color) !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
     }
     
     .footer-divider { 
@@ -1412,5 +1441,10 @@ section {
     
     .home .scroll-down-btn .scroll-icon {
         font-size: 1.2rem !important;
+    }
+    
+    /* TEXT CLOUD CARD MAIS COMPACTO */
+    .text-cloud-card {
+        padding: 18px 14px !important;
     }
 }
