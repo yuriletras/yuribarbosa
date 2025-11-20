@@ -26,8 +26,8 @@ const MOCK_PROJECTS = [
     {
         _id: 'proj1',
         title: 'Estúdio Bloss - Website Institucional',
-        summary: 'Imagine criar um site que precisa falar duas línguas fluentemente! Esse foi o desafio do Estúdio Bloss: desenvolver uma plataforma que transitasse perfeitamente entre português e inglês.',
-        thumbnail: '/img/ProjetoGaby.PNG',
+        summary: 'Imagine criar um site que precisa falar duas línguas fluentemente! Esse foi o desafio do Estúdio Bloss: desenvolver uma plataforma que transitasse perfeitamente entre português e inglês. A parte mais interessante? Fazer com que cada detalhe - desde o texto até a logo no footer - se adaptasse magicamente ao idioma escolhido, mantendo a essência visual intacta. O resultado? Uma experiência tão natural que o usuário nem percebe a complexidade portrás das cortinas.',
+        thumbnail: '/img/ProjetoGaby.png',
         publishedAt: new Date('2024-03-15').toISOString(),
         author: 'Yuri Developer',
         category: 'projects',
@@ -37,8 +37,8 @@ const MOCK_PROJECTS = [
     {
         _id: 'proj2',
         title: 'Meu Portfólio - Uma Janela do Meu Mundo',
-        summary: 'Como contar sua história profissional sem parecer um currículo? Essa foi minha missão ao criar este portfólio. Queria que cada visitante sentisse que estava conversando comigo.',
-        thumbnail: '/img/site_yuri.PNG',
+        summary: 'Como contar sua história profissional sem parecer um currículo? Essa foi minha missão ao criar este portfólio. Queria que cada visitante sentisse que estava conversando comigo, não apenas vendo uma lista de projetos. A magia acontece no modo claro/escuro - como se o site respirasse junto com o usuário, adaptando-se ao seu conforto visual. E a melhor parte? Ver como pequenas animações e transições suaves podem transformar uma simples navegação em uma experiência memorável.',
+        thumbnail: '/img/site_yuri.png',
         publishedAt: new Date('2024-06-10').toISOString(),
         author: 'Yuri Developer',
         category: 'projects',
@@ -48,8 +48,8 @@ const MOCK_PROJECTS = [
     {
         _id: 'proj3',
         title: 'YB Tasks - O Organizador que Respeita seu Tempo',
-        summary: 'Já imaginou ter um assistente pessoal para suas tarefas? O YB Tasks nasceu dessa vontade: criar um sistema que não apenas lista afazeres, mas entende a importância de cada um.',
-        thumbnail: '/img/ytas.PNG',
+        summary: 'Já imaginou ter um assistente pessoal para suas tarefas? O YB Tasks nasceu dessa vontade: criar um sistema que não apenas lista afazeres, mas entende a importância de cada um. A parte mais gratificante foi ver como a autenticação segura e o CRUD completo se transformaram em uma ferramenta que realmente melhora o dia a dia das pessoas. Do backend robusto com Node.js à interface intuitiva, cada linha de código foi pensada para fazer o usuário pensar: "Uau, isso é exatamente o que eu precisava!"',
+        thumbnail: '/img/ytas.png',
         publishedAt: new Date('2024-09-20').toISOString(),
         author: 'Yuri Developer',
         category: 'projects',
@@ -59,7 +59,7 @@ const MOCK_PROJECTS = [
     {
         _id: 'proj4',
         title: 'MB Arte - O Nascimento de Uma Identidade Digital',
-        summary: 'Alguns projetos são especiais desde o primeiro esboço. O MB Arte é um deles - uma jornada de criação onde cada pixel conta uma história.',
+        summary: 'Alguns projetos são especiais desde o primeiro esboço. O MB Arte é um deles - uma jornada de criação onde cada pixel conta uma história. Estou moldando não apenas um website, mas a identidade digital de um negócio que respira criatividade. É fascinante ver como as ideias ganham vida no código, criando uma experiência que vai muito além do visual. A cada linha escrita, sinto que estou construindo algo que fará os visitantes pensarem: "É exatamente assim que eu me imagino online!"',
         thumbnail: 'https://placehold.co/800x400/8e44ad/ffffff?text=MB+Arte+🎨',
         publishedAt: new Date('2025-01-15').toISOString(),
         author: 'Yuri Developer',
@@ -67,9 +67,7 @@ const MOCK_PROJECTS = [
         link: '#',
         technologies: ['HTML5', 'CSS3', 'JavaScript', 'Design Responsivo'],
         status: 'em-andamento'
-    },
-    // Adicione mais projetos aqui para testar a paginação...
-    // Para teste, você pode duplicar os projetos existentes
+    }
 ];
 
 // ==========================================================
