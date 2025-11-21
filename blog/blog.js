@@ -49,7 +49,7 @@ const MOCK_PROJECTS = [
         _id: 'proj3',
         title: 'YB Tasks - O Organizador que Respeita seu Tempo',
         summary: 'Já imaginou ter um assistente pessoal para suas tarefas? O YB Tasks nasceu dessa vontade: criar um sistema que não apenas lista afazeres, mas entende a importância de cada um. A parte mais gratificante foi ver como a autenticação segura e o CRUD completo se transformaram em uma ferramenta que realmente melhora o dia a dia das pessoas. Do backend robusto com Node.js à interface intuitiva, cada linha de código foi pensada para fazer o usuário pensar: "Uau, isso é exatamente o que eu precisava!"',
-        thumbnail: '/img/ytas.png',
+        thumbnail: '/img/ytas.PNG',
         publishedAt: new Date('2024-09-20').toISOString(),
         author: 'Yuri Developer',
         category: 'projects',
