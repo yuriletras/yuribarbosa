@@ -56,6 +56,7 @@ html {
     scroll-behavior: smooth;
     font-size: 100%;
 }
+
 body {
     background-color: var(--chess-color1) !important; 
     background-image: 
@@ -68,6 +69,7 @@ body {
     overflow-x: hidden;
     padding-bottom: 40px; 
 }
+
 a {
     text-decoration: none;
     color: var(--primary-color);
@@ -173,7 +175,18 @@ section {
     z-index: 1000;
     box-shadow: none; 
     height: var(--header-height); 
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
 }
+
+.header.scrolled {
+    background: #abdbe9 !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+}
+
 .header .logo {
     font-size: 2rem;
     color: var(--heading-color);

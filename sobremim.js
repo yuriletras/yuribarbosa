@@ -211,3 +211,15 @@ document.addEventListener('DOMContentLoaded', function() {
     initImageAnimations();
     initLogoAnimation(); // ← ADICIONADO AQUI
 });
+
+// Adicione isso ao seu arquivo JavaScript existente
+window.addEventListener('scroll', function() {
+    const header = document.querySelector('.header');
+    const scrollY = window.scrollY;
+    
+    if (scrollY > 100) { // Após 100px de scroll
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+});

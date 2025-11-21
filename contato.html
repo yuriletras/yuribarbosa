@@ -36,7 +36,6 @@
                 <a href="sobremim.html" class="menu-item">Sobre Mim</a>
                 <a href="blog/blog.html" class="menu-item">Blog</a>
                 <a href="contato.html" class="menu-item active">Contato</a>
-                <a href="admin/admin.html" class="menu-item admin-link"><i class='bx bx-cog'></i> Admin</a>
             </nav>
         </div>
     </div>
@@ -378,6 +377,19 @@
             }
         });
     });
+
+    // Adicione isso ao seu arquivo JavaScript existente
+window.addEventListener('scroll', function() {
+    const header = document.querySelector('.header');
+    const scrollY = window.scrollY;
+    
+    if (scrollY > 100) { // Após 100px de scroll
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+});
+
     </script>
 </body>
 </html>

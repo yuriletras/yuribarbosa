@@ -52,6 +52,15 @@ img { max-width: 100%; height: auto; display: block; }
     align-items: center;
     z-index: 1000;
     height: var(--header-height);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.header.scrolled {
+    background: #f9e2e9 !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
 }
 
 .header-left { display: flex; align-items: center; gap: 35px; }
