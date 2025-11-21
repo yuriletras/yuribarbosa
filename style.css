@@ -854,7 +854,7 @@ section {
 }
 
 /* ====================== */
-/* MOBILE INDEX.CSS - VERSÃO COMPLETA PADRONIZADA COM SOBRE MIM */
+/* MOBILE INDEX.CSS - VERSÃO COMPLETA PADRONIZADA COM BLOG */
 /* ====================== */
 
 @media (max-width: 767px) {
@@ -885,7 +885,7 @@ section {
     }
 
     /* ====================== */
-    /* HEADER MOBILE - PADRONIZADO COM SOBRE MIM */
+    /* HEADER MOBILE - PADRONIZADO COM BLOG */
     /* ====================== */
     .header {
         padding: 12px 16px !important;
@@ -898,7 +898,7 @@ section {
         left: 0 !important;
         right: 0 !important;
         width: 100% !important;
-        background: var(--bg-color) !important;
+        background: #ffffff !important;
         z-index: 1000 !important;
         box-shadow: 0 2px 15px rgba(15, 27, 97, 0.1) !important;
         backdrop-filter: blur(10px) !important;
@@ -914,7 +914,7 @@ section {
         min-width: 0 !important;
     }
     
-    /* ÍCONE MENU */
+    /* ÍCONE MENU - MESMO COMPORTAMENTO DO BLOG */
     #menu-icon {
         display: block !important;
         font-size: 1.9rem !important;
@@ -924,7 +924,7 @@ section {
         flex-shrink: 0 !important;
     }
     
-    /* LOGO - CENTRALIZADA E TAMANHO FIXO */
+    /* LOGO - CENTRALIZADA E TAMANHO FIXO (MESMO BLOG) */
     .logo {
         position: absolute !important;
         left: 50% !important;
@@ -945,12 +945,12 @@ section {
         filter: drop-shadow(0 2px 4px rgba(15, 27, 97, 0.2)) !important;
     }
     
-    /* TEXTO MENU - ESCONDIDO */
+    /* TEXTO MENU - ESCONDIDO (MESMO BLOG) */
     .menu-text { 
         display: none !important; 
     }
     
-    /* LINK CONTATO */
+    /* LINK CONTATO - MESMO ESTILO DO BLOG (APENAS CORES DIFERENTES) */
     .contact-link {
         display: flex !important;
         align-items: center !important;
@@ -982,7 +982,7 @@ section {
     }
     
     .contact-link:hover .contact-icon { 
-        color: white !important; 
+        color: var(--heading-color) !important;
     }
     
     /* TOGGLE TEMA - ESCONDIDO */
@@ -991,7 +991,7 @@ section {
     }
 
     /* ====================== */
-    /* MENU OVERLAY MOBILE - PADRONIZADO */
+    /* MENU OVERLAY MOBILE - PADRONIZADO COM BLOG */
     /* ====================== */
     .full-menu-overlay {
         position: fixed !important;
@@ -999,13 +999,33 @@ section {
         left: 0 !important;
         width: 100% !important;
         height: 100% !important;
-        background: var(--bg-color) !important;
+        background: #ffffff !important;
         z-index: 9999 !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out !important;
+        overflow: hidden !important;
+    }
+    
+    .full-menu-overlay.active {
+        visibility: visible !important;
+        opacity: 1 !important;
     }
     
     .menu-content {
+        text-align: center !important;
+        padding: 20px !important;
+        width: 100% !important;
+        max-width: 500px !important;
         padding-top: 80px !important;
         height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
     }
     
     .close-menu-btn {
@@ -1014,6 +1034,14 @@ section {
         right: 20px !important;
         font-size: 2rem !important;
         color: var(--heading-color) !important;
+        cursor: pointer !important;
+        transition: transform 0.3s ease, color 0.3s ease !important;
+        z-index: 10000 !important;
+    }
+    
+    .close-menu-btn:hover {
+        color: var(--secondary-color) !important; /* AZUL VIBRANTE (TEMA INDEX) */
+        transform: rotate(90deg) !important;
     }
     
     .full-navbar {
@@ -1022,18 +1050,50 @@ section {
         align-items: center !important;
         gap: 25px !important;
         padding: 40px 20px !important;
+        width: 100% !important;
     }
     
-    .menu-item {
+    /* ITENS DO MENU - MESMO COMPORTAMENTO DO BLOG */
+    .full-navbar .menu-item {
         font-size: 1.3rem !important;
         font-weight: 600 !important;
         color: var(--heading-color) !important;
         text-decoration: none !important;
         transition: all 0.3s ease !important;
+        text-transform: uppercase !important; /* MAIÚSCULAS IGUAL BLOG */
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+        letter-spacing: 0.5px !important;
     }
     
-    .menu-item.active {
-        color: var(--primary-color) !important;
+    .full-navbar .menu-item.active {
+        color: #6c63ff !important; /* AZUL VIBRANTE (TEMA INDEX) */
+    }
+    
+    .full-navbar .menu-item:hover {
+        color: #6c63ff !important; /* AZUL VIBRANTE (TEMA INDEX) */
+        letter-spacing: 0.2em !important;
+        transform: scale(1.05) !important;
+    }
+    
+    /* ADMIN LINK - MESMO COMPORTAMENTO */
+    .full-navbar .admin-link {
+        font-size: 1.1rem !important;
+        margin-top: 30px !important;
+        color: #6c63ff !important; /* AZUL VIBRANTE (TEMA INDEX) */
+        font-weight: 500 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+    }
+    
+    .full-navbar .admin-link:hover {
+        color: #6c63ff !important;
+        letter-spacing: 0.2em !important;
+    }
+    
+    /* CORREÇÃO: POSICIONAMENTO VERTICAL - CENTRALIZAÇÃO PERFEITA */
+    .full-navbar {
+        margin-top: -20px !important; /* AJUSTE FINO PARA CENTRALIZAÇÃO */
     }
 
     /* ====================== */
@@ -1237,7 +1297,7 @@ section {
         white-space: nowrap !important;
         margin: 0 auto !important;
         background: var(--primary-color) !important;
-        color: white !important;
+        color: var(--heading-color) !important;
         border-radius: 8px !important;
         text-decoration: none !important;
         display: inline-flex !important;
@@ -1272,7 +1332,7 @@ section {
         bottom: 16px !important;
         right: 16px !important;
         background: var(--primary-color) !important;
-        color: white !important;
+        color: var(--heading-color) !important;
         border-radius: 50% !important;
         display: flex !important;
         align-items: center !important;
@@ -1446,5 +1506,14 @@ section {
     /* TEXT CLOUD CARD MAIS COMPACTO */
     .text-cloud-card {
         padding: 18px 14px !important;
+    }
+    
+    /* CORREÇÃO: TAMANHO DE FONTE MENU EM DISPOSITIVOS MUITO PEQUENOS */
+    .full-navbar .menu-item {
+        font-size: 1.2rem !important;
+    }
+    
+    .full-navbar .admin-link {
+        font-size: 1.0rem !important;
     }
 }

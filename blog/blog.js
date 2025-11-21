@@ -434,6 +434,33 @@ const setupScrollDownButton = () => {
 };
 
 // ==========================================================
+// 12. LÓGICA PARA ESCONDER SETA AO ROLAR
+// ==========================================================
+
+const setupScrollHideArrow = () => {
+    const scrollDownWrapper = document.querySelector('.scroll-down-wrapper');
+    const blogContentSection = document.querySelector('.blog-content-section');
+    
+    if (!scrollDownWrapper || !blogContentSection) return;
+    
+    const hideArrowOnScroll = () => {
+        const scrollPosition = window.scrollY;
+        const windowHeight = window.innerHeight;
+        const contentSectionTop = blogContentSection.offsetTop;
+        
+        // Se o usuário rolou mais de 100px OU chegou perto da segunda seção, esconde a seta
+        if (scrollPosition > 100 || scrollPosition > contentSectionTop - windowHeight * 0.8) {
+            scrollDownWrapper.classList.add('hidden');
+        } else {
+            scrollDownWrapper.classList.remove('hidden');
+        }
+    };
+    
+    window.addEventListener('scroll', hideArrowOnScroll);
+    hideArrowOnScroll(); // Executa uma vez no carregamento
+};
+
+// ==========================================================
 // 7. ANIMAÇÕES DE SCROLL REVEAL
 // ==========================================================
 
@@ -701,6 +728,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     setupMenuOverlay();
     setupScrollDownButton();
+    setupScrollHideArrow(); // ← NOVA FUNÇÃO ADICIONADA AQUI
     initScrollAnimations();
     initImageAnimations();
     
@@ -763,4 +791,21 @@ document.addEventListener('DOMContentLoaded', () => {
     else if (currentPath.includes('post.html')) {
         loadSinglePost();
     }
+});
+
+// ==========================================================
+// MARCA O ITEM ATIVO NO MENU (OBRIGATÓRIO PARA FUNCIONAR NO MOBILE)
+// ==========================================================
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.menu-item').forEach(link => {
+        const href = link.getAttribute('href');
+
+        if (
+            (href.includes('blog.html') && window.location.pathname.includes('blog.html')) ||
+            window.location.pathname.includes(href.replace('.html', '')) ||
+            (href === 'index.html' && (window.location.pathname === '/' || window.location.pathname === '/index.html'))
+        ) {
+            link.classList.add('active');
+        }
+    });
 });
