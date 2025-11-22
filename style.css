@@ -1,6 +1,6 @@
 /* ====================== ESTILOS PRINCIPAIS - DESKTOP ====================== */
 
-/* Variáveis CSS */
+/* Variáveis CSS - ATUALIZADAS COM PADRONIZAÇÃO */
 :root {
     --bg-color: #f4f9fc;
     --text-color: #0f1b61;
@@ -20,41 +20,33 @@
     --text-shadow-heavy: 2px 2px 3px rgba(255, 255, 255, 0.9);
     --header-height: 80px;
     --menu-hover-color-home: #6c63ff;
+    
+    /* NOVAS VARIÁVEIS PARA PADRONIZAÇÃO */
+    --container-max-width: 1200px;
+    --section-padding: 80px;
+    --element-spacing: 40px;
+    --text-line-height: 1.6;
+    --grid-gap: 60px;
+    --border-radius: 28px;
 }
 
 /* ====================== */
-/* TRANSIÇÕES - SCROLL SNAP */
+/* RESET E BASE PADRONIZADA */
 /* ====================== */
 
-/* SCROLL SNAP OBRIGATÓRIO - IGUAL SOBRE MIM */
-html {
-    scroll-behavior: smooth;
-    font-size: 100%;
-    overflow-y: scroll;
-    scroll-snap-type: y mandatory;
-}
-
-/* SEÇÕES COM SCROLL SNAP */
-.scroll-section {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    scroll-snap-align: start;
-    position: relative;
-    padding: 0 40px;
-}
-
-/* Base Geral */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
 }
+
+/* SCROLL SNAP PADRONIZADO */
 html {
     scroll-behavior: smooth;
     font-size: 100%;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
 }
 
 body {
@@ -65,7 +57,7 @@ body {
     background-size: 40px 40px !important; 
     background-position: 0 0, 20px 20px !important; 
     color: var(--text-color);
-    line-height: 1.6;
+    line-height: var(--text-line-height);
     overflow-x: hidden;
     padding-bottom: 40px; 
 }
@@ -86,10 +78,52 @@ img {
 }
 
 /* ====================== */
-/* ANIMAÇÕES DE ENTRADA */
+/* SISTEMA DE LAYOUT PADRONIZADO */
 /* ====================== */
 
-/* ELEMENTOS COM ANIMAÇÃO SCROLL REVEAL */
+/* CONTÊINER PRINCIPAL CENTRALIZADO */
+.page-content {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent !important;
+    border: none;
+    box-shadow: none;
+    transition: all 0.3s ease;
+    overflow-x: hidden;
+    position: relative;
+    width: 100%;
+    padding: 0 var(--element-spacing);
+}
+
+/* SEÇÕES COM SCROLL SNAP PADRONIZADAS */
+.scroll-section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    scroll-snap-align: start;
+    position: relative;
+    padding: var(--header-height) var(--element-spacing) var(--element-spacing);
+    overflow: hidden; /* CORREÇÃO: EVITA BARRAS DE ROLAGEM */
+}
+
+/* SISTEMA DE GRID PADRONIZADO */
+.container-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--grid-gap);
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden; /* CORREÇÃO: EVITA BARRAS DE ROLAGEM */
+    align-items: center;
+}
+
+/* ====================== */
+/* ANIMAÇÕES DE ENTRADA PADRONIZADAS */
+/* ====================== */
+
 .scroll-element {
     opacity: 0;
     transform: translateY(30px);
@@ -101,7 +135,6 @@ img {
     transform: translateY(0);
 }
 
-/* IMAGENS COM ANIMAÇÃO DE ENTRADA E PULSAÇÃO */
 .scroll-image {
     opacity: 0;
     transform: translateY(30px) scale(0.95);
@@ -132,42 +165,16 @@ img {
     }
 }
 
-/* AJUSTE PRINCIPAL */
-.page-content {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    background-color: transparent !important;
-    border: none;
-    box-shadow: none;
-    transition: all 0.3s ease;
-    overflow-x: hidden;
-    position: relative; /* ← ADICIONADO PARA A SETA */
-}
-section { 
-    padding: 0; 
-    min-height: auto;
-    background-color: transparent !important;
-    overflow-x: hidden;
-}
-.container-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 40px;
-    width: 100%;
-    overflow-x: hidden;
-}
+/* ====================== */
+/* HEADER PADRONIZADO - CORREÇÕES APLICADAS */
+/* ====================== */
 
-/* ====================== */
-/* HEADER COM ANIMAÇÃO DA LOGO */
-/* ====================== */
 .header {
     position: fixed; 
     top: 0;
     left: 0;
     width: 100%;
-    padding: 20px 40px; 
+    padding: 20px var(--element-spacing); 
     background: transparent; 
     display: flex;
     justify-content: space-between; 
@@ -176,7 +183,6 @@ section {
     box-shadow: none; 
     height: var(--header-height); 
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-
 }
 
 .header.scrolled {
@@ -192,13 +198,6 @@ section {
     box-shadow: 0 4px 20px rgba(15, 27, 97, 0.08) !important;
 }
 
-.header .logo {
-    font-size: 2rem;
-    color: var(--heading-color);
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-}
 .header-left {
     display: flex;
     align-items: center;
@@ -206,8 +205,55 @@ section {
 }
 
 /* ====================== */
-/* ANIMAÇÃO DA LOGO - ROTAÇÃO E SCALE */
+/* CORREÇÃO: ÍCONES MOBILE ESCONDIDOS NO DESKTOP */
 /* ====================== */
+
+/* ÍCONE MENU HAMBURGUER - SOMENTE MOBILE */
+#menu-icon {
+    font-size: 2.5rem;
+    color: var(--heading-color);
+    cursor: pointer;
+    display: none; /* CORREÇÃO: ESCONDIDO NO DESKTOP */
+}
+
+/* ÍCONE DE CONTATO - SOMENTE MOBILE */
+.contact-icon {
+    display: none !important; /* CORREÇÃO: ESCONDIDO NO DESKTOP */
+    font-size: 1.3rem;
+    color: var(--heading-color);
+}
+
+/* ALINHAMENTO DO MENU DESKTOP - VISÍVEL APENAS NO DESKTOP */
+.menu-text, .contact-link {
+    font-size: 1.1rem;
+    color: var(--text-color);
+    font-weight: 500;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.7); 
+    cursor: pointer;
+    letter-spacing: 0;
+    transition: letter-spacing 0.3s ease, color 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.menu-text:hover,
+.contact-link:hover {
+    color: var(--menu-hover-color-home);
+    letter-spacing: 0.3em;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.7), 0 0 10px rgba(255, 255, 255, 0.7); 
+}
+
+/* LOGO COM ALINHAMENTO PRECISO */
+.header .logo {
+    display: flex;
+    align-items: center;
+    padding: 6px 8px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
 .header .logo img {
     height: 40px;
     margin-right: 10px;
@@ -216,10 +262,9 @@ section {
     display: block;
 }
 
-.header .logo:hover img {
-    transform: rotate(15deg) scale(1.1);
-    filter: drop-shadow(0 4px 8px rgba(108, 99, 255, 0.3));
-}
+/* ====================== */
+/* ANIMAÇÃO DA LOGO - ROTAÇÃO E SCALE */
+/* ====================== */
 
 /* Container da logo com fundo sutil no hover */
 .header .logo {
@@ -255,6 +300,12 @@ section {
     background-color: rgba(108, 99, 255, 0.08);
 }
 
+/* Efeito de rotação e scale na imagem da logo */
+.header .logo:hover img {
+    transform: rotate(15deg) scale(1.1);
+    filter: drop-shadow(0 4px 8px rgba(108, 99, 255, 0.3));
+}
+
 /* Efeito mais suave para mobile */
 @media (max-width: 767px) {
     .header .logo:hover img {
@@ -267,208 +318,113 @@ section {
 }
 
 /* ====================== */
-/* MENU DESKTOP - PADRONIZADO COM SOBRE MIM */
+/* SEÇÃO HOME - ALINHAMENTO REORGANIZADO */
 /* ====================== */
-.menu-text, .contact-link {
-    font-size: 1.1rem;
-    color: var(--text-color);
-    font-weight: 500;
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.7); 
-    cursor: pointer;
-    letter-spacing: 0;
-    transition: letter-spacing 0.3s ease, color 0.3s ease;
-}
-.menu-text:hover,
-.contact-link:hover {
-    color: var(--menu-hover-color-home);
-    letter-spacing: 0.3em;
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.7), 0 0 10px rgba(255, 255, 255, 0.7); 
-}
 
-/* ESTADO ATIVO DO MENU (DESKTOP) */
-.menu-text.active,
-.menu-text[data-section="home"].active {
-    color: var(--primary-color) !important;
-    letter-spacing: 0.1em;
-    font-weight: 700;
-    text-shadow: 0 0 8px rgba(108, 99, 255, 0.6);
-}
-
-#menu-icon {
-    font-size: 2.5rem;
-    color: var(--heading-color);
-    cursor: pointer;
-    display: none;
-}
-
-/* ÍCONE DE CONTATO - SOMENTE MOBILE */
-.contact-icon {
-    display: none !important;
-    font-size: 1.3rem;
-    color: var(--heading-color);
-}
-
-/* ====================== */
-/* FULL MENU OVERLAY - PADRONIZADO COM SOBRE MIM */
-/* ====================== */
-.full-menu-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(225, 234, 240, 0.98);
-    z-index: 1500;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
-    overflow: hidden;
-}
-.full-menu-overlay.active {
-    visibility: visible;
-    opacity: 1;
-}
-.menu-content {
-    text-align: center;
-    padding: 20px;
-    width: 100%;
-    max-width: 500px;
-}
-.close-menu-btn {
-    position: absolute;
-    top: 40px;
-    right: 40px;
-    font-size: 3rem;
-    color: var(--text-color);
-    cursor: pointer;
-    transition: transform 0.3s ease, color 0.3s ease;
-}
-.close-menu-btn:hover {
-    color: var(--primary-color);
-    transform: rotate(90deg);
-}
-.full-navbar {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-/* ANIMAÇÃO E ESTILOS BASE - PADRONIZADO */
-.full-navbar .menu-item {
-    font-size: 3rem;
-    font-weight: 700;
-    color: var(--heading-color); 
-    text-transform: uppercase;
-    transition: color 0.3s ease, letter-spacing 0.3s ease, transform 0.3s ease;
-    opacity: 0;
-    transform: translateY(30px);
-}
-.full-menu-overlay.active .full-navbar .menu-item {
-    opacity: 1;
-    transform: translateY(0);
-}
-.full-navbar .menu-item:nth-child(1) { transition-delay: 0.2s; }
-.full-navbar .menu-item:nth-child(2) { transition-delay: 0.3s; }
-.full-navbar .menu-item:nth-child(3) { transition-delay: 0.4s; }
-.full-navbar .menu-item:nth-child(4) { transition-delay: 0.5s; }
-.full-navbar .menu-item:nth-child(5) { transition-delay: 0.6s; }
-
-/* HOVER E ESTADO ATIVO - PADRONIZADO */
-.full-navbar .menu-item.active,
-.full-navbar .menu-item:hover {
-    color: var(--primary-color) !important; 
-    letter-spacing: 0.2em;
-    transform: scale(1.05);
-}
-
-/* DESTAQUE DE EFEITO ADICIONAL (para estado ativo) */
-.full-navbar .menu-item.active {
-    letter-spacing: 0.15em;
-    transform: scale(1.03);
-    text-shadow: 0 0 10px rgba(108, 99, 255, 0.4); 
-}
-
-/* OUTROS LINKS */
-.full-navbar .admin-link {
-    font-size: 1.5rem;
-    margin-top: 30px;
-    color: var(--secondary-color);
-    font-weight: 500;
-}
-.full-navbar .admin-link:hover {
-    color: var(--primary-color);
-}
-.full-navbar .admin-link i {
-    margin-right: 10px;
-}
-
-/* HOME SECTION */
 .home {
     background-color: transparent !important;
-    padding-top: var(--header-height);
+    padding-top: 0;
     min-height: 100vh;
     position: relative;
-    overflow-x: hidden;
+    overflow: hidden; /* CORREÇÃO: EVITA BARRAS DE ROLAGEM */
 }
+
 .home .page-content {
-    padding: 10px 40px 40px 40px; 
-    max-width: 1100px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
+    padding: 0 var(--element-spacing);
     min-height: calc(100vh - var(--header-height));
-    gap: 30px;
-    overflow-x: hidden;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* CORREÇÃO: EVITA BARRAS DE ROLAGEM */
 }
+
+/* GRID DA HOME COM ALINHAMENTO PERFEITO */
 .home .home-layout-grid {
     grid-template-columns: 1.5fr 1fr;
     align-items: center;
     gap: clamp(40px, 5vw, 60px);
     width: 100%;
-    margin-top: 20px; 
+    max-width: 100%;
+    margin: 0 auto;
+    overflow: hidden; /* CORREÇÃO: EVITA BARRAS DE ROLAGEM */
 }
-/* REDUÇÃO NA FONTE DO TEXTO PRINCIPAL (Desktop) */
+
+/* CONTEÚDO DE TEXTO ALINHADO */
+.home-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    overflow: hidden; /* CORREÇÃO: EVITA BARRAS DE ROLAGEM */
+}
+
+.home-content .text-cloud-card {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    overflow: hidden; /* CORREÇÃO: EVITA BARRAS DE ROLAGEM */
+}
+
+/* HIERARQUIA DE TEXTO PADRONIZADA */
 .home-content .main-title-minimal {
     font-size: 3.5rem; 
     font-weight: 700;
     color: var(--heading-color); 
-    margin-bottom: 16px; 
+    margin-bottom: 20px; 
     line-height: 1.2;
     text-shadow: var(--text-shadow-heavy);
+    text-align: left;
+    width: 100%;
+    overflow: hidden; /* CORREÇÃO: EVITA BARRAS DE ROLAGEM */
 }
+
 .home-content .highlight-name {
     color: var(--primary-color);
     font-weight: 900;
     text-shadow: var(--text-shadow-heavy);
 }
+
 .home-content .role-text-minimal {
     font-size: 1.8rem; 
     font-weight: 500;
     color: var(--heading-color); 
-    margin-bottom: 40px; 
+    margin-bottom: 0; 
     line-height: 1.4;
     text-shadow: var(--text-shadow-light);
+    text-align: left;
+    width: 100%;
+    overflow: hidden; /* CORREÇÃO: EVITA BARRAS DE ROLAGEM */
 }
-/* AJUSTE DESKTOP: IMAGEM AVATAR TRANSPARENTE E SEM BORDA/SOMBREADO */
-.portfolio-avatar-interactive {
-    max-width: 85%; 
+
+/* CONTAINER DO AVATAR ALINHADO */
+.home-avatar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* CORREÇÃO: EVITA BARRAS DE ROLAGEM */
+}
+
+.avatar-3d-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    overflow: hidden; /* CORREÇÃO: EVITA BARRAS DE ROLAGEM */
+}
+
+.avatar-img {
+    width: 100%;
     height: auto;
-    border-radius: 0; 
-    box-shadow: none; 
-    background: transparent; 
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    max-width: 100%;
     object-fit: contain;
-    display: block;
-    margin: 0 auto;
+    overflow: hidden; /* CORREÇÃO: EVITA BARRAS DE ROLAGEM */
 }
 
 /* ====================== */
-/* SCROLL DOWN - CORREÇÃO COMPLETA DA SETA */
+/* SETA SCROLL DOWN - CORREÇÃO: SOME AO ROLAR */
 /* ====================== */
 
 .home .scroll-down-btn {
@@ -534,7 +490,7 @@ section {
     box-shadow: 0 12px 25px rgba(108, 99, 255, 0.4);
 }
 
-/* ESTADOS DE VISIBILIDADE - FUNCIONANDO COM JAVASCRIPT */
+/* CORREÇÃO: SETA SOME AO ROLAR PARA BAIXO */
 .home .scroll-down-btn.hidden {
     opacity: 0 !important;
     visibility: hidden !important;
@@ -566,56 +522,80 @@ section {
     50% { box-shadow: 0 6px 25px rgba(108, 99, 255, 0.5); }
 }
 
-/* INTRO TRABALHO - INVERTIDO: IMAGEM ESQUERDA | TEXTO DIREITA */
+/* ====================== */
+/* SEÇÃO INTRO TRABALHO - ALINHAMENTO REORGANIZADO */
+/* ====================== */
+
 .intro-trabalho {
     background-color: transparent !important; 
     padding-top: 0; 
-    padding-bottom: 80px;
-    overflow-x: hidden;
+    padding-bottom: var(--section-padding);
+    overflow: hidden; /* CORREÇÃO: EVITA BARRAS DE ROLAGEM */
 }
+
 .intro-trabalho .page-content {
-    padding: 80px 40px;
+    padding: var(--section-padding) var(--element-spacing);
     min-height: auto;
-    align-items: flex-start;
-    overflow-x: hidden;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* CORREÇÃO: EVITA BARRAS DE ROLAGEM */
 }
+
 .intro-trabalho .intro-grid {
     grid-template-columns: 1fr 1.2fr;
-    gap: 80px;
-    align-items: flex-start;
+    gap: var(--grid-gap);
+    align-items: center;
     width: 100%;
+    max-width: 100%;
+    overflow: hidden; /* CORREÇÃO: EVITA BARRAS DE ROLAGEM */
 }
+
 .intro-imagem {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     order: 1;
+    width: 100%;
+    overflow: hidden; /* CORREÇÃO: EVITA BARRAS DE ROLAGEM */
 }
+
 .intro-texto {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
+    align-items: flex-start;
     order: 2;
+    width: 100%;
+    overflow: hidden; /* CORREÇÃO: EVITA BARRAS DE ROLAGEM */
 }
-/* DESKTOP: DIMINUINDO FONTES E MARGENS */
+
+.intro-texto .text-cloud-card {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    overflow: hidden; /* CORREÇÃO: EVITA BARRAS DE ROLAGEM */
+}
+
+/* HIERARQUIA DE TEXTO PADRONIZADA */
 .intro-heading {
     font-size: 2.5rem; 
     color: var(--heading-color);
     font-weight: 700;
     line-height: 1.2;
-    margin-bottom: 16px; 
+    margin-bottom: 20px; 
     text-shadow: var(--text-shadow-heavy);
+    text-align: left;
+    width: 100%;
+    overflow: hidden; /* CORREÇÃO: EVITA BARRAS DE ROLAGEM */
 }
-.intro-heading .highlight-name {
-    font-weight: 900;
-    text-shadow: var(--text-shadow-heavy);
-}
+
 .heading-line-minimal {
     width: 80px; 
     height: 2px;
     background-color: var(--primary-color);
     margin-bottom: 30px; 
 }
+
 .intro-paragraph {
     font-size: 1.05rem; 
     line-height: 1.7; 
@@ -624,29 +604,29 @@ section {
     word-break: break-word;
     hyphens: auto;
     max-width: 100%;
-}
-/* Imagem (Desktop) - sem borda/caixa */
-.codigo-moderno-img {
-    border-radius: 0; 
-    box-shadow: none; 
-    border: none; 
-    background-color: transparent; 
-    max-width: 100%;
+    text-align: left;
+    margin-bottom: 30px;
+    overflow: hidden; /* CORREÇÃO: EVITA BARRAS DE ROLAGEM */
 }
 
-/* CTA BUTTON */
+/* ====================== */
+/* BOTÕES E LINKS ALINHADOS */
+/* ====================== */
+
 .cta-inline-container {
     margin-top: 30px; 
     display: flex;
     justify-content: flex-start;
+    width: 100%;
 }
+
 .cta-inline-btn {
     position: relative;
     display: inline-flex;
     align-items: center;
-    gap: 8px; 
-    padding: 8px 16px; 
-    font-size: 0.9rem; 
+    gap: 12px; 
+    padding: 12px 24px; 
+    font-size: 1rem; 
     font-weight: 700;
     color: #0f1b61;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.9);
@@ -662,7 +642,9 @@ section {
     cursor: pointer;
     z-index: 1;
     white-space: nowrap;
+    text-align: center;
 }
+
 .cta-inline-btn::before {
     content: '';
     position: absolute;
@@ -674,15 +656,18 @@ section {
     z-index: -1;
     border-radius: 10px;
 }
+
 .cta-inline-btn:hover::before {
     opacity: 1;
     animation: chess-move-inline 1.2s linear infinite;
 }
+
 .cta-inline-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14);
     color: var(--primary-color);
 }
+
 .cta-arrow {
     font-size: 1.2rem; 
     color: #0f1b61;
@@ -690,16 +675,121 @@ section {
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.9);
     transition: transform 0.3s ease;
 }
+
 .cta-inline-btn:hover .cta-arrow {
     transform: translateX(6px);
     color: var(--primary-color);
 }
+
 @keyframes chess-move-inline {
     0% { background-position: 0 0, 10px 10px; }
     100% { background-position: 40px 40px, 50px 50px; }
 }
 
-/* FOOTER - DESKTOP: FIXO NA ESQUERDA | MOBILE: NO FINAL DO CONTEÚDO */
+/* ====================== */
+/* ELEMENTOS COMUNS PADRONIZADOS */
+/* ====================== */
+
+/* CAIXA NUVEM PADRONIZADA */
+.text-cloud-card {
+    background: rgba(255, 255, 255, 0.68);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: var(--border-radius);
+    padding: 40px 36px;
+    margin: 0;
+    position: relative;
+    box-shadow: 
+        0 8px 32px rgba(108, 99, 255, 0.12),
+        0 2px 8px rgba(0, 0, 0, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    border: 1.5px solid rgba(108, 99, 255, 0.18);
+    overflow: hidden; /* CORREÇÃO: EVITA BARRAS DE ROLAGEM */
+    transition: all 0.4s ease;
+    max-width: 100%;
+    width: 100%;
+}
+
+.text-cloud-card::before {
+    content: '';
+    position: absolute;
+    top: -10px; left: -10px; right: -10px; bottom: -10px;
+    background: linear-gradient(135deg, 
+        rgba(108, 99, 255, 0.08) 0%, 
+        rgba(0, 188, 212, 0.05) 100%
+    );
+    border-radius: calc(var(--border-radius) + 4px);
+    z-index: -1;
+    filter: blur(8px);
+}
+
+.text-cloud-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 
+        0 16px 40px rgba(108, 99, 255, 0.18),
+        0 4px 12px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    border-color: rgba(108, 99, 255, 0.3);
+}
+
+.text-cloud-card > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* HIGHLIGHT BOX PADRONIZADO */
+.highlight-box {
+    display: inline-block;
+    background: linear-gradient(135deg, 
+        rgba(108, 99, 255, 0.12) 0%, 
+        rgba(0, 188, 212, 0.08) 100%
+    );
+    color: var(--heading-color);
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 12px;
+    border: 1.5px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+    z-index: 1;
+    font-size: 1.05em;
+    line-height: 1.4;
+    text-shadow: none;
+    box-shadow: 
+        0 2px 8px rgba(108, 99, 255, 0.15),
+        inset 0 1px 2px rgba(255, 255, 255, 0.3);
+    transition: all 0.35s ease;
+    margin: 0 2px;
+    text-align: center;
+}
+
+.highlight-box::before {
+    content: '';
+    position: absolute;
+    top: -1.5px; left: -1.5px; right: -1.5px; bottom: -1.5px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: 14px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+}
+
+.highlight-box:hover::before {
+    opacity: 0.7;
+}
+
+.highlight-box:hover {
+    transform: translateY(-1px);
+    box-shadow: 
+        0 6px 16px rgba(108, 99, 255, 0.22),
+        inset 0 1px 3px rgba(255, 255, 255, 0.4);
+    color: var(--primary-color);
+}
+
+/* ====================== */
+/* FOOTER ALINHADO */
+/* ====================== */
+
 .footer-minimal {
     position: fixed;
     bottom: 0;
@@ -717,6 +807,7 @@ section {
     display: flex;
     align-items: center;
 }
+
 .footer-divider {
     width: 2px;
     height: 14px;
@@ -745,107 +836,20 @@ section {
     opacity: 0;
     z-index: 999;
 }
+
 .scroll-to-top-btn.show {
     display: inline-flex;
     opacity: 1;
 }
+
 .scroll-to-top-btn:hover {
     background: var(--secondary-color);
 }
 
-/* CAIXA NUVEM */
-.text-cloud-card {
-    background: rgba(255, 255, 255, 0.68);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: 28px;
-    padding: 40px 36px;
-    margin: 20px 0;
-    position: relative;
-    box-shadow: 
-        0 8px 32px rgba(108, 99, 255, 0.12),
-        0 2px 8px rgba(0, 0, 0, 0.06),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4);
-    border: 1.5px solid rgba(108, 99, 255, 0.18);
-    overflow: hidden;
-    transition: all 0.4s ease;
-    max-width: 100%;
-}
-.text-cloud-card::before {
-    content: '';
-    position: absolute;
-    top: -10px; left: -10px; right: -10px; bottom: -10px;
-    background: linear-gradient(135deg, 
-        rgba(108, 99, 255, 0.08) 0%, 
-        rgba(0, 188, 212, 0.05) 100%
-    );
-    border-radius: 32px;
-    z-index: -1;
-    filter: blur(8px);
-}
-.text-cloud-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 
-        0 16px 40px rgba(108, 99, 255, 0.18),
-        0 4px 12px rgba(0, 0, 0, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 0.5);
-    border-color: rgba(108, 99, 255, 0.3);
-}
-.text-cloud-card > * {
-    position: relative;
-    z-index: 2;
-}
-
-/* HIGHLIGHT BOX */
-.highlight-box {
-    display: inline-block;
-    background: linear-gradient(135deg, 
-        rgba(108, 99, 255, 0.12) 0%, 
-        rgba(0, 188, 212, 0.08) 100%
-    );
-    color: var(--heading-color);
-    font-weight: 700;
-    padding: 6px 14px;
-    border-radius: 12px;
-    border: 1.5px solid transparent;
-    background-clip: padding-box;
-    position: relative;
-    z-index: 1;
-    font-size: 1.05em;
-    line-height: 1.4;
-    text-shadow: none;
-    box-shadow: 
-        0 2px 8px rgba(108, 99, 255, 0.15),
-        inset 0 1px 2px rgba(255, 255, 255, 0.3);
-    transition: all 0.35s ease;
-    margin: 0 2px;
-}
-.highlight-box::before {
-    content: '';
-    position: absolute;
-    top: -1.5px; left: -1.5px; right: -1.5px; bottom: -1.5px;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    border-radius: 14px;
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.35s ease;
-}
-.highlight-box:hover::before {
-    opacity: 0.7;
-}
-.highlight-box:hover {
-    transform: translateY(-1px);
-    box-shadow: 
-        0 6px 16px rgba(108, 99, 255, 0.22),
-        inset 0 1px 3px rgba(255, 255, 255, 0.4);
-    color: var(--primary-color);
-}
-
 /* ====================== */
-/* COMPATIBILIDADE CORRIGIDA - SEM !important NAS PROPRIEDADES ANIMADAS */
+/* COMPATIBILIDADE - MANTIDO DO ORIGINAL */
 /* ====================== */
 
-/* Apenas para elementos que NÃO usam animação scroll */
 .main-title-minimal:not(.scroll-element), 
 .role-text-minimal:not(.scroll-element),
 .portfolio-avatar-interactive:not(.scroll-image) {
@@ -854,7 +858,6 @@ section {
     filter: blur(0);
 }
 
-/* GARANTIR QUE AS NOVAS CLASSES FUNCIONEM CORRETAMENTE */
 .home-content .main-title-minimal.scroll-element,
 .home-content .role-text-minimal.scroll-element,
 .avatar-img.scroll-image,
@@ -872,7 +875,110 @@ section {
 }
 
 /* ====================== */
-/* MOBILE INDEX.CSS - VERSÃO COMPLETA PADRONIZADA COM BLOG */
+/* MENU OVERLAY - MANTIDO DO ORIGINAL */
+/* ====================== */
+
+.full-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(225, 234, 240, 0.98);
+    z-index: 1500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+    overflow: hidden;
+}
+
+.full-menu-overlay.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.menu-content {
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+    max-width: 500px;
+}
+
+.close-menu-btn {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    font-size: 3rem;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.close-menu-btn:hover {
+    color: var(--primary-color);
+    transform: rotate(90deg);
+}
+
+.full-navbar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.full-navbar .menu-item {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--heading-color); 
+    text-transform: uppercase;
+    transition: color 0.3s ease, letter-spacing 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.full-menu-overlay.active .full-navbar .menu-item {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.full-navbar .menu-item:nth-child(1) { transition-delay: 0.2s; }
+.full-navbar .menu-item:nth-child(2) { transition-delay: 0.3s; }
+.full-navbar .menu-item:nth-child(3) { transition-delay: 0.4s; }
+.full-navbar .menu-item:nth-child(4) { transition-delay: 0.5s; }
+.full-navbar .menu-item:nth-child(5) { transition-delay: 0.6s; }
+
+.full-navbar .menu-item.active,
+.full-navbar .menu-item:hover {
+    color: var(--primary-color) !important; 
+    letter-spacing: 0.2em;
+    transform: scale(1.05);
+}
+
+.full-navbar .menu-item.active {
+    letter-spacing: 0.15em;
+    transform: scale(1.03);
+    text-shadow: 0 0 10px rgba(108, 99, 255, 0.4); 
+}
+
+.full-navbar .admin-link {
+    font-size: 1.5rem;
+    margin-top: 30px;
+    color: var(--secondary-color);
+    font-weight: 500;
+}
+
+.full-navbar .admin-link:hover {
+    color: var(--primary-color);
+}
+
+.full-navbar .admin-link i {
+    margin-right: 10px;
+}
+
+/* ====================== */
+/* MOBILE - CORREÇÕES APLICADAS */
 /* ====================== */
 
 @media (max-width: 767px) {
@@ -903,8 +1009,10 @@ section {
     }
 
     /* ====================== */
-    /* HEADER MOBILE - PADRONIZADO COM BLOG */
+    /* CORREÇÃO: ÍCONES MOBILE VISÍVEIS APENAS NO MOBILE */
     /* ====================== */
+
+    /* HEADER MOBILE */
     .header {
         padding: 12px 16px !important;
         height: 68px !important;
@@ -923,7 +1031,6 @@ section {
         border-bottom: 1px solid var(--primary-color) !important;
     }
     
-    /* CONTÊINER ESQUERDO */
     .header-left {
         display: flex !important;
         align-items: center !important;
@@ -932,9 +1039,9 @@ section {
         min-width: 0 !important;
     }
     
-    /* ÍCONE MENU - MESMO COMPORTAMENTO DO BLOG */
+    /* CORREÇÃO: MENU HAMBURGUER VISÍVEL APENAS NO MOBILE */
     #menu-icon {
-        display: block !important;
+        display: block !important; /* VISÍVEL NO MOBILE */
         font-size: 1.9rem !important;
         z-index: 1600 !important;
         color: var(--heading-color) !important;
@@ -942,7 +1049,6 @@ section {
         flex-shrink: 0 !important;
     }
     
-    /* LOGO - CENTRALIZADA E TAMANHO FIXO (MESMO BLOG) */
     .logo {
         position: absolute !important;
         left: 50% !important;
@@ -963,12 +1069,12 @@ section {
         filter: drop-shadow(0 2px 4px rgba(15, 27, 97, 0.2)) !important;
     }
     
-    /* TEXTO MENU - ESCONDIDO (MESMO BLOG) */
+    /* CORREÇÃO: MENU TEXTO ESCONDIDO NO MOBILE */
     .menu-text { 
         display: none !important; 
     }
     
-    /* LINK CONTATO - MESMO ESTILO DO BLOG (APENAS CORES DIFERENTES) */
+    /* CORREÇÃO: ÍCONE DE CONTATO VISÍVEL APENAS NO MOBILE */
     .contact-link {
         display: flex !important;
         align-items: center !important;
@@ -985,7 +1091,7 @@ section {
     }
     
     .contact-icon {
-        display: block !important;
+        display: block !important; /* VISÍVEL NO MOBILE */
         font-size: 1.2rem !important;
         color: var(--heading-color) !important;
     }
@@ -1003,14 +1109,11 @@ section {
         color: var(--heading-color) !important;
     }
     
-    /* TOGGLE TEMA - ESCONDIDO */
     #theme-toggle {
         display: none !important;
     }
 
-    /* ====================== */
-    /* MENU OVERLAY MOBILE - PADRONIZADO COM BLOG */
-    /* ====================== */
+    /* MENU OVERLAY MOBILE */
     .full-menu-overlay {
         position: fixed !important;
         top: 0 !important;
@@ -1058,7 +1161,7 @@ section {
     }
     
     .close-menu-btn:hover {
-        color: var(--secondary-color) !important; /* AZUL VIBRANTE (TEMA INDEX) */
+        color: var(--secondary-color) !important;
         transform: rotate(90deg) !important;
     }
     
@@ -1071,34 +1174,32 @@ section {
         width: 100% !important;
     }
     
-    /* ITENS DO MENU - MESMO COMPORTAMENTO DO BLOG */
     .full-navbar .menu-item {
         font-size: 1.3rem !important;
         font-weight: 600 !important;
         color: var(--heading-color) !important;
         text-decoration: none !important;
         transition: all 0.3s ease !important;
-        text-transform: uppercase !important; /* MAIÚSCULAS IGUAL BLOG */
+        text-transform: uppercase !important;
         opacity: 1 !important;
         transform: translateY(0) !important;
         letter-spacing: 0.5px !important;
     }
     
     .full-navbar .menu-item.active {
-        color: #6c63ff !important; /* AZUL VIBRANTE (TEMA INDEX) */
+        color: #6c63ff !important;
     }
     
     .full-navbar .menu-item:hover {
-        color: #6c63ff !important; /* AZUL VIBRANTE (TEMA INDEX) */
+        color: #6c63ff !important;
         letter-spacing: 0.2em !important;
         transform: scale(1.05) !important;
     }
     
-    /* ADMIN LINK - MESMO COMPORTAMENTO */
     .full-navbar .admin-link {
         font-size: 1.1rem !important;
         margin-top: 30px !important;
-        color: #6c63ff !important; /* AZUL VIBRANTE (TEMA INDEX) */
+        color: #6c63ff !important;
         font-weight: 500 !important;
         text-transform: uppercase !important;
         letter-spacing: 0.5px !important;
@@ -1109,14 +1210,11 @@ section {
         letter-spacing: 0.2em !important;
     }
     
-    /* CORREÇÃO: POSICIONAMENTO VERTICAL - CENTRALIZAÇÃO PERFEITA */
     .full-navbar {
-        margin-top: -20px !important; /* AJUSTE FINO PARA CENTRALIZAÇÃO */
+        margin-top: -20px !important;
     }
 
-    /* ====================== */
     /* CORREÇÕES DE LAYOUT GERAL */
-    /* ====================== */
     .page-content,
     .home .page-content,
     .intro-trabalho .page-content {
@@ -1129,9 +1227,7 @@ section {
         box-sizing: border-box !important;
     }
 
-    /* ====================== */
     /* HOME SECTION MOBILE */
-    /* ====================== */
     .home { 
         padding-top: 0 !important;
         min-height: 100vh !important;
@@ -1143,7 +1239,6 @@ section {
         background: linear-gradient(135deg, var(--chess-color1) 0%, var(--chess-color2) 100%) !important;
     }
 
-    /* Diminuindo o padding inferior da HOME */
     .home .page-content {
         padding: 80px 16px 10px 16px !important;
     }
@@ -1226,9 +1321,24 @@ section {
         transform: translateX(-50%) scale(1.05) !important;
     }
 
-    /* ====================== */
+    /* CORREÇÃO: SETA SOME AO ROLAR NO MOBILE TAMBÉM */
+    .home .scroll-down-btn.hidden {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+        transform: translateX(-50%) scale(0.8) !important;
+        transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    }
+
+    .home .scroll-down-btn.visible {
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+        transform: translateX(-50%) scale(1) !important;
+        transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    }
+
     /* INTRO TRABALHO MOBILE */
-    /* ====================== */
     .intro-trabalho .page-content {
         padding-top: 10px !important;
         padding-bottom: 30px !important;
@@ -1294,7 +1404,6 @@ section {
         display: flex !important;
     }
 
-    /* Imagem Intro */
     .codigo-moderno-img {
         max-width: 72% !important;
         width: auto !important;
@@ -1307,42 +1416,69 @@ section {
         display: block !important;
     }
 
-    /* Botão CTA */
+    /* CORREÇÃO: BOTÃO CTA MOBILE COM MESMAS CORES DO DESKTOP */
     .cta-inline-btn {
         font-size: 0.75rem !important; 
         padding: 8px 16px !important; 
         gap: 8px !important; 
         white-space: nowrap !important;
         margin: 0 auto !important;
-        background: var(--primary-color) !important;
-        color: var(--heading-color) !important;
-        border-radius: 8px !important;
+        background: 
+            linear-gradient(45deg, var(--chess-color1) 25%, transparent 25%, transparent 75%, var(--chess-color1) 75%, var(--chess-color1)),
+            linear-gradient(45deg, var(--chess-color1) 25%, var(--chess-color2) 25%, var(--chess-color2) 75%, var(--chess-color1) 75%) !important;
+        background-size: 20px 20px !important;
+        background-position: 0 0, 10px 10px !important;
+        color: #0f1b61 !important;
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.9) !important;
+        border-radius: 10px !important;
         text-decoration: none !important;
         display: inline-flex !important;
         align-items: center !important;
-        transition: all 0.3s ease !important;
-        font-weight: 600 !important;
-        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        transition: all 0.4s ease !important;
+        font-weight: 700 !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+        position: relative !important;
+        overflow: hidden !important;
+        z-index: 1 !important;
+    }
+    
+    .cta-inline-btn::before {
+        content: '' !important;
+        position: absolute !important;
+        top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important;
+        background: inherit !important;
+        background-size: 40px 40px !important;
+        opacity: 0 !important;
+        transition: opacity 0.4s ease !important;
+        z-index: -1 !important;
+        border-radius: 10px !important;
+    }
+    
+    .cta-inline-btn:hover::before {
+        opacity: 1 !important;
+        animation: chess-move-inline 1.2s linear infinite !important;
+    }
+    
+    .cta-inline-btn:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14) !important;
+        color: var(--primary-color) !important;
     }
     
     .cta-arrow {
         font-size: 1.05rem !important; 
+        color: #0f1b61 !important;
+        font-weight: bold !important;
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.9) !important;
         transition: transform 0.3s ease !important;
-    }
-    
-    .cta-inline-btn:hover {
-        background: var(--heading-color) !important;
-        color: var(--primary-color) !important;
-        transform: translateY(-2px) !important;
     }
     
     .cta-inline-btn:hover .cta-arrow {
         transform: translateX(3px) !important;
+        color: var(--primary-color) !important;
     }
 
-    /* ====================== */
     /* COMPONENTES GERAIS MOBILE */
-    /* ====================== */
     .scroll-to-top-btn {
         width: 42px !important;
         height: 42px !important;
@@ -1379,9 +1515,7 @@ section {
         border-radius: 20px !important; 
     }
 
-    /* ====================== */
     /* FOOTER MOBILE */
-    /* ====================== */
     .footer-minimal {
         position: relative !important;
         transform: none !important;
@@ -1438,12 +1572,10 @@ section {
         max-width: 78% !important; 
     }
     
-    /* LOGO TABLET PEQUENO */
     .logo img.main-logo {
         height: 30px !important;
     }
     
-    /* AJUSTE SETA SCROLL */
     .home .scroll-down-btn {
         bottom: 25px !important;
     }
@@ -1486,12 +1618,10 @@ section {
         font-size: 0.65rem !important; 
     }
     
-    /* LOGO MOBILE MUITO PEQUENO */
     .logo img.main-logo {
         height: 28px !important;
     }
     
-    /* HEADER MAIS COMPACTO */
     .header {
         padding: 10px 14px !important;
         height: 62px !important;
@@ -1510,7 +1640,6 @@ section {
         font-size: 1.1rem !important;
     }
     
-    /* AJUSTE SETA SCROLL */
     .home .scroll-down-btn {
         bottom: 20px !important;
         width: 38px !important;
@@ -1521,12 +1650,10 @@ section {
         font-size: 1.2rem !important;
     }
     
-    /* TEXT CLOUD CARD MAIS COMPACTO */
     .text-cloud-card {
         padding: 18px 14px !important;
     }
     
-    /* CORREÇÃO: TAMANHO DE FONTE MENU EM DISPOSITIVOS MUITO PEQUENOS */
     .full-navbar .menu-item {
         font-size: 1.2rem !important;
     }

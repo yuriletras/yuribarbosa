@@ -3,41 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- ✅ CORRIGIDO: volta 1 nível para acessar img na raiz -->
     <link rel="icon" type="image/png" href="../img/logo_blog.png">
     <title>Yuri | Blog & Portfólio</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     
-    <!-- ✅ MANTÉM APENAS O CSS DO BLOG (dentro da pasta blog) -->
     <link rel="stylesheet" href="blog.css">
 </head>
 <body class="blog">
 
-    <!-- HEADER CORRIGIDO -->
     <header class="header">
         <div class="header-left">
             <i class='bx bx-menu' id="menu-icon"></i>
-            <!-- ✅ CORRIGIDO: volta para index na raiz -->
             <a href="../index.html" class="logo">
                 <img src="../img/logo_blog.png" alt="Yuri Barbosa" class="main-logo">
             </a>
             <div class="menu-text" id="menuText">MENU</div>
         </div>
-        <!-- ✅ CORRIGIDO: volta para contato na raiz -->
         <a href="../contato.html" class="contact-link">
             <span class="contact-text">Entre em contato</span>
             <i class='bx bx-envelope contact-icon'></i>
         </a>
     </header>
 
-    <!-- MENU OVERLAY -->
     <div class="full-menu-overlay" id="fullMenuOverlay">
         <div class="menu-content">
             <i class='bx bx-x close-menu-btn' id="closeMenuBtn"></i>
             <nav class="full-navbar">
-                <!-- ✅ TODOS CORRIGIDOS: voltam para raiz -->
                 <a href="../index.html" class="menu-item">Início</a>
                 <a href="../sobremim.html" class="menu-item">Sobre Mim</a>
                 <a href="blog.html" class="menu-item active">Blog</a>
@@ -53,7 +46,6 @@
             <!-- INTRO (100vh) -->
             <div class="blog-intro-section">
                 <div class="blog-intro-content">
-                    <!-- TEXTO DENTRO DA CAIXA NUVEM -->
                     <div class="blog-header-content">
                         <div class="text-cloud-card">
                             <h1 class="blog-title">Blog & <span class="highlight-name">Portfólio</span></h1>
@@ -63,20 +55,16 @@
                                 artigos sobre tecnologia. Aqui você encontra 
                                 desde trabalhos práticos do meu portfólio até conteúdos sobre 
                                 programação web, design criativo e 
-                                <span class="highlight-box">experiências</span>  do dia a dia como desenvolvedor.
+                                <span class="highlight-box">experiências</span> do dia a dia como desenvolvedor.
                             </p>
-                            
                         </div>
                     </div>
 
-                    <!-- IMAGEM COM EFEITO PULSAÇÃO -->
                     <div class="blog-image-container">
-                        <!-- ✅ CORRIGIDO: volta para img na raiz -->
                         <img src="../img/img_blog.png" alt="Ilustração do Blog" class="blog-intro-img">
                     </div>
                 </div>
 
-                <!-- BOTÃO ROLE PARA BAIXO -->
                 <div class="scroll-down-wrapper">
                     <a class="scroll-down-btn" data-next="#blog-content">
                         <i class='bx bx-down-arrow-alt scroll-icon'></i>
@@ -84,41 +72,104 @@
                 </div>
             </div>
 
-            <!-- CONTEÚDO (PRÓXIMA PÁGINA) -->
+            <!-- NOVA SEÇÃO DE CONTEÚDO PROFISSIONAL -->
             <div class="blog-content-section" id="blog-content">
-                <div class="blog-filters">
-                    <button class="filter-btn active" data-filter="all">Todos</button>
-                    <button class="filter-btn" data-filter="articles">Artigos</button>
-                    <button class="filter-btn" data-filter="projects">Trabalhos</button>
+                <!-- HEADER DA SEÇÃO -->
+                <div class="content-section-header">
+                    <h2 class="content-section-title">Meu Conteúdo</h2>
+                    <p class="content-section-subtitle">Artigos técnicos e cases de projetos desenvolvidos</p>
                 </div>
 
-                <div class="posts-grid" id="posts-grid-container">
-                    <p style="text-align: center;">Carregando publicações...</p>
+                <!-- STATS CARDS -->
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class='bx bx-news'></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" data-count="12">0</h3>
+                            <p class="stat-label">Artigos Publicados</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class='bx bx-briefcase'></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" data-count="8">0</h3>
+                            <p class="stat-label">Projetos Concluídos</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class='bx bx-time'></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number" data-count="2">0</h3>
+                            <p class="stat-label">Anos de Experiência</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FILTROS MODERNOS -->
+                <div class="filters-modern">
+                    <div class="filter-group">
+                        <button class="filter-modern-btn active" data-filter="all">
+                            <i class='bx bx-grid-alt'></i>
+                            <span>Todos</span>
+                        </button>
+                        <button class="filter-modern-btn" data-filter="articles">
+                            <i class='bx bx-edit-alt'></i>
+                            <span>Artigos</span>
+                        </button>
+                        <button class="filter-modern-btn" data-filter="projects">
+                            <i class='bx bx-code-alt'></i>
+                            <span>Projetos</span>
+                        </button>
+                    </div>
+                    <div class="search-box">
+                        <i class='bx bx-search'></i>
+                        <input type="text" placeholder="Buscar conteúdo..." class="search-input">
+                    </div>
+                </div>
+
+                <!-- GRID DE CONTEÚDO MODERNO -->
+                <div class="modern-grid" id="posts-grid-container">
+                    <!-- Conteúdo será carregado via JavaScript -->
+                    <div class="loading-state">
+                        <div class="loading-spinner"></div>
+                        <p>Carregando conteúdo...</p>
+                    </div>
                 </div>
 
                 <!-- CTA FINAL -->
-                <div class="cta-inline-container">
-                    <!-- ✅ CORRIGIDO: volta para contato na raiz -->
-                    <a href="../contato.html" class="cta-inline-btn">
-                        Vamos conversar sobre seu projeto?
-                        <i class='bx bx-right-arrow-alt cta-arrow'></i>
-                    </a>
+                <div class="cta-modern-container">
+                    <div class="cta-modern-card">
+                        <div class="cta-content">
+                            <h3>Vamos trabalhar juntos?</h3>
+                            <p>Pronto para transformar sua ideia em realidade? Vamos conversar sobre seu projeto.</p>
+                            <a href="../contato.html" class="cta-modern-btn">
+                                <span>Iniciar Projeto</span>
+                                <i class='bx bx-arrow-to-right'></i>
+                            </a>
+                        </div>
+                        <div class="cta-decoration">
+                            <i class='bx bx-rocket'></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer class="footer-minimal">
         <span class="footer-divider"></span> Copyright © 2025 by Yuri Barbosa | All Rights Reserved.
     </footer>
 
-    <!-- SCROLL TO TOP -->
     <a href="#blog" class="scroll-to-top-btn">
         <i class='bx bx-up-arrow-alt'></i>
     </a>
 
-    <!-- ✅ MANTÉM APENAS O JS DO BLOG (dentro da pasta blog) -->
     <script src="blog.js"></script>
 </body>
 </html>

@@ -572,15 +572,20 @@ img {
     100% { background-position: 40px 40px, 50px 50px; }
 }
 
-/* BOTÃO ROLE PARA BAIXO CORRIGIDO - TODAS AS SETAS ALINHADAS */
-.scroll-down-btn {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+/* ====================== */
+/* CORREÇÃO: SETAS SCROLL DOWN - MESMO COMPORTAMENTO DA PÁGINA INICIAL */
+/* ====================== */
+
+/* POSIÇÃO ABSOLUTA CORRETA */
+.about-section .scroll-down-btn {
+    position: absolute !important;
+    bottom: 60px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
     width: 48px;
     height: 48px;
     background: 
-        linear-gradient(45deg, var(--chess-color1) 25%, transparent 25%, transparent 75%, var(--chess-color1) 75%),
+        linear-gradient(45deg, var(--chess-color1) 25%, transparent 25%, transparent 75%, var(--chess-color1) 75%, var(--chess-color1)),
         linear-gradient(45deg, var(--chess-color1) 25%, var(--chess-color2) 25%, var(--chess-color2) 75%, var(--chess-color1) 75%);
     background-size: 18px 18px;
     background-position: 0 0, 9px 9px;
@@ -590,19 +595,14 @@ img {
     justify-content: center;
     cursor: pointer;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-    transition: all 0.4s ease;
+    transition: all 0.4s ease !important;
     z-index: 1000 !important;
     overflow: hidden;
-    opacity: 1;
-    pointer-events: auto;
-    text-decoration: none !important;
-    border: none;
-}
-
-/* TODAS AS SETAS COM MESMO ALINHAMENTO */
-.about-section .scroll-down-btn {
-    bottom: 60px;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
     animation: float 2s ease-in-out infinite, pulse-glow 2s ease-in-out infinite;
+    text-decoration: none !important;
 }
 
 .scroll-down-btn::before {
@@ -631,18 +631,38 @@ img {
     color: var(--primary-color);
 }
 .scroll-down-btn:hover {
-    transform: translateX(-50%) translateY(-5px);
+    transform: translateX(-50%) translateY(-5px) !important;
     box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
 }
 
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
+/* CORREÇÃO: SETA SOME AO ROLAR - MESMO COMPORTAMENTO DA PÁGINA INICIAL */
+.about-section .scroll-down-btn.hidden {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateX(-50%) scale(0.8) !important;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
 }
+
+.about-section .scroll-down-btn.visible {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateX(-50%) scale(1) !important;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+
+/* ANIMAÇÕES CORRIGIDAS */
+@keyframes float {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-6px); }
+}
+
 @keyframes chess-pulse {
     0% { background-position: 0 0, 9px 9px; }
     100% { background-position: 36px 36px, 45px 45px; }
 }
+
 @keyframes pulse-glow {
     0%, 100% { box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); }
     50% { box-shadow: 0 6px 25px rgba(155, 218, 190, 0.5); }
@@ -1232,16 +1252,16 @@ img {
     }
 
     /* ====================== */
-    /* BOTÃO SCROLL DOWN */
+    /* CORREÇÃO: BOTÃO SCROLL DOWN MOBILE - POSIÇÃO CORRETA */
     /* ====================== */
-    .scroll-down-btn { 
+    .about-section .scroll-down-btn { 
         display: flex !important; 
         position: absolute !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
         width: 42px !important;
         height: 42px !important;
-        bottom: 30px !important;
+        bottom: 40px !important; /* CORREÇÃO: POSIÇÃO MAIS ALTA PARA NÃO SER CORTADA */
         z-index: 1000 !important;
         opacity: 1 !important;
         visibility: visible !important;
@@ -1264,6 +1284,23 @@ img {
     .scroll-down-btn:hover {
         background: var(--primary-color) !important;
         transform: translateX(-50%) scale(1.05) !important;
+    }
+
+    /* CORREÇÃO: SETA SOME AO ROLAR NO MOBILE TAMBÉM */
+    .about-section .scroll-down-btn.hidden {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+        transform: translateX(-50%) scale(0.8) !important;
+        transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    }
+
+    .about-section .scroll-down-btn.visible {
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+        transform: translateX(-50%) scale(1) !important;
+        transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
     }
 
     /* ====================== */
@@ -1332,9 +1369,9 @@ img {
         display: none !important; 
     }
     
-    /* SEÇÃO FINAL - ESPAÇAMENTO EXTRA */
+    /* CORREÇÃO: SEÇÃO FINAL COM MAIS ESPAÇO PARA A SETA */
     .final-section .page-content {
-        padding-bottom: 60px !important;
+        padding-bottom: 80px !important; /* MAIS ESPAÇO PARA A SETA NÃO SER CORTADA */
     }
 }
 
@@ -1377,7 +1414,7 @@ img {
     
     /* AJUSTE BOTÃO SCROLL */
     .scroll-down-btn {
-        bottom: 25px !important;
+        bottom: 35px !important;
         width: 40px !important;
         height: 40px !important;
     }
@@ -1450,7 +1487,7 @@ img {
     
     /* AJUSTE BOTÃO SCROLL */
     .scroll-down-btn {
-        bottom: 20px !important;
+        bottom: 30px !important;
         width: 38px !important;
         height: 38px !important;
     }

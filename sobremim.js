@@ -104,8 +104,39 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ====================================
-// BOTÃO "ROLE PARA BAIXO" - CORRIGIDO
+// BOTÃO "ROLE PARA BAIXO" - CORRIGIDO (SISTEMA ATUALIZADO)
 // ====================================
+function updateScrollButtons() {
+    const scrollButtons = document.querySelectorAll('.scroll-down-btn');
+    const scrollPosition = window.scrollY;
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+
+    scrollButtons.forEach(button => {
+        const targetSection = button.closest('.about-section');
+        const nextSection = targetSection.nextElementSibling;
+        
+        // Se não há próxima seção ou o usuário está perto do final da página
+        if (!nextSection || (scrollPosition + windowHeight) >= (documentHeight - 100)) {
+            button.classList.add('hidden');
+            button.classList.remove('visible');
+        } else {
+            // Mostra a seta apenas se a seção atual estiver visível
+            const sectionTop = targetSection.offsetTop;
+            const sectionBottom = sectionTop + targetSection.offsetHeight;
+            
+            if (scrollPosition >= sectionTop - 100 && scrollPosition < sectionBottom - 200) {
+                button.classList.add('visible');
+                button.classList.remove('hidden');
+            } else {
+                button.classList.add('hidden');
+                button.classList.remove('visible');
+            }
+        }
+    });
+}
+
+// Event listeners para os botões de scroll
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.scroll-down-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -122,29 +153,18 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-});
 
-// Esconde o botão quando a última seção está visível
-window.addEventListener('scroll', () => {
-    const lastSection = document.querySelector('.final-section');
-    const btns = document.querySelectorAll('.scroll-down-btn');
+    // Inicializar o sistema de visibilidade das setas
+    updateScrollButtons();
     
-    if (!lastSection) return;
-    
-    const rect = lastSection.getBoundingClientRect();
+    // Atualizar durante o scroll
+    window.addEventListener('scroll', function() {
+        updateScrollButtons();
+    });
 
-    btns.forEach(btn => {
-        const section = btn.closest('.about-section');
-        if (section && section.classList.contains('final-section')) {
-            btn.style.opacity = '0';
-            btn.style.pointerEvents = 'none';
-        } else if (rect.top <= window.innerHeight * 0.8) {
-            btn.style.opacity = '0';
-            btn.style.pointerEvents = 'none';
-        } else {
-            btn.style.opacity = '1';
-            btn.style.pointerEvents = 'auto';
-        }
+    // Atualizar quando a janela for redimensionada
+    window.addEventListener('resize', function() {
+        updateScrollButtons();
     });
 });
 
@@ -205,14 +225,8 @@ window.addEventListener('load', () => {
 });
 
 // ====================================
-// INICIALIZAÇÃO DAS ANIMAÇÕES
+// HEADER SCROLL EFFECT
 // ====================================
-document.addEventListener('DOMContentLoaded', function() {
-    initImageAnimations();
-    initLogoAnimation(); // ← ADICIONADO AQUI
-});
-
-// Adicione isso ao seu arquivo JavaScript existente
 window.addEventListener('scroll', function() {
     const header = document.querySelector('.header');
     const scrollY = window.scrollY;
@@ -223,3 +237,30 @@ window.addEventListener('scroll', function() {
         header.classList.remove('scrolled');
     }
 });
+
+// ====================================
+// INICIALIZAÇÃO DAS ANIMAÇÕES
+// ====================================
+document.addEventListener('DOMContentLoaded', function() {
+    initImageAnimations();
+    initLogoAnimation();
+    
+    // Inicializar o sistema de setas imediatamente
+    setTimeout(updateScrollButtons, 100);
+});
+
+// ====================================
+// FALLBACK PARA NAVEGADORES MAIS ANTIGOS
+// ====================================
+if (!Element.prototype.closest) {
+    Element.prototype.closest = function(selector) {
+        let el = this;
+        while (el) {
+            if (el.matches(selector)) {
+                return el;
+            }
+            el = el.parentElement;
+        }
+        return null;
+    };
+}

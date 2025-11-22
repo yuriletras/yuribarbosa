@@ -7,16 +7,18 @@ const API_BASE_URL = 'https://portfolio-blog-backend-z8mi.onrender.com';
 
 // Configuração de paginação
 const PAGINATION_CONFIG = {
-    postsPerPage: 6, // 6 posts por página (2 linhas de 3 no desktop)
-    initialLoad: 6,  // Carrega 6 posts inicialmente
-    loadMoreIncrement: 6 // Carrega mais 6 posts cada vez
+    postsPerPage: 6,
+    initialLoad: 6,
+    loadMoreIncrement: 6
 };
 
-// Estado da paginação
+// Estado da paginação e busca
 let currentPage = 1;
 let allPosts = [];
 let displayedPosts = 0;
 let isLoading = false;
+let currentFilter = 'all';
+let searchTerm = '';
 
 // ==========================================================
 // 2. MOCK DATA PARA TRABALHOS (PORTFÓLIO - VIA CÓDIGO)
@@ -71,7 +73,84 @@ const MOCK_PROJECTS = [
 ];
 
 // ==========================================================
-// 3. LÓGICA DO MENU OVERLAY
+// 3. CÁLCULO DE ANOS DE EXPERIÊNCIA
+// ==========================================================
+
+const calculateYearsOfExperience = () => {
+    // Encontrar a data do projeto mais antigo
+    const projectDates = MOCK_PROJECTS.map(project => new Date(project.publishedAt));
+    const oldestProjectDate = new Date(Math.min(...projectDates));
+    
+    // Calcular diferença em anos
+    const currentDate = new Date();
+    const diffInMilliseconds = currentDate - oldestProjectDate;
+    const diffInYears = diffInMilliseconds / (1000 * 60 * 60 * 24 * 365.25);
+    
+    // Arredondar para o número inteiro mais próximo
+    const yearsOfExperience = Math.round(diffInYears);
+    
+    // Garantir pelo menos 1 ano de experiência
+    return Math.max(1, yearsOfExperience);
+};
+
+// ==========================================================
+// 4. CONTADOR DE TRABALHOS, ARTIGOS E ANOS DE EXPERIÊNCIA
+// ==========================================================
+
+const updateCounters = () => {
+    const articleCount = allPosts.filter(post => post.category === 'articles').length;
+    const projectCount = allPosts.filter(post => post.category === 'projects').length;
+    const experienceYears = calculateYearsOfExperience();
+    
+    // Atualizar contadores
+    const articleCounter = document.querySelector('.stat-card:nth-child(1) .stat-number');
+    const projectCounter = document.querySelector('.stat-card:nth-child(2) .stat-number');
+    const experienceCounter = document.querySelector('.stat-card:nth-child(3) .stat-number');
+    
+    if (articleCounter) {
+        articleCounter.textContent = articleCount;
+        articleCounter.setAttribute('data-count', articleCount);
+    }
+    
+    if (projectCounter) {
+        projectCounter.textContent = projectCount;
+        projectCounter.setAttribute('data-count', projectCount);
+    }
+    
+    if (experienceCounter) {
+        experienceCounter.textContent = experienceYears;
+        experienceCounter.setAttribute('data-count', experienceYears);
+    }
+};
+
+// ==========================================================
+// 5. SISTEMA DE BUSCA
+// ==========================================================
+
+const setupSearch = () => {
+    const searchInput = document.querySelector('.search-input');
+    if (!searchInput) return;
+
+    searchInput.addEventListener('input', (e) => {
+        searchTerm = e.target.value.toLowerCase().trim();
+        currentPage = 1;
+        displayedPosts = 0;
+        loadBlogPosts(currentFilter);
+    });
+};
+
+const filterPostsBySearch = (posts) => {
+    if (!searchTerm) return posts;
+    
+    return posts.filter(post => 
+        post.title.toLowerCase().includes(searchTerm) ||
+        (post.summary && post.summary.toLowerCase().includes(searchTerm)) ||
+        (post.content && post.content.toLowerCase().includes(searchTerm))
+    );
+};
+
+// ==========================================================
+// 6. LÓGICA DO MENU OVERLAY
 // ==========================================================
 const setupMenuOverlay = () => {
     const menuText = document.getElementById('menuText');
@@ -101,7 +180,7 @@ const setupMenuOverlay = () => {
 };
 
 // ==========================================================
-// 4. SISTEMA DE PAGINAÇÃO PROFISSIONAL
+// 7. SISTEMA DE PAGINAÇÃO PROFISSIONAL
 // ==========================================================
 
 /**
@@ -129,19 +208,16 @@ const createLoadMoreButton = () => {
 const toggleLoadMoreButton = (totalPosts, displayedPosts) => {
     let loadMoreContainer = document.querySelector('.load-more-container');
     
-    // Se ainda tem posts para carregar e não existe o botão, cria
     if (displayedPosts < totalPosts && !loadMoreContainer) {
         loadMoreContainer = createLoadMoreButton();
-        const postsGrid = document.getElementById('posts-grid-container');
-        if (postsGrid) {
-            postsGrid.parentNode.insertBefore(loadMoreContainer, postsGrid.nextSibling);
+        const postsGridContainer = document.getElementById('posts-grid-container');
+        if (postsGridContainer) {
+            postsGridContainer.parentNode.insertBefore(loadMoreContainer, postsGridContainer.nextSibling);
             
-            // Adiciona evento de clique
             const loadMoreBtn = loadMoreContainer.querySelector('.load-more-btn');
             loadMoreBtn.addEventListener('click', loadMorePosts);
         }
     }
-    // Se não tem mais posts para carregar, remove o botão
     else if (displayedPosts >= totalPosts && loadMoreContainer) {
         loadMoreContainer.remove();
     }
@@ -180,7 +256,6 @@ const loadMorePosts = async () => {
     isLoading = true;
     updateLoadMoreButton(true);
     
-    // Simula um delay de carregamento para melhor UX
     await new Promise(resolve => setTimeout(resolve, 800));
     
     currentPage++;
@@ -188,19 +263,15 @@ const loadMorePosts = async () => {
     const endIndex = startIndex + PAGINATION_CONFIG.loadMoreIncrement;
     const postsToShow = allPosts.slice(startIndex, endIndex);
     
-    // Renderiza os novos posts
     renderPostsBatch(postsToShow);
     
     displayedPosts += postsToShow.length;
     
-    // Atualiza o botão
     isLoading = false;
     updateLoadMoreButton(false);
     
-    // Verifica se ainda tem posts para carregar
     toggleLoadMoreButton(allPosts.length, displayedPosts);
     
-    // Animações para os novos posts
     setTimeout(initImageAnimations, 100);
 };
 
@@ -236,7 +307,7 @@ const createPostCard = (post) => {
     }
 
     const postCard = document.createElement('a');
-    postCard.className = 'post-card';
+    postCard.className = 'post-card modern-card';
     postCard.setAttribute('data-category', post.category);
     
     if (post.category === 'articles') {
@@ -246,18 +317,19 @@ const createPostCard = (post) => {
     }
     
     const tagText = post.category === 'articles' ? 'Artigo' : 'Trabalho';
+    const badgeClass = post.category === 'articles' ? 'card-badge' : 'card-badge projects';
     
     postCard.innerHTML = `
         <div class="post-image-container">
-            <img src="${thumbnailUrl}" alt="${post.title}" class="post-image" loading="lazy">
+            <img src="${thumbnailUrl}" alt="${post.title}" class="post-image card-image" loading="lazy">
         </div>
-        <div class="post-info">
-            <span class="post-tag">${tagText}</span>
-            <h3 class="post-title-card">${post.title}</h3>
-            <p class="post-excerpt">${post.summary}</p>
-            <div class="post-meta">
-                <span>${formattedDate}</span>
-                <span>por ${post.author || 'Autor Desconhecido'}</span>
+        <div class="post-info card-content">
+            <span class="${badgeClass}">${tagText}</span>
+            <h3 class="post-title-card card-title">${post.title}</h3>
+            <p class="post-excerpt card-excerpt">${post.summary}</p>
+            <div class="post-meta card-meta">
+                <span class="card-date">${formattedDate}</span>
+                <span class="card-author">por ${post.author || 'Autor Desconhecido'}</span>
             </div>
         </div>
     `;
@@ -266,7 +338,7 @@ const createPostCard = (post) => {
 };
 
 // ==========================================================
-// 5. FUNÇÕES DE INTERAÇÃO COM O BACKEND E UI (EXISTENTES)
+// 8. FUNÇÕES DE INTERAÇÃO COM O BACKEND E UI (EXISTENTES)
 // ==========================================================
 
 const updateLikeCountUI = (likes) => {
@@ -411,7 +483,7 @@ const handleShareClick = () => {
 };
 
 // ==========================================================
-// 6. FUNÇÃO PARA SCROLL DOWN
+// 9. FUNÇÃO PARA SCROLL DOWN
 // ==========================================================
 
 const setupScrollDownButton = () => {
@@ -434,7 +506,7 @@ const setupScrollDownButton = () => {
 };
 
 // ==========================================================
-// 12. LÓGICA PARA ESCONDER SETA AO ROLAR
+// 10. LÓGICA PARA ESCONDER SETA AO ROLAR
 // ==========================================================
 
 const setupScrollHideArrow = () => {
@@ -448,7 +520,6 @@ const setupScrollHideArrow = () => {
         const windowHeight = window.innerHeight;
         const contentSectionTop = blogContentSection.offsetTop;
         
-        // Se o usuário rolou mais de 100px OU chegou perto da segunda seção, esconde a seta
         if (scrollPosition > 100 || scrollPosition > contentSectionTop - windowHeight * 0.8) {
             scrollDownWrapper.classList.add('hidden');
         } else {
@@ -457,15 +528,15 @@ const setupScrollHideArrow = () => {
     };
     
     window.addEventListener('scroll', hideArrowOnScroll);
-    hideArrowOnScroll(); // Executa uma vez no carregamento
+    hideArrowOnScroll();
 };
 
 // ==========================================================
-// 7. ANIMAÇÕES DE SCROLL REVEAL
+// 11. ANIMAÇÕES DE SCROLL REVEAL
 // ==========================================================
 
 const initScrollAnimations = () => {
-    const elementsToAnimate = document.querySelectorAll('.blog-title, .blog-subtitle, .heading-line-minimal');
+    const elementsToAnimate = document.querySelectorAll('.blog-title, .blog-subtitle, .heading-line-minimal, .content-section-title');
     
     const scrollObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -480,7 +551,7 @@ const initScrollAnimations = () => {
 };
 
 // ==========================================================
-// 8. ANIMAÇÃO DE IMAGEM COM CARREGAMENTO
+// 12. ANIMAÇÃO DE IMAGEM COM CARREGAMENTO
 // ==========================================================
 
 const initImageAnimations = () => {
@@ -496,7 +567,6 @@ const initImageAnimations = () => {
         }
     }
 
-    // Observer para imagens dos posts
     const postImages = document.querySelectorAll('.post-image');
     const imageObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -517,7 +587,7 @@ const initImageAnimations = () => {
 };
 
 // ==========================================================
-// 9. LÓGICA DE RENDERIZAÇÃO DA PÁGINA COM PAGINAÇÃO
+// 13. LÓGICA DE RENDERIZAÇÃO DA PÁGINA COM PAGINAÇÃO
 // ==========================================================
 
 const fetchArticles = async () => {
@@ -539,65 +609,64 @@ const loadBlogPosts = async (filter = 'all') => {
     const postsGridContainer = document.getElementById('posts-grid-container');
     if (!postsGridContainer) return;
 
-    // Remove botão "Carregar Mais" anterior se existir
     const existingLoadMore = document.querySelector('.load-more-container');
     if (existingLoadMore) {
         existingLoadMore.remove();
     }
 
-    postsGridContainer.innerHTML = '<p style="text-align: center; color: var(--text-color);">Carregando conteúdo...</p>';
+    postsGridContainer.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div><p>Carregando conteúdo...</p></div>';
 
     try {
-        // Reseta o estado da paginação
         currentPage = 1;
         displayedPosts = 0;
         isLoading = false;
+        currentFilter = filter;
 
-        // Carrega artigos e projetos
         const articles = await fetchArticles();
         const projects = MOCK_PROJECTS;
 
-        // Combina e filtra
         let combinedPosts = [...articles, ...projects];
         
-        const filteredPosts = combinedPosts.filter(post => {
+        // Aplicar filtro
+        let filteredPosts = combinedPosts.filter(post => {
             if (filter === 'all') return true;
             return post.category && post.category.toLowerCase() === filter;
         });
 
-        // Ordena por data
+        // Aplicar busca se houver termo
+        filteredPosts = filterPostsBySearch(filteredPosts);
+
         filteredPosts.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
         
-        // Atualiza posts globais
         allPosts = filteredPosts;
+
+        // Atualizar contadores (incluindo anos de experiência)
+        updateCounters();
 
         postsGridContainer.innerHTML = '';
 
         if (filteredPosts.length === 0) {
-            postsGridContainer.innerHTML = '<p style="text-align: center; color: var(--text-color);">Nenhum post encontrado para este filtro.</p>';
+            postsGridContainer.innerHTML = '<p style="text-align: center; color: var(--text-color); padding: 40px;">Nenhum post encontrado para este filtro.</p>';
             return;
         }
         
-        // Carrega posts iniciais
         const initialPosts = filteredPosts.slice(0, PAGINATION_CONFIG.initialLoad);
         renderPostsBatch(initialPosts);
         
         displayedPosts = initialPosts.length;
 
-        // Mostra/oculta botão "Carregar Mais"
         toggleLoadMoreButton(filteredPosts.length, displayedPosts);
 
-        // Inicializa animações
         setTimeout(initImageAnimations, 100);
 
     } catch (error) {
         console.error('Erro ao carregar posts:', error);
-        postsGridContainer.innerHTML = '<p style="text-align: center; color: var(--text-color);">Erro ao carregar os posts. Tente novamente mais tarde.</p>';
+        postsGridContainer.innerHTML = '<p style="text-align: center; color: var(--text-color); padding: 40px;">Erro ao carregar os posts. Tente novamente mais tarde.</p>';
     }
 };
 
 // ==========================================================
-// 10. LÓGICA DE RENDERIZAÇÃO DO POST INDIVIDUAL (post.html)
+// 14. LÓGICA DE RENDERIZAÇÃO DO POST INDIVIDUAL (post.html)
 // ==========================================================
 
 const setupPostInteractions = (postId, initialLikes) => {
@@ -722,17 +791,17 @@ const loadSinglePost = async () => {
 };
 
 // ==========================================================
-// 11. INICIALIZAÇÃO E LÓGICA DE FILTRO (ATUALIZADA)
+// 15. INICIALIZAÇÃO E LÓGICA DE FILTRO (ATUALIZADA)
 // ==========================================================
 document.addEventListener('DOMContentLoaded', () => {
     
     setupMenuOverlay();
     setupScrollDownButton();
-    setupScrollHideArrow(); // ← NOVA FUNÇÃO ADICIONADA AQUI
+    setupScrollHideArrow();
     initScrollAnimations();
     initImageAnimations();
+    setupSearch(); // Inicializar sistema de busca
     
-    // Lógica para o botão Scroll-to-Top
     const scrollBtn = document.querySelector('.scroll-to-top-btn');
     if (scrollBtn) {
         window.addEventListener('scroll', () => {
@@ -751,7 +820,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const currentPath = window.location.pathname;
 
-    // Se a página é a de listagem (blog.html)
     if (currentPath.includes('blog.html')) {
         
         const blogContentSection = document.querySelector('.blog-content-section');
@@ -760,9 +828,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!postsGridContainer && blogContentSection) {
             postsGridContainer = document.createElement('div');
             postsGridContainer.id = 'posts-grid-container';
-            postsGridContainer.className = 'posts-grid';
+            postsGridContainer.className = 'modern-grid';
             
-            const blogFilters = document.querySelector('.blog-filters');
+            const blogFilters = document.querySelector('.filters-modern');
             if (blogFilters) {
                 blogFilters.insertAdjacentElement('afterend', postsGridContainer);
             } else {
@@ -770,9 +838,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        const filterButtons = document.querySelectorAll('.filter-btn');
+        const filterButtons = document.querySelectorAll('.filter-modern-btn');
 
-        // Adiciona eventos aos botões de filtro
         filterButtons.forEach(button => {
             button.addEventListener('click', () => {
                 filterButtons.forEach(btn => btn.classList.remove('active'));
@@ -783,11 +850,9 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Chamada inicial para carregar TODOS os posts
         loadBlogPosts('all');
 
     } 
-    // Se a página é a de post individual (post.html)
     else if (currentPath.includes('post.html')) {
         loadSinglePost();
     }
@@ -815,7 +880,7 @@ window.addEventListener('scroll', function() {
     const header = document.querySelector('.header');
     const scrollY = window.scrollY;
     
-    if (scrollY > 100) { // Após 100px de scroll
+    if (scrollY > 100) {
         header.classList.add('scrolled');
     } else {
         header.classList.remove('scrolled');
