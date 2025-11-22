@@ -151,22 +151,53 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /**
      * ====================================
-     * SCROLL TO TOP + HEADER STICKY
+     * HEADER COM SCROLL + ANIMAÇÃO DA LOGO
      * ====================================
      */
-    const scrollToTopBtn = document.querySelector('.scroll-to-top-btn');
-    const header = document.querySelector('.header');
+    function initHeaderScrollEffects() {
+        const header = document.querySelector('.header');
+        const logoImg = document.querySelector('.header .logo img');
+        
+        if (!header || !logoImg) return;
+        
+        let scrollTimeout;
+        
+        window.addEventListener('scroll', () => {
+            // Limpa o timeout anterior para performance
+            clearTimeout(scrollTimeout);
+            
+            // Adia a execução
+            scrollTimeout = setTimeout(() => {
+                const scrollY = window.scrollY;
+                
+                if (scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+                
+                // Atualizar botão scroll to top
+                const scrollToTopBtn = document.querySelector('.scroll-to-top-btn');
+                scrollToTopBtn?.classList.toggle('show', scrollY > 300);
+                
+            }, 10);
+        });
+    }
 
-    window.addEventListener('scroll', () => {
-        header?.classList.toggle('sticky', window.scrollY > 100);
-        scrollToTopBtn?.classList.toggle('show', window.scrollY > 300);
-    });
-
-    scrollToTopBtn?.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        setActiveMenuOverlay('#home');
-    });
+    /**
+     * ====================================
+     * SCROLL TO TOP
+     * ====================================
+     */
+    function initScrollToTop() {
+        const scrollToTopBtn = document.querySelector('.scroll-to-top-btn');
+        
+        scrollToTopBtn?.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setActiveMenuOverlay('#home');
+        });
+    }
 
     /**
      * ====================================
@@ -382,6 +413,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function initAllModules() {
         initImageAnimations();
         initLogoAnimation();
+        initHeaderScrollEffects();
+        initScrollToTop();
         initScrollDownButtons();
         initKeyboardNavigation();
         initScrollOptimizations();
@@ -421,17 +454,5 @@ document.addEventListener('DOMContentLoaded', () => {
             const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
             console.log(`⏱️ Tempo de carregamento: ${loadTime}ms`);
         });
-    }
-});
-
-// Adicione isso ao seu arquivo JavaScript existente
-window.addEventListener('scroll', function() {
-    const header = document.querySelector('.header');
-    const scrollY = window.scrollY;
-    
-    if (scrollY > 100) { // Após 100px de scroll
-        header.classList.add('scrolled');
-    } else {
-        header.classList.remove('scrolled');
     }
 });
