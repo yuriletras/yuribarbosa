@@ -171,7 +171,7 @@
 }
 
 /* ====================== */
-/* SETAS SCROLL DOWN - SISTEMA UNIFICADO */
+/* SETAS SCROLL DOWN - SISTEMA UNIFICADO CORRIGIDO */
 /* ====================== */
 
 .scroll-down-btn {
@@ -183,14 +183,16 @@
     opacity: 0 !important;
     visibility: hidden !important;
     pointer-events: none !important;
-    transform: translateY(20px) scale(0.8) !important;
+    /* REMOVIDO: transform: translateY(20px) scale(0.8) !important; */
+    transform: scale(0.8) !important; /* ← Mantemos apenas o scale */
 }
 
 .scroll-down-btn.visible {
     opacity: 1 !important;
     visibility: visible !important;
     pointer-events: auto !important;
-    transform: translateY(0) scale(1) !important;
+    /* REMOVIDO: transform: translateY(0) scale(1) !important; */
+    transform: scale(1) !important; /* ← Mantemos apenas o scale */
 }
 
 /* ====================== */
