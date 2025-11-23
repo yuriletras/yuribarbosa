@@ -639,64 +639,6 @@ section {
 }
 
 /* ================================= */
-/* BOTÃO SCROLL DOWN */
-/* ================================= */
-
-.scroll-down-wrapper {
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-}
-
-.scroll-down-wrapper.hidden {
-    opacity: 0;
-    visibility: hidden;
-    transform: translateX(-50%) translateY(20px);
-    pointer-events: none;
-}
-
-.scroll-down-btn {
-    width: 48px;
-    height: 48px;
-    background: 
-        linear-gradient(45deg, var(--chess-color1) 25%, transparent 25%, transparent 75%, var(--chess-color1) 75%),
-        linear-gradient(45deg, var(--chess-color1) 25%, var(--chess-color2) 25%, var(--chess-color2) 75%, var(--chess-color1) 75%);
-    background-size: 18px 18px;
-    background-position: 0 0, 9px 9px;
-    border-radius: 50%;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-    transition: all 0.4s ease;
-    z-index: 1000 !important;
-    overflow: hidden;
-    text-decoration: none !important;
-    border: none;
-}
-
-.scroll-down-btn .scroll-icon {
-    font-size: 1.6rem;
-    color: #0f1b61;
-    font-weight: bold;
-    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.9);
-    transition: transform 0.3s ease;
-}
-
-.scroll-down-btn:hover .scroll-icon {
-    transform: translateY(6px);
-    color: var(--primary-color);
-}
-
-.scroll-down-btn:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
-}
-
-/* ================================= */
 /* SEÇÃO DE CONTEÚDO PROFISSIONAL - NOVO DESIGN */
 /* ================================= */
 
@@ -1870,27 +1812,6 @@ html {
 }
 
 /* ================================= */
-/* CORREÇÃO PARA A SEGUNDA SETA SCROLL */
-/* ================================= */
-
-/* GARANTIR QUE A SEGUNDA SETA APAREÇA */
-#blog-content .scroll-down-wrapper {
-    display: flex !important;
-    justify-content: center;
-    margin: 40px 0;
-    position: relative;
-}
-
-#blog-content .scroll-down-btn {
-    display: flex !important;
-    position: relative !important;
-    left: auto !important;
-    bottom: auto !important;
-    transform: none !important;
-    margin: 0 auto;
-}
-
-/* ================================= */
 /* RESPONSIVIDADE - ATUALIZAÇÕES PARA MOBILE */
 /* (768px - Versão original para tablets maiores) */
 /* ================================= */
@@ -2132,67 +2053,75 @@ html {
         font-weight: 700 !important;
     }
 
-    /* SETA SCROLL - EXATAMENTE IGUAL À PÁGINA SOBREMIM (POSIÇÃO E TAMANHO) */
-    .blog-intro-section .page-content .scroll-down-btn { 
-        display: flex !important; 
+    /* ====================== */
+    /* CORREÇÃO DA SETA SCROLL - CENTRALIZAÇÃO PERFEITA E POSIÇÃO MAIS BAIXA */
+    /* ====================== */
+    .blog-intro-section .scroll-down-btn {
+        display: flex !important;
         position: absolute !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
         width: 42px !important;
         height: 42px !important;
-        bottom: 40px !important;
+        bottom: 60px !important; /* ← Aumentado de 40px para 60px */
         z-index: 1000 !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        pointer-events: auto !important;
+        background: rgba(155, 218, 190, 0.3) !important;
+        backdrop-filter: blur(8px) !important;
         border-radius: 50% !important;
         align-items: center !important;
         justify-content: center !important;
-        text-decoration: none !important;
+        border: 1px solid rgba(155, 218, 190, 0.4) !important;
         transition: all 0.3s ease !important;
-        /* MANTER CORES ORIGINAIS DO BLOG */
+        text-decoration: none !important;
     }
-    
-    .blog-intro-section .page-content .scroll-down-btn:hover {
+
+    .blog-intro-section .scroll-down-btn:hover {
+        background: var(--primary-color) !important;
         transform: translateX(-50%) scale(1.05) !important;
-        /* MANTER CORES ORIGINAIS DO BLOG NO HOVER */
     }
     
     .scroll-down-btn .scroll-icon { 
         font-size: 1.4rem !important; 
+        color: var(--heading-color) !important;
         font-weight: bold !important;
-        /* MANTER COR ORIGINAL DO BLOG */
     }
     
-    .blog-intro-section .page-content .scroll-down-btn.hidden {
-        opacity: 0 !important;
-        visibility: hidden !important;
-        pointer-events: none !important;
-        transform: translateX(-50%) scale(0.8) !important;
-        transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    .scroll-down-btn.hidden { 
+        opacity: 0 !important; 
+        visibility: hidden !important; 
+        pointer-events: none !important; 
+        transform: translateX(-50%) scale(0.8) !important; 
+        transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important; 
     }
-
-    .blog-intro-section .page-content .scroll-down-btn.visible {
-        opacity: 1 !important;
-        visibility: visible !important;
-        pointer-events: auto !important;
-        transform: translateX(-50%) scale(1) !important;
-        transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    
+    .scroll-down-btn.visible { 
+        opacity: 1 !important; 
+        visibility: visible !important; 
+        pointer-events: auto !important; 
+        transform: translateX(-50%) scale(1) !important; 
+        transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important; 
     }
 
     /* GARANTIR QUE O PAGE-CONTENT NÃO INTERFIRA */
     .blog-intro-section .page-content {
         position: relative !important;
         width: 100% !important;
-        height: 100% !important;
+        min-height: 100vh !important;
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
         justify-content: space-between !important;
     }
 
-    /* SEÇÃO DE CONTEÚDO DO BLOG */
-    .blog-content-section {
+    /* ====================== */
+    /* SEÇÃO DE CONTEÚDO DO BLOG - FILTROS E ARTIGOS MUITO PRÓXIMOS */
+    /* ====================== */
+    .blog-content-section { 
+        padding: 80px 16px 50px !important; /* ← Aumentado padding-top para 80px */
+        margin: 0 !important; 
+        min-height: 100vh; 
+        background: transparent; 
+        position: relative;
         width: 100% !important;
         display: flex !important;
         flex-direction: column !important;
@@ -2203,7 +2132,7 @@ html {
         display: grid !important; 
         grid-template-columns: repeat(3, 1fr) !important; 
         gap: 8px !important; 
-        margin-bottom: 25px !important; 
+        margin-bottom: 30px !important; /* ← Aumentado para 30px */
         padding: 0 5px !important; 
     }
     
@@ -2233,6 +2162,79 @@ html {
         line-height: 1.1 !important; 
     }
 
+    /* ====================== */
+    /* FILTROS E BUSCA - MUITO PRÓXIMOS DOS ARTIGOS */
+    /* ====================== */
+    .filters-modern { 
+        flex-direction: column !important; 
+        align-items: stretch !important; 
+        gap: 8px !important;
+        margin-bottom: 10px !important;
+        margin-top: 40px !important; /* ← Adicionado margin-top */
+        padding-top: 20px !important; /* ← Adicionado padding-top */
+        width: 100% !important;
+    }
+    
+    .filter-group { 
+        justify-content: center !important; 
+        gap: 6px !important;
+        margin-bottom: 6px !important;
+    }
+    
+    .filter-modern-btn { 
+        padding: 10px 16px !important; 
+        font-size: 0.85rem !important; 
+        gap: 6px !important; 
+        flex: 1 !important; 
+        min-width: 0 !important; 
+        justify-content: center !important; 
+    }
+    
+    .search-box { 
+        min-width: auto !important; 
+        width: 100% !important; 
+        margin-bottom: 3px !important;
+    }
+
+    /* ====================== */
+    /* GRID DE ARTIGOS - MUITO PRÓXIMO DOS FILTROS */
+    /* ====================== */
+    .modern-grid { 
+        grid-template-columns: 1fr !important; 
+        gap: 15px !important;
+        padding: 8px 5px !important;
+        margin: 5px 0 !important;
+    }
+    
+    .modern-card { 
+        min-height: auto !important; 
+    }
+    
+    .card-content { 
+        padding: 20px 15px !important; 
+    }
+    
+    .card-title { 
+        font-size: 1.1rem !important; 
+        margin-bottom: 10px !important; 
+        line-height: 1.3 !important; 
+    }
+    
+    .card-excerpt, .card-meta { 
+        display: none !important; 
+    }
+    
+    .card-badge { 
+        top: -12px !important; 
+        left: 15px !important; 
+        padding: 6px 12px !important; 
+        font-size: 0.7rem !important; 
+    }
+    
+    .card-image { 
+        height: 160px !important; 
+    }
+
     /* BOTÃO SCROLL TO TOP */
     .scroll-to-top-btn {
         width: 42px !important; 
@@ -2255,29 +2257,69 @@ html {
         color: var(--primary-color) !important; 
     }
 
-    /* FOOTER */
+    /* ====================== */
+    /* CORREÇÃO DO FOOTER - CENTRALIZAÇÃO PERFEITA */
+    /* ====================== */
     .footer-minimal {
-        position: relative !important; 
-        transform: none !important; 
+        position: relative !important;
+        transform: none !important;
         margin: 20px auto 10px !important;
-        text-align: center !important; 
-        font-size: 0.72rem !important; 
+        text-align: center !important;
+        font-size: 0.72rem !important;
         padding: 0 16px !important;
-        width: 100% !important; 
-        display: flex !important; 
-        align-items: center !important; 
-        justify-content: center !important; 
+        width: 100% !important;
+        max-width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
         gap: 8px !important;
         color: var(--text-color) !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
     }
-    
+
     .footer-divider { 
         display: none !important; 
+    }
+
+    /* ====================== */
+    /* CORREÇÃO FINAL DAS SETAS - FORÇAR CENTRALIZAÇÃO */
+    /* ====================== */
+
+    /* PRIMEIRA SETA (blog-intro-section) */
+    .blog-intro-section .scroll-down-btn {
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        right: auto !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    /* SEGUNDA SETA (blog-content-section) */
+    .blog-content-section .scroll-down-btn {
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        right: auto !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        position: absolute !important;
+        bottom: 60px !important; /* ← Aumentado de 40px para 60px */
+    }
+
+    /* SOBRESCREVER QUALQUER OUTRO CSS CONFLITANTE PARA AMBAS AS SETAS */
+    #blog-intro .scroll-down-btn,
+    #blog-content .scroll-down-btn,
+    [data-section="blog-intro"] .scroll-down-btn,
+    [data-section="blog-content"] .scroll-down-btn,
+    .scroll-section .scroll-down-btn {
+        left: 50% !important;
+        transform: translateX(-50%) !important;
     }
 }
 
 /* ====================== */
-/* TABLET PEQUENO (576px) - PADRONIZADO COM SOBREMIM (APENAS TAMANHOS) */
+/* TABLET PEQUENO (576px) - AINDA MAIS PRÓXIMOS */
 /* ====================== */
 @media (max-width: 576px) {
     .logo img.main-logo { 
@@ -2299,19 +2341,43 @@ html {
         max-width: 75% !important;
     }
     
-    .blog-intro-section .page-content .scroll-down-btn { 
-        bottom: 35px !important;
+    .blog-intro-section .scroll-down-btn { 
+        bottom: 50px !important; /* ← Ajustado para mobile */
         width: 40px !important;
         height: 40px !important;
+    }
+
+    .blog-content-section .scroll-down-btn {
+        bottom: 50px !important; /* ← Ajustado para mobile */
     }
     
     .scroll-down-btn .scroll-icon {
         font-size: 1.3rem !important;
     }
+
+    /* AJUSTES ADICIONAIS PARA TABLET PEQUENO */
+    .filters-modern { 
+        gap: 6px !important;
+        margin-bottom: 8px !important;
+        margin-top: 30px !important; /* ← Ajustado para mobile */
+    }
+    
+    .modern-grid { 
+        padding: 6px 4px !important;
+        margin: 4px 0 !important;
+    }
+
+    .blog-content-section {
+        padding-top: 60px !important; /* ← Ajustado para mobile */
+    }
+
+    .stats-container {
+        margin-bottom: 20px !important; /* ← Ajustado para mobile */
+    }
 }
 
 /* ====================== */
-/* MOBILE MUITO PEQUENO (380px) - PADRONIZADO COM SOBREMIM (APENAS TAMANHOS) */
+/* MOBILE MUITO PEQUENO (380px) - MÁXIMA PROXIMIDADE */
 /* ====================== */
 @media (max-width: 380px) {
     .header { 
@@ -2355,10 +2421,14 @@ html {
         padding: 18px 14px !important;
     }
     
-    .blog-intro-section .page-content .scroll-down-btn { 
-        bottom: 30px !important;
+    .blog-intro-section .scroll-down-btn { 
+        bottom: 45px !important; /* ← Ajustado para mobile muito pequeno */
         width: 38px !important;
         height: 38px !important;
+    }
+
+    .blog-content-section .scroll-down-btn {
+        bottom: 45px !important; /* ← Ajustado para mobile muito pequeno */
     }
     
     .scroll-down-btn .scroll-icon {
@@ -2371,5 +2441,31 @@ html {
     
     .full-navbar .admin-link { 
         font-size: 1.0rem !important; 
+    }
+
+    /* AJUSTES ADICIONAIS PARA MOBILE MUITO PEQUENO */
+    .filters-modern { 
+        gap: 5px !important;
+        margin-bottom: 6px !important;
+        margin-top: 25px !important; /* ← Ajustado para mobile muito pequeno */
+    }
+    
+    .modern-grid { 
+        padding: 5px 3px !important;
+        margin: 3px 0 !important;
+        gap: 12px !important;
+    }
+    
+    .filter-modern-btn { 
+        padding: 8px 12px !important; 
+        font-size: 0.8rem !important; 
+    }
+
+    .blog-content-section {
+        padding-top: 50px !important; /* ← Ajustado para mobile muito pequeno */
+    }
+
+    .stats-container {
+        margin-bottom: 15px !important; /* ← Ajustado para mobile muito pequeno */
     }
 }
