@@ -8,16 +8,29 @@
     <title>A carregar... | Yuri Portfólio</title>
     
     <link rel="stylesheet" href="blog.css">
+    <!-- NOVO: CSS das transições -->
+    <link rel="stylesheet" href="../transitions.css">
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
+    <!-- VARIÁVEIS DE CORES ESPECÍFICAS DO BLOG -->
+    <style>
+        :root {
+            /* Cores específicas para as transições do Blog - Laranja/Pêssego */
+            --cor-secao-1: #fff4e6;    /* Conteúdo principal */
+            --cor-secao-2: #ffeed9;    /* Interações */
+            --cor-secao-3: #ffe8cc;    /* Comentários */
+            --cor-destaque: #ff5708;   /* Cor de destaque */
+        }
+    </style>
 </head>
 <body class="post-detail">
 
     <!-- HEADER CORRIGIDO -->
     <header class="header">
         <div class="header-left">
-            <i class='bx bx-menu' id="menu-icon"></i> <!-- Ícone do menu PRIMEIRO -->
+            <i class='bx bx-menu' id="menu-icon"></i>
             <a href="../index.html" class="logo">
                 <img src="../img/logo_blog.png" alt="Yuri Barbosa" class="main-logo">
             </a>
@@ -25,7 +38,7 @@
         </div>
         <a href="../contato.html" class="contact-link">
             <span class="contact-text">Entre em contato</span>
-            <i class='bx bx-envelope contact-icon'></i> <!-- Ícone do contato -->
+            <i class='bx bx-envelope contact-icon'></i>
         </a>
     </header>
 
@@ -41,48 +54,52 @@
         </div>
     </div>
     
-    <section id="post-detail">
+    <!-- SEÇÃO PRINCIPAL COM TRANSIÇÕES -->
+    <section id="post-detail" class="scroll-section" data-section="post-content">
         <div class="page-content"> 
             
-            <div class="post-content-container" id="post-content-container">
-                <p>A carregar conteúdo...</p>
+            <!-- CONTEÚDO DO POST COM TRANSIÇÃO -->
+            <div class="post-content-container scroll-section" id="post-content-container" data-section="post-main">
+                <p class="scroll-element">A carregar conteúdo...</p>
             </div>
 
             <hr class="post-divider">
 
-            <div class="post-interactions">
+            <!-- INTERAÇÕES COM TRANSIÇÃO -->
+            <div class="post-interactions scroll-section" data-section="post-interactions">
                 <div class="interaction-buttons">
-                    <button class="action-btn like-btn">
+                    <button class="action-btn like-btn scroll-element">
                         <i class='bx bx-heart'></i> 
                         Curtir 
                         <span class="like-count">(142)</span>
                     </button>
-                    <button class="action-btn share-btn">
+                    <button class="action-btn share-btn scroll-element">
                         <i class='bx bx-share-alt'></i> 
                         Compartilhar
                     </button>
-                    <button class="action-btn save-btn">
+                    <button class="action-btn save-btn scroll-element">
                         <i class='bx bx-bookmark'></i> 
                         Salvar
                     </button>
                 </div>
             </div>
 
-            <div class="post-comments-section">
-                <h2>Comentários (3)</h2>
+            <!-- COMENTÁRIOS COM TRANSIÇÃO -->
+            <div class="post-comments-section scroll-section" data-section="post-comments">
+                <h2 class="scroll-element">Comentários (3)</h2>
                 
-                <form id="comment-form" class="comment-form">
+                <form id="comment-form" class="comment-form scroll-element">
                     <input type="text" placeholder="Seu nome" required>
                     <textarea placeholder="Deixe seu comentário..." rows="4" required></textarea>
                     <button type="submit" class="action-btn submit-comment-btn">Enviar Comentário</button>
                 </form>
 
                 <div class="comments-list">
-                    <div class="comment-item">
+                    <div class="comment-item scroll-element">
                         <div class="comment-author">Ana Silva <span class="comment-date">em 10/05/2025</span></div>
                         <p class="comment-text">Ótimo artigo! A parte sobre o design responsivo foi muito útil. Parabéns pelo trabalho!</p>
                     </div>
-                    <div class="comment-item">
+                    <div class="comment-item scroll-element">
                         <div class="comment-author">Rui Santos <span class="comment-date">em 11/05/2025</span></div>
                         <p class="comment-text">Concordo plenamente! É essencial manter-se atualizado com as tendências.</p>
                     </div>
@@ -100,5 +117,7 @@
     </a>
     
     <script src="blog.js"></script>
+    <!-- NOVO: Script das transições -->
+    <script src="../transitions.js"></script>
 </body>
 </html>

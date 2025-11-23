@@ -9,6 +9,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="contato.css">
+    <!-- NOVO: CSS das transições -->
+    <link rel="stylesheet" href="transitions.css">
+    
+    <!-- VARIÁVEIS DE CORES ESPECÍFICAS DA PÁGINA CONTATO -->
+    <style>
+        :root {
+            /* Cores específicas para as transições da página Contato - Fuchsia/Rosa */
+            --cor-secao-1: #fcf0f3;    /* Intro - Rosa mais claro */
+            --cor-secao-2: #fae6eb;    /* Transição suave */
+            --cor-secao-3: #f8dce3;    /* Formulário - Rosa intermediário */
+            --cor-destaque: #f67796;   /* Cor de destaque (mantida da paleta original) */
+        }
+    </style>
 </head>
 <body class="contact">
 
@@ -40,27 +53,26 @@
         </div>
     </div>
 
-    <!-- CONTEÚDO PRINCIPAL -->
-    <section id="contact-page">
+    <!-- CONTEÚDO PRINCIPAL COM TRANSIÇÕES -->
+    <section id="contact-page" class="scroll-section" data-section="contact-page">
         <div class="page-content">
 
-            <!-- INTRO: caixa nuvem + foto -->
-            <div class="contact-intro-content">
+            <!-- INTRO: caixa nuvem + foto COM TRANSIÇÃO -->
+            <div class="contact-intro-content scroll-section" data-section="contact-intro">
                 <!-- Caixa de texto -->
                 <div class="text-cloud-card">
-                    <h1 class="contact-title">Vamos <span>Conversar</span>?</h1>
-                    <div class="heading-line-minimal"></div>
-                    <p class="contact-subtitle">
+                    <h1 class="contact-title scroll-element">Vamos <span>Conversar</span>?</h1>
+                    <div class="heading-line-minimal scroll-element"></div>
+                    <p class="contact-subtitle scroll-element">
                         Estou sempre aberto a discutir novos projetos<span class="highlight-box">criativos</span>,
                         oportunidades de parceria e ideias inovadoras. Se você tem um projeto em mente ou
                         quer transformar suas ideias em realidade, adoraria fazer parte dessa jornada!
                     </p>
-                    
                 </div>
 
                 <!-- Foto -->
                 <div class="contact-image-container">
-                    <img src="img/imagemcontato.png" alt="Yuri Barbosa" class="contact-intro-img">
+                    <img src="img/imagemcontato.png" alt="Yuri Barbosa" class="contact-intro-img scroll-image">
                 </div>
             </div>
 
@@ -71,53 +83,53 @@
                 </a>
             </div>
 
-            <!-- FORMULÁRIO + IMAGEM + REDES SOCIAIS -->
-            <div class="contact-form-section" id="contact-form">
+            <!-- FORMULÁRIO + IMAGEM + REDES SOCIAIS COM TRANSIÇÃO -->
+            <div class="contact-form-section scroll-section" id="contact-form" data-section="contact-form">
                 <!-- IMAGEM NO LADO ESQUERDO -->
                 <div class="contact-form-image">
-                    <img src="img/contato.png" alt="Entre em contato" class="contact-side-img">
+                    <img src="img/contato.png" alt="Entre em contato" class="contact-side-img scroll-image">
                 </div>
                 
                 <!-- FORMULÁRIO MENOR NO LADO DIREITO -->
                 <div class="contact-form-box">
-                    <h2 class="form-title">Envie sua Mensagem</h2>
-                    <p class="form-subtitle">Preencha o formulário abaixo e entrarei em contato o mais breve possível</p>
+                    <h2 class="form-title scroll-element">Envie sua Mensagem</h2>
+                    <p class="form-subtitle scroll-element">Preencha o formulário abaixo e entrarei em contato o mais breve possível</p>
 
                     <form id="contactForm" action="https://yuri-contact-api.onrender.com/send-email" method="POST">
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label" for="nome">Nome Completo</label>
-                                <input type="text" id="nome" name="nome" class="form-input" placeholder="Seu nome completo" required>
+                                <input type="text" id="nome" name="nome" class="form-input scroll-element" placeholder="Seu nome completo" required>
                             </div>
                             <div class="form-group">
                                 <label class="form-label" for="email">E-mail</label>
-                                <input type="email" id="email" name="email" class="form-input" placeholder="seu@email.com" required>
+                                <input type="email" id="email" name="email" class="form-input scroll-element" placeholder="seu@email.com" required>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label" for="telefone">Telefone</label>
-                                <input type="text" id="telefone" name="telefone" class="form-input" placeholder="(11) 99999-9999">
+                                <input type="text" id="telefone" name="telefone" class="form-input scroll-element" placeholder="(11) 99999-9999">
                             </div>
                             <div class="form-group">
                                 <label class="form-label" for="assunto">Assunto</label>
-                                <input type="text" id="assunto" name="assunto" class="form-input" placeholder="Qual o assunto?">
+                                <input type="text" id="assunto" name="assunto" class="form-input scroll-element" placeholder="Qual o assunto?">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label" for="mensagem">Mensagem</label>
-                            <textarea id="mensagem" name="mensagem" class="form-textarea" placeholder="Conte-me mais sobre seu projeto..." required></textarea>
+                            <textarea id="mensagem" name="mensagem" class="form-textarea scroll-element" placeholder="Conte-me mais sobre seu projeto..." required></textarea>
                         </div>
 
-                        <button type="submit" class="form-submit-btn">
+                        <button type="submit" class="form-submit-btn scroll-element">
                             <span>Enviar Mensagem</span>
                         </button>
                     </form>
 
                     <!-- ÍCONES DE REDES SOCIAIS COM WHATSAPP -->
-                    <div class="social-links">
+                    <div class="social-links scroll-element">
                         <a href="https://github.com/yuriletras" target="_blank" class="social-link" aria-label="GitHub">
                             <i class='bx bxl-github'></i>
                         </a>
@@ -391,5 +403,7 @@ window.addEventListener('scroll', function() {
 });
 
     </script>
+    <!-- NOVO: Script das transições -->
+    <script src="transitions.js"></script>
 </body>
 </html>

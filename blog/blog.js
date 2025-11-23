@@ -486,20 +486,32 @@ const handleShareClick = () => {
 // 9. FUNÇÃO PARA SCROLL DOWN
 // ==========================================================
 
+// ==========================================================
+// 9. FUNÇÃO PARA SCROLL DOWN - VERSÃO CORRIGIDA
+// ==========================================================
+
 const setupScrollDownButton = () => {
     const scrollDownBtn = document.querySelector('.scroll-down-btn');
     
     if (scrollDownBtn) {
         scrollDownBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            const targetId = scrollDownBtn.getAttribute('data-next');
-            const targetElement = document.querySelector(targetId);
             
-            if (targetElement) {
-                targetElement.scrollIntoView({ 
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+            // PEGA O HREF DO LINK, NÃO DATA-NEXT
+            const targetHref = scrollDownBtn.getAttribute('href');
+            if (targetHref && targetHref.startsWith('#')) {
+                const targetId = targetHref.substring(1); // Remove o #
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    // Atualiza a URL sem recarregar a página
+                    history.pushState(null, null, targetHref);
+                }
             }
         });
     }

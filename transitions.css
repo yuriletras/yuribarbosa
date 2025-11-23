@@ -1,0 +1,276 @@
+/* ===================================================== */
+/* TRANSITIONS.CSS - SISTEMA DE TRANSIÇÕES SUAVES */
+/* Compatível com todas as páginas do portfólio */
+/* ===================================================== */
+
+/* ====================== */
+/* SISTEMA DE TRANSIÇÃO DE CORES ENTRE SEÇÕES */
+/* ====================== */
+
+.scroll-section {
+    position: relative;
+    min-height: 100vh;
+    transition: background-color 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    background-attachment: fixed;
+}
+
+/* Gradientes suaves baseados nas variáveis de cada página */
+.scroll-section[data-section*="home"],
+.scroll-section[data-section*="intro"] {
+    background: 
+        linear-gradient(135deg, 
+            var(--cor-secao-1) 0%, 
+            var(--cor-secao-2) 50%,
+            var(--cor-secao-3) 100%
+        ) !important;
+}
+
+.scroll-section[data-section*="trabalho"],
+.scroll-section[data-section*="content"],
+.scroll-section[data-section*="form"] {
+    background: 
+        linear-gradient(135deg, 
+            var(--cor-secao-2) 0%, 
+            var(--cor-secao-3) 50%,
+            var(--cor-destaque) 100%
+        ) !important;
+}
+
+.scroll-section[data-section*="about"],
+.scroll-section[data-section*="paragrafo"] {
+    background: 
+        linear-gradient(135deg, 
+            var(--cor-secao-1) 0%, 
+            var(--cor-secao-2) 30%,
+            var(--cor-secao-3) 70%,
+            var(--cor-secao-4) 100%
+        ) !important;
+}
+
+.scroll-section[data-section*="blog"],
+.scroll-section[data-section*="cta"],
+.scroll-section[data-section*="final"] {
+    background: 
+        linear-gradient(135deg, 
+            var(--cor-secao-3) 0%, 
+            var(--cor-destaque) 30%,
+            var(--cor-secao-2) 70%,
+            var(--cor-secao-1) 100%
+        ) !important;
+}
+
+.scroll-section[data-section*="contact"],
+.scroll-section[data-section*="interactions"],
+.scroll-section[data-section*="comments"] {
+    background: 
+        linear-gradient(135deg, 
+            var(--cor-secao-1) 0%, 
+            var(--cor-secao-2) 40%,
+            var(--cor-secao-3) 80%,
+            var(--cor-destaque) 100%
+        ) !important;
+}
+
+/* Overlay sutil para melhor contraste e profundidade */
+.scroll-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(
+            ellipse at center,
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(255, 255, 255, 0.05) 50%,
+            rgba(255, 255, 255, 0.1) 100%
+        );
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.6;
+}
+
+/* Efeito de brilho sutil nas bordas das seções ativas */
+.scroll-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.4) 20%,
+        var(--cor-destaque) 50%,
+        rgba(255, 255, 255, 0.4) 80%,
+        transparent 100%
+    );
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    z-index: 1;
+}
+
+.scroll-section.active::after {
+    opacity: 0.7;
+}
+
+/* Indicador visual da seção ativa */
+.scroll-section.active {
+    box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* ====================== */
+/* ANIMAÇÕES DE ENTRADA OTIMIZADAS */
+/* ====================== */
+
+.scroll-element {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.scroll-element.show-element {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.scroll-image {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+    transition: all 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.scroll-image.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* Delay progressivo para elementos em sequência */
+.scroll-element:nth-child(1) { transition-delay: 0.1s; }
+.scroll-element:nth-child(2) { transition-delay: 0.2s; }
+.scroll-element:nth-child(3) { transition-delay: 0.3s; }
+.scroll-element:nth-child(4) { transition-delay: 0.4s; }
+.scroll-element:nth-child(5) { transition-delay: 0.5s; }
+.scroll-element:nth-child(6) { transition-delay: 0.6s; }
+
+/* ====================== */
+/* EFEITOS DE HOVER E INTERAÇÃO */
+/* ====================== */
+
+.scroll-element:hover {
+    transform: translateY(-2px);
+    transition: transform 0.3s ease;
+}
+
+.scroll-image.visible:hover {
+    transform: scale(1.05);
+    transition: transform 0.4s ease;
+}
+
+/* ====================== */
+/* SETAS SCROLL DOWN - SISTEMA UNIFICADO */
+/* ====================== */
+
+.scroll-down-btn {
+    position: relative;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+
+.scroll-down-btn.hidden {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateY(20px) scale(0.8) !important;
+}
+
+.scroll-down-btn.visible {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateY(0) scale(1) !important;
+}
+
+/* ====================== */
+/* ANIMAÇÕES ESPECIAIS */
+/* ====================== */
+
+@keyframes sectionTransition {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.scroll-section.transitioning {
+    animation: sectionTransition 3s ease-in-out infinite;
+}
+
+/* ====================== */
+/* RESPONSIVIDADE */
+/* ====================== */
+
+@media (max-width: 767px) {
+    .scroll-section {
+        transition: background-color 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    }
+    
+    .scroll-element,
+    .scroll-image {
+        transition-duration: 0.6s;
+    }
+    
+    .scroll-element:nth-child(1) { transition-delay: 0.05s; }
+    .scroll-element:nth-child(2) { transition-delay: 0.1s; }
+    .scroll-element:nth-child(3) { transition-delay: 0.15s; }
+    .scroll-element:nth-child(4) { transition-delay: 0.2s; }
+    .scroll-element:nth-child(5) { transition-delay: 0.25s; }
+    .scroll-element:nth-child(6) { transition-delay: 0.3s; }
+}
+
+/* ====================== */
+/* COMPATIBILIDADE E FALLBACKS */
+/* ====================== */
+
+/* Fallback para navegadores sem suporte a backdrop-filter */
+@supports not (backdrop-filter: blur(10px)) {
+    .scroll-section::before {
+        background: rgba(255, 255, 255, 0.05);
+    }
+}
+
+/* Suporte para prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+    .scroll-section,
+    .scroll-element,
+    .scroll-image {
+        transition: none !important;
+        animation: none !important;
+    }
+    
+    .scroll-element,
+    .scroll-image {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* ====================== */
+/* UTILITÁRIOS */
+/* ====================== */
+
+.no-transitions * {
+    transition: none !important;
+    animation: none !important;
+}
+
+.transitions-enabled {
+    /* Classe para verificar se as transições estão ativas */
+}

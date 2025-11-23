@@ -12,6 +12,20 @@
     
     <!-- CSS -->
     <link rel="stylesheet" href="sobremim.css">
+    <!-- NOVO: CSS das transições -->
+    <link rel="stylesheet" href="transitions.css">
+    
+    <!-- VARIÁVEIS DE CORES ESPECÍFICAS DA PÁGINA SOBRE MIM -->
+    <style>
+        :root {
+            /* Cores específicas para as transições da página Sobre Mim - Verde Menta */
+            --cor-secao-1: #e8f7ec;    /* Seção 1 - Verde mais claro */
+            --cor-secao-2: #dff3e8;    /* Seção 2 - Transição suave */
+            --cor-secao-3: #d6efe4;    /* Seção 3 - Verde intermediário */
+            --cor-secao-4: #cdebe0;    /* Seção 4 - Verde um pouco mais forte */
+            --cor-destaque: #9bdabe;   /* Cor de destaque (mantida da paleta original) */
+        }
+    </style>
 </head>
 <body>
 
@@ -43,16 +57,16 @@
         </div>
     </div>
 
-    <!-- SEÇÃO 1 - COM CAIXA NUVEM -->
-    <section class="about-section intro-section" id="intro-about">
+    <!-- SEÇÃO 1 - COM CAIXA NUVEM E TRANSIÇÃO -->
+    <section class="about-section intro-section scroll-section" id="intro-about" data-section="intro-about">
         <div class="page-content">
             <div class="container-grid">
                 <div class="about-intro-content">
                     <div class="about-intro-text">
                         <div class="text-cloud-card">
-                            <h2 class="intro-heading">Sobre <span class="highlight-name">Mim</span></h2>
-                            <div class="heading-line-minimal"></div>
-                            <p class="intro-paragraph">
+                            <h2 class="intro-heading scroll-element">Sobre <span class="highlight-name">Mim</span></h2>
+                            <div class="heading-line-minimal scroll-element"></div>
+                            <p class="intro-paragraph scroll-element">
                                 Sou um <span class="highlight-box">Desenvolvedor Full Stack</span> com formação em Análise e Desenvolvimento de Sistemas, 
                                 apaixonado por construir soluções digitais completas. Minha atuação foca na comunicação 
                                 clara e eficaz, buscando sempre a melhor solução para o cliente, do conceito à implementação.
@@ -60,7 +74,7 @@
                         </div>
                     </div>
                     <div class="about-image">
-                        <img src="img/paragrafo1.png" alt="Desenvolvedor Full Stack Programador" class="about-paragraph-img">
+                        <img src="img/paragrafo1.png" alt="Desenvolvedor Full Stack Programador" class="about-paragraph-img scroll-image">
                     </div>
                 </div>
             </div>
@@ -72,17 +86,17 @@
         </div>
     </section>
 
-    <!-- SEÇÃO 2 - COM CAIXA NUVEM -->
-    <section class="about-section" id="paragrafo2-section">
+    <!-- SEÇÃO 2 - COM CAIXA NUVEM E TRANSIÇÃO -->
+    <section class="about-section scroll-section" id="paragrafo2-section" data-section="paragrafo2-section">
         <div class="page-content">
             <div class="container-grid">
                 <div class="about-item image-left-text-right">
                     <div class="about-image">
-                        <img src="img/paragrafo2.png" alt="Habilidades Front-end e Back-end" class="about-paragraph-img">
+                        <img src="img/paragrafo2.png" alt="Habilidades Front-end e Back-end" class="about-paragraph-img scroll-image">
                     </div>
                     <div class="about-text-content">
                         <div class="text-cloud-card">
-                            <p class="intro-paragraph">
+                            <p class="intro-paragraph scroll-element">
                                 Possuo sólidas <span class="highlight-box">habilidades</span> em desenvolvimento front-end com HTML, CSS e JavaScript, 
                                 criando interfaces de usuário intuitivas e responsivas. 
                                 No back-end, trabalho com Node.js para desenvolver APIs robustas e gerenciar a lógica de servidor.
@@ -99,14 +113,14 @@
         </div>
     </section>
 
-    <!-- SEÇÃO 3 - COM CAIXA NUVEM -->
-    <section class="about-section" id="paragrafo3-section">
+    <!-- SEÇÃO 3 - COM CAIXA NUVEM E TRANSIÇÃO -->
+    <section class="about-section scroll-section" id="paragrafo3-section" data-section="paragrafo3-section">
         <div class="page-content">
             <div class="container-grid">
                 <div class="about-item text-left-image-right">
                     <div class="about-text-content">
                         <div class="text-cloud-card">
-                            <p class="intro-paragraph">
+                            <p class="intro-paragraph scroll-element">
                                 Minha experiência anterior em liderança e suporte em empresas de telecomunicações e <span class="highlight-box">tecnologia</span>
                                 me proporcionou um amplo conhecimento em gestão de equipes, 
                                 resolução de problemas e desenvolvimento de projetos, competências que aplico para otimizar o ciclo de vida do desenvolvimento de software.
@@ -114,7 +128,7 @@
                         </div>
                     </div>
                     <div class="about-image">
-                        <img src="img/paragrafo3.png" alt="Liderança e Gerenciamento de Projetos" class="about-paragraph-img">
+                        <img src="img/paragrafo3.png" alt="Liderança e Gerenciamento de Projetos" class="about-paragraph-img scroll-image">
                     </div>
                 </div>
             </div>
@@ -126,24 +140,24 @@
         </div>
     </section>
 
-    <!-- SEÇÃO 4: FINAL - COM CAIXA NUVEM E BOTÃO DENTRO -->
-    <section class="about-section final-section" id="paragrafo4-section">
+    <!-- SEÇÃO 4: FINAL - COM CAIXA NUVEM E TRANSIÇÃO -->
+    <section class="about-section final-section scroll-section" id="paragrafo4-section" data-section="paragrafo4-section">
         <div class="page-content">
             <div class="container-grid">
                 <div class="about-item image-left-text-right">
                     <div class="about-image">
-                        <img src="img/paragrafo4.png" alt="Aprimoramento Contínuo e Inovação" class="about-paragraph-img">
+                        <img src="img/paragrafo4.png" alt="Aprimoramento Contínuo e Inovação" class="about-paragraph-img scroll-image">
                     </div>
                     <div class="about-text-content">
                         <div class="text-cloud-card">
-                            <p class="intro-paragraph">
+                            <p class="intro-paragraph scroll-element">
                                 Estou sempre buscando aprimorar minhas habilidades e conhecimentos, acompanhando as últimas 
                                 tendências do mercado para oferecer um serviço de alta<span class="highlight-box">qualidade</span> 
                                 e contribuir significativamente para o sucesso dos projetos.
                             </p>
                             
                             <!-- BOTÃO DENTRO DA CAIXA NUVEM -->
-                            <div class="cta-inside-cloud">
+                            <div class="cta-inside-cloud scroll-element">
                                 <a href="./blog/blog.html" class="cta-inside-btn">
                                     <span class="cta-text">Ver Projetos no Blog</span>
                                     <span class="cta-arrow">→</span>
@@ -168,5 +182,7 @@
 
     <!-- JS -->
     <script src="sobremim.js"></script>
+    <!-- NOVO: Script das transições -->
+    <script src="transitions.js"></script>
 </body>
 </html>
